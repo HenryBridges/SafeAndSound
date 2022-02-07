@@ -1,0 +1,13 @@
+current directory: /Users/hb3/Desktop/sas/safesound/vendor/bundle/ruby/2.7.0/gems/json-2.6.1/ext/json
+/Users/hb3/.rvm/rubies/ruby-2.7.4/bin/ruby -I /Users/hb3/.rvm/rubies/ruby-2.7.4/lib/ruby/2.7.0 -r ./siteconf20220207-82729-bo5j48.rb extconf.rb
+creating Makefile
+
+current directory: /Users/hb3/Desktop/sas/safesound/vendor/bundle/ruby/2.7.0/gems/json-2.6.1/ext/json
+make "DESTDIR=" clean
+
+current directory: /Users/hb3/Desktop/sas/safesound/vendor/bundle/ruby/2.7.0/gems/json-2.6.1/ext/json
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/hb3/Desktop/sas/safesound/vendor/bundle/ruby/2.7.0/gems/json-2.6.1/ext/json
+make "DESTDIR=" install
