@@ -9,7 +9,7 @@ const App = () => {
       alignItems: "center"
     }}>
       <Text>
-        Hello World!
+        Hello
       </Text>
     </View>
   )
