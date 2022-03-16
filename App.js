@@ -1,18 +1,35 @@
-import React from "react";  
-import { View, Text } from "react-native"; 
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './screens/Home';
+import Stats from './screens/Stats';
+import Report from './screens/Report';
 
-const App = () => {
-  return(
-    <View style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center"
-    }}>
-      <Text>
-        Hello
-      </Text>
-    </View>
-  )
-}
+const AppStack = createNativeStackNavigator();
+const AuthStack = createNativeStackNavigator();
 
-export default App
+const AppNav = () => {
+  return (
+    <NavigationContainer>
+      <AppStack.Navigator>
+        <AppStack.Screen
+          component={Home}
+          name='Home'
+          options={{ headerShown: false }}
+        />
+        <AppStack.Screen
+          component={Stats}
+          name='Stats'
+          options={{ headerShown: true }}
+        />
+        <AppStack.Screen
+          component={Report}
+          name='Report'
+          options={{ headerShown: false, presentation: 'modal' }}
+        />
+      </AppStack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default AppNav;
