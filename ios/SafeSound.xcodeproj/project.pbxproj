@@ -145,7 +145,6 @@
 				454D86B6515065A94251D18D /* Pods-SafeSound-SafeSoundTests.debug.xcconfig */,
 				E7B907170989F0F42C8F9566 /* Pods-SafeSound-SafeSoundTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -485,6 +484,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y72433UA9H;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SafeSound/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -511,6 +511,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y72433UA9H;
 				INFOPLIST_FILE = SafeSound/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -30,7 +30,13 @@ const RoundButton = (props) => {
         margin: 10
       }}
     >
-      <Image source={icon} />
+      <Image
+        source={icon}
+        style={{
+          height: height * hProportion * 0.75,
+          width: width * wProportion * 0.75
+        }}
+      />
     </TouchableOpacity>
   );
 };

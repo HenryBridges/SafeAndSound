@@ -4,32 +4,42 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import Stats from './screens/Stats';
 import Report from './screens/Report';
+import Login from './screens/Login';
+import Register from './screens/Register';
+
+const hasLoggedIn = false;
+
+const AuthStack = createNativeStackNavigator();
+const AuthStackScreens = () => (
+  <AuthStack.Navigator>
+    <AuthStack.Screen component={Login} name='Login' />
+    <AuthStack.Screen component={Register} name='Register' />
+  </AuthStack.Navigator>
+);
 
 const AppStack = createNativeStackNavigator();
-const AuthStack = createNativeStackNavigator();
+const AppStackScreens = () => (
+  <AppStack.Navigator>
+    <AppStack.Screen
+      component={Home}
+      name='Home'
+      options={{ headerShown: false }}
+    />
+    <AppStack.Screen
+      component={Stats}
+      name='Stats'
+      options={{ headerShown: true }}
+    />
+    <AppStack.Screen
+      component={Report}
+      name='Report'
+      options={{ headerShown: false, presentation: 'modal' }}
+    />
+  </AppStack.Navigator>
+);
 
-const AppNav = () => {
-  return (
-    <NavigationContainer>
-      <AppStack.Navigator>
-        <AppStack.Screen
-          component={Home}
-          name='Home'
-          options={{ headerShown: false }}
-        />
-        <AppStack.Screen
-          component={Stats}
-          name='Stats'
-          options={{ headerShown: true }}
-        />
-        <AppStack.Screen
-          component={Report}
-          name='Report'
-          options={{ headerShown: false, presentation: 'modal' }}
-        />
-      </AppStack.Navigator>
-    </NavigationContainer>
-  );
-};
-
-export default AppNav;
+export default () => (
+  <NavigationContainer>
+    {hasLoggedIn ? <AppStackScreens /> : <AuthStackScreens />}
+  </NavigationContainer>
+);
