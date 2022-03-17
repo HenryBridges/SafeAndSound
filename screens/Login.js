@@ -16,6 +16,15 @@ const Login = ({ navigation }) => {
           placeholderTextColor='black'
           onChangeText={(email) => setUserEmail(email)}
         />
+        <View style={{ position: 'absolute', bottom: 20 }}>
+          <Button
+            type={'primary'}
+            text={'To Home'}
+            onPress={() => navigation.navigate('Home')}
+            wProportion={0.8}
+            hProportion={0.1}
+          />
+        </View>
       </View>
     </>
   );
