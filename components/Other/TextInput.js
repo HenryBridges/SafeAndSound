@@ -7,17 +7,26 @@ const height = Dimensions.get('window').width;
 
 const OurTextInput = (props) => {
   const [isFocused, setIsFocused] = useState(false);
+  const { hProportion, wProportion } = props;
 
   return (
     <TextInput
       {...props}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
-      placeholder={isFocused ? 'Focus' : 'Blur'}
+      placeholderTextColor={
+        isFocused ? gc.colors.periwinkle : gc.colors.darkGrey
+      }
       style={[
         props.style,
         {
-          borderColor: isFocused ? theme.colors.primary : theme.colors.darkGrey
+          borderColor: isFocused ? gc.colors.periwinkle : gc.colors.darkGrey,
+          backgroundColor: gc.colors.white,
+          color: isFocused ? gc.colors.periwinkle : gc.colors.darkGrey,
+          borderRadius: 16,
+          fontSize: 16,
+          width: wProportion * width,
+          height: hProportion * height
         }
       ]}
     />

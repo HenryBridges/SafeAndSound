@@ -12,7 +12,11 @@ const hasLoggedIn = false;
 const AuthStack = createNativeStackNavigator();
 const AuthStackScreens = () => (
   <AuthStack.Navigator>
-    <AuthStack.Screen component={Login} name='Login' />
+    <AuthStack.Screen
+      component={Login}
+      name='Login'
+      options={{ headerShown: false }}
+    />
     <AuthStack.Screen component={Register} name='Register' />
     <AuthStack.Screen
       component={Home}

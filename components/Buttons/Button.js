@@ -6,12 +6,11 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
 
 const button = (props) => {
-  const { type, text, onPress, wProportion, hProportion } = props;
+  const { type, text, onPress, wProportion, hProportion, topSpace } = props;
 
-  const btnColour = type == 'primary' ? gc.colors.white : gc.colors.periwinkle;
-  const textColor =
-    type == 'primary' ? gc.colors.periwinkle : gc.colors.periwinkle;
-  const bordThick = type == 'primary' ? 1 : 5;
+  const btnColour = type == 'primary' ? gc.colors.periwinkle : gc.colors.white;
+  const textColor = type == 'primary' ? gc.colors.white : gc.colors.periwinkle;
+  const bordThick = type == 'primary' ? 0 : 1;
 
   return (
     <TouchableOpacity
@@ -26,6 +25,7 @@ const button = (props) => {
         alignItems: 'center',
         textAlign: 'center',
         justifyContent: 'center',
+        top: topSpace,
         margin: 10
       }}
     >

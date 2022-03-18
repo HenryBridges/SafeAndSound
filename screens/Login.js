@@ -13,12 +13,32 @@ const Login = ({ navigation }) => {
   return (
     <>
       <View style={styles.container}>
-        <OurTextInput
-          style={styles.input}
-          placeholder='Email:'
-          placeholderTextColor='black'
-          onChangeText={(email) => setUserEmail(email)}
-        />
+        <View style={styles.inputContainer}>
+          <OurTextInput
+            style={styles.input}
+            placeholder='Email:'
+            placeholderTextColor='black'
+            onChangeText={(email) => setUserEmail(email)}
+            wProportion={0.8}
+            hProportion={0.12}
+          />
+          <OurTextInput
+            style={styles.input}
+            placeholder='Password:'
+            placeholderTextColor='black'
+            onChangeText={(email) => setUserEmail(email)}
+            wProportion={0.8}
+            hProportion={0.12}
+          />
+          <Button
+            type={'primary'}
+            text={'Login'}
+            onPress={() => navigation.navigate('Home')}
+            wProportion={0.8}
+            hProportion={0.1}
+            topSpace={30}
+          />
+        </View>
         <View style={{ position: 'absolute', bottom: 20 }}>
           <Button
             type={'primary'}
@@ -36,11 +56,15 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: globalColors.colors.white
   },
+  inputContainer: {
+    top: 250,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   input: {
+    marginVertical: 10,
     borderWidth: 1,
     padding: 10
   }
