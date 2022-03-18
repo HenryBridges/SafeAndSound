@@ -1,16 +1,19 @@
 import React from 'react';
-import { Text, View, Dimensions, StyleSheet, TextInput } from 'react-native';
+import { Text, View, Dimensions, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import Button from '../components/Buttons/Button';
 import UserLoginReq from '../models/User/UserLoginReq';
+import gc from '../general/globalColors';
+import OurTextInput from '../components/Other/TextInput';
 
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+
   return (
     <>
       <View style={styles.container}>
-        <TextInput
+        <OurTextInput
           style={styles.input}
           placeholder='Email:'
           placeholderTextColor='black'
@@ -35,13 +38,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fef2f2'
+    backgroundColor: globalColors.colors.white
   },
   input: {
-    borderColor: 'black',
-    borderWidth: 2,
-    paddingVertical: 2,
-    paddingHorizontal: 10
+    borderWidth: 1,
+    padding: 10
   }
 });
 

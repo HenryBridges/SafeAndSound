@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, Dimensions } from 'react-native';
 import Button from '../components/Buttons/Button';
+import gc from '../general/globalColors';
 
 const Report = ({ navigation }) => {
   return (
@@ -10,7 +11,7 @@ const Report = ({ navigation }) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#fef2f2'
+          backgroundColor: gc.colors.white
         }}
       >
         <Button

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { backArrow } from '../assets/images/images';
 import { StackActions } from '@react-navigation/native';
+import gc from '../general/globalColors';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fef2f2'
+    backgroundColor: ''
   },
   reportBtn: {
     marginTop: 0.84 * height,

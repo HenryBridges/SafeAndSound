@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, Dimensions, StyleSheet } from 'react-native';
 import Button from '../components/Buttons/Button';
+import gc from '../general/globalColors';
 
 const Register = ({ navigation }) => {
   return (

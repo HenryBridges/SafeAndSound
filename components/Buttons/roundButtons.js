@@ -6,6 +6,7 @@ import {
   Image,
   Platform
 } from 'react-native';
+import gc from '../../general/globalColors';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
