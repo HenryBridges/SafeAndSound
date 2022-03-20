@@ -1,34 +1,46 @@
 import React from 'react';
-import { Text, View, Dimensions, StyleSheet } from 'react-native';
+import {
+  Text,
+  View,
+  Dimensions,
+  StyleSheet,
+  Image,
+  SafeAreaView
+} from 'react-native';
 import { useState } from 'react';
 import Button from '../components/Buttons/Button';
 import UserLoginReq from '../models/User/UserLoginReq';
 import gc from '../general/globalColors';
 import OurTextInput from '../components/Other/TextInput';
+import { loginGraphic } from '../assets/images/images';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [isSecure, setIsSecure] = useState(false);
 
   return (
     <>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.graphicContainer}>
+          <Image source={loginGraphic} />
+        </View>
         <View style={styles.inputContainer}>
           <OurTextInput
-            style={styles.input}
-            placeholder='Email:'
-            placeholderTextColor='black'
+            text='Email'
             onChangeText={(email) => setUserEmail(email)}
             wProportion={0.8}
-            hProportion={0.12}
+            hProportion={0.14}
           />
           <OurTextInput
-            style={styles.input}
-            placeholder='Password:'
-            placeholderTextColor='black'
+            text='Password'
             onChangeText={(email) => setUserEmail(email)}
             wProportion={0.8}
-            hProportion={0.12}
+            hProportion={0.14}
+            secure={true}
           />
           <Button
             type={'primary'}
@@ -36,19 +48,10 @@ const Login = ({ navigation }) => {
             onPress={() => navigation.navigate('Home')}
             wProportion={0.8}
             hProportion={0.1}
-            topSpace={30}
+            topSpace={40}
           />
         </View>
-        <View style={{ position: 'absolute', bottom: 20 }}>
-          <Button
-            type={'primary'}
-            text={'To Home'}
-            onPress={() => navigation.navigate('Home')}
-            wProportion={0.8}
-            hProportion={0.1}
-          />
-        </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };
@@ -59,14 +62,16 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.colors.white
   },
   inputContainer: {
-    top: 250,
-    justifyContent: 'center',
-    alignItems: 'center'
+    top: 0.355 * height,
+    position: 'absolute',
+    alignSelf: 'center',
+    alignItems: 'center',
+    paddingVertical: 60,
+    paddingHorizontal: 20
   },
-  input: {
-    marginVertical: 10,
-    borderWidth: 1,
-    padding: 10
+  graphicContainer: {
+    alignSelf: 'center',
+    top: 0.095 * height
   }
 });
 

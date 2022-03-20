@@ -12,16 +12,15 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
 
 const RoundButton = (props) => {
-  const { type, icon, onPress, wProportion, hProportion } = props;
+  const { type, icon, onPress, wProportion, hProportion, background } = props;
 
-  const btnColour = type == 'primary' ? '#00a88f' : '#f46d62';
-  const textColor = '#fef2f2';
+  const btnColour = type == 'primary' ? gc.colors.pink : gc.colors.blue;
 
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{
-        backgroundColor: btnColour,
+        backgroundColor: background ? btnColour : null,
         width: width * wProportion,
         height: height * hProportion,
         borderRadius: 0.5 * height,

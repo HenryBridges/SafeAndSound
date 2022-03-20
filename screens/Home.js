@@ -24,11 +24,10 @@ const Home = ({ navigation }) => {
           <RoundButton
             type='primary'
             icon={backArrow}
-            onPress={() => {
-              StackActions.pop();
-            }}
+            onPress={() => navigation.goBack()}
             wProportion={0.1}
             hProportion={0.1}
+            background={true}
           />
         </View>
         <View style={styles.reportBtn}>

@@ -1,34 +1,48 @@
 import React, { useState } from 'react';
-import { TextInput, Dimensions } from 'react-native';
+import { Dimensions, TouchableOpacity, View } from 'react-native';
+import { TextInput } from 'react-native-paper';
 import gc from '../../general/globalColors';
+import RoundButton from '../Buttons/roundButtons';
+import { showPasswordEye } from '../../assets/images/images';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
 
 const OurTextInput = (props) => {
   const [isFocused, setIsFocused] = useState(false);
-  const { hProportion, wProportion } = props;
+  const { text, hProportion, wProportion, secure } = props;
+  const [showPass, setShowPass] = useState(false);
 
   return (
     <TextInput
-      {...props}
+      mode='outlined'
+      label={text}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
-      placeholderTextColor={
-        isFocused ? gc.colors.periwinkle : gc.colors.darkGrey
+      secureTextEntry={secure}
+      right={
+        secure ? null : (
+          <RoundButton
+            type='primary'
+            icon={showPasswordEye}
+            onPress={() => setShowPass(true)}
+            wProportion={0.05}
+            hProportion={0.05}
+            background={false}
+          />
+        )
       }
-      style={[
-        props.style,
-        {
-          borderColor: isFocused ? gc.colors.periwinkle : gc.colors.darkGrey,
-          backgroundColor: gc.colors.white,
-          color: isFocused ? gc.colors.periwinkle : gc.colors.darkGrey,
-          borderRadius: 16,
-          fontSize: 16,
-          width: wProportion * width,
-          height: hProportion * height
+      theme={{
+        roundness: 16,
+        colors: {
+          primary: isFocused ? gc.colors.periwinkle : gc.colors.darkGrey
         }
-      ]}
+      }}
+      style={{
+        width: wProportion * width,
+        height: hProportion * height,
+        margin: 5
+      }}
     />
   );
 };
