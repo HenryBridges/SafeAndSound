@@ -3,14 +3,15 @@ import { Dimensions, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import gc from '../../general/globalColors';
 import RoundButton from '../Buttons/roundButtons';
-import { openEye } from '../../assets/images/images';
+import { openEye, closedEye } from '../../assets/images/images';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
 
 const OurTextInput = (props) => {
-  const [isFocused, setIsFocused] = useState(false);
   const { text, hProportion, wProportion, secure } = props;
+
+  const [isFocused, setIsFocused] = useState(false);
   const [showPass, setShowPass] = useState(secure);
 
   return (
@@ -23,7 +24,7 @@ const OurTextInput = (props) => {
       right={
         secure ? (
           <TextInput.Icon
-            name={openEye}
+            name={showPass ? closedEye : openEye}
             onPress={() => setShowPass(!showPass)}
             style={{ top: '20%' }}
           />

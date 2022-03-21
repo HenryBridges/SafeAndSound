@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -12,11 +12,19 @@ import Button from '../components/Buttons/Button';
 import gc from '../general/globalColors';
 import { signUp } from '../assets/images/images';
 import OurTextInput from '../components/Other/TextInput';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Register = ({ navigation }) => {
+  const [dateOfBirth, setDateOfBirth] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(true);
+
+  const onChooseDateHandle = (event, dob) => {
+    setDateOfBirth(dob);
+  };
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -32,12 +40,33 @@ const Register = ({ navigation }) => {
           <OurTextInput text='Surname' wProportion={0.8} hProportion={0.12} />
           <OurTextInput text='Email' wProportion={0.8} hProportion={0.12} />
           <OurTextInput
-            text='DOB ddmmyy'
+            text='NHS Number'
             wProportion={0.8}
             hProportion={0.12}
           />
-          <OurTextInput text='Surname' wProportion={0.8} hProportion={0.12} />
+          <OurTextInput
+            text='Password'
+            secure={true}
+            wProportion={0.8}
+            hProportion={0.12}
+          />
+          <OurTextInput
+            text='Confirm Password'
+            secure={true}
+            wProportion={0.8}
+            hProportion={0.12}
+          />
         </View>
+        {/* <View>
+          {showDatePicker && (
+            <DateTimePicker
+              value={new Date()}
+              mode={'date'}
+              display={'default'}
+              onChange={onChooseDateHandle}
+            />
+          )}
+        </View> */}
       </ScrollView>
     </>
   );
@@ -49,9 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: gc.colors.white
   },
   graphicContainer: {
-    alignSelf: 'flex-start',
-    top: 0.01 * height,
-    left: 0.01 * width
+    alignSelf: 'center'
   },
   formContainer: { top: 40, justifyContent: 'center', alignItems: 'center' }
 });
