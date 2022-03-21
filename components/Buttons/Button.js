@@ -19,7 +19,7 @@ const button = (props) => {
         backgroundColor: btnColour,
         width: width * wProportion,
         height: height * hProportion,
-        borderRadius: 32,
+        borderRadius: 8,
         borderWidth: bordThick,
         borderColor: gc.colors.periwinkle,
         alignItems: 'center',

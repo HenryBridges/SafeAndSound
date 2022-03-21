@@ -5,7 +5,8 @@ import {
   Dimensions,
   StyleSheet,
   Image,
-  SafeAreaView
+  SafeAreaView,
+  TouchableOpacity
 } from 'react-native';
 import { useState } from 'react';
 import Button from '../components/Buttons/Button';
@@ -33,23 +34,39 @@ const Login = ({ navigation }) => {
             text='Email'
             onChangeText={(email) => setUserEmail(email)}
             wProportion={0.8}
-            hProportion={0.14}
+            hProportion={0.12}
           />
           <OurTextInput
             text='Password'
             onChangeText={(email) => setUserEmail(email)}
             wProportion={0.8}
-            hProportion={0.14}
+            hProportion={0.12}
             secure={true}
           />
+          <TouchableOpacity
+            style={styles.forgotPass}
+            onPress={() => navigation.navigate('Register')} //In future add a render modal content to send email for reset password.
+          >
+            <Text style={{ textDecorationLine: 'underline' }}>
+              Forgot Password?
+            </Text>
+          </TouchableOpacity>
           <Button
             type={'primary'}
             text={'Login'}
             onPress={() => navigation.navigate('Home')}
             wProportion={0.8}
-            hProportion={0.1}
-            topSpace={40}
+            hProportion={0.12}
+            topSpace={10}
           />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Register')} //In future add a render modal content to send email for reset password.
+          >
+            <Text style={{ top: 30 }}>
+              <Text>Don't have an account?</Text>
+              <Text style={{ fontWeight: '600' }}> Sign up</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </>
@@ -66,12 +83,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     alignItems: 'center',
-    paddingVertical: 60,
+    paddingVertical: 0.072 * height,
     paddingHorizontal: 20
   },
   graphicContainer: {
     alignSelf: 'center',
     top: 0.095 * height
+  },
+  forgotPass: {
+    left: 0.25 * width,
+    top: 10
   }
 });
 

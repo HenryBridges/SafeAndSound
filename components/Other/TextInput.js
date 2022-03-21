@@ -11,7 +11,7 @@ const height = Dimensions.get('window').width;
 const OurTextInput = (props) => {
   const [isFocused, setIsFocused] = useState(false);
   const { text, hProportion, wProportion, secure } = props;
-  const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState(secure);
 
   return (
     <TextInput
@@ -30,7 +30,7 @@ const OurTextInput = (props) => {
         ) : null
       }
       theme={{
-        roundness: 16,
+        roundness: 8,
         colors: {
           primary: isFocused ? gc.colors.periwinkle : gc.colors.darkGrey
         }
@@ -38,7 +38,8 @@ const OurTextInput = (props) => {
       style={{
         width: wProportion * width,
         height: hProportion * height,
-        margin: 5
+        margin: 5,
+        lineHeight: 20
       }}
     />
   );
