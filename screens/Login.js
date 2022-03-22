@@ -14,7 +14,10 @@ import gc from '../general/globalColors';
 import OurTextInput from '../components/Other/TextInput';
 import { loginGraphic } from '../assets/images/images';
 import OurModal from '../components/Other/OurModal';
-import { resetPasswordGraphic } from '../assets/images/images';
+import {
+  resetPasswordGraphic,
+  lostConnectionGraphic
+} from '../assets/images/images';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -74,7 +77,7 @@ const Login = ({ navigation }) => {
           <OurModal visible={showFPModal} topSpace={0.118 * height}>
             <View
               style={{
-                height: 0.2 * height,
+                height: 0.25 * height,
                 width: 0.6 * width
               }}
             >

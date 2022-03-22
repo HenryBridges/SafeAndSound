@@ -8,9 +8,6 @@ import {
   Dimensions,
   Image
 } from 'react-native';
-import Button from '../Buttons/Button';
-import OurTextInput from './TextInput';
-import { resetPasswordGraphic } from '../../assets/images/images';
 import gc from '../../general/globalColors';
 
 const width = Dimensions.get('window').width;

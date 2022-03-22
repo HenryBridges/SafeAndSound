@@ -4,3 +4,4 @@ export const closedEye = require('./closedEye.png');
 export const loginGraphic = require('./loginGraphic.png');
 export const signUp = require('./signUp.png');
 export const resetPasswordGraphic = require('./resetPasswordGraphic.png');
+export const lostConnectionGraphic = require('./lostConnection.png');
