@@ -41,26 +41,26 @@ const Register = ({ navigation }) => {
           <OurTextInput
             text='First Name'
             wProportion={0.8}
-            hProportion={0.12}
+            hProportion={0.09}
           />
-          <OurTextInput text='Surname' wProportion={0.8} hProportion={0.12} />
-          <OurTextInput text='Email' wProportion={0.8} hProportion={0.12} />
+          <OurTextInput text='Surname' wProportion={0.8} hProportion={0.09} />
+          <OurTextInput text='Email' wProportion={0.8} hProportion={0.09} />
           <OurTextInput
             text='NHS Number'
             wProportion={0.8}
-            hProportion={0.12}
+            hProportion={0.09}
           />
           <OurTextInput
             text='Password'
             secure={true}
             wProportion={0.8}
-            hProportion={0.12}
+            hProportion={0.09}
           />
           <OurTextInput
             text='Confirm Password'
             secure={true}
             wProportion={0.8}
-            hProportion={0.12}
+            hProportion={0.09}
           />
           <View
             style={{
@@ -73,15 +73,14 @@ const Register = ({ navigation }) => {
             <Text>Date Of Birth</Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            <OurTextInput text='DD' wProportion={0.2} hProportion={0.12} />
-            <OurTextInput text='MM' wProportion={0.2} hProportion={0.12} />
-            <OurTextInput text='YYYY' wProportion={0.34} hProportion={0.12} />
+            <OurTextInput text='DD' wProportion={0.2} hProportion={0.08} />
+            <OurTextInput text='MM' wProportion={0.2} hProportion={0.08} />
+            <OurTextInput text='YYYY' wProportion={0.34} hProportion={0.08} />
           </View>
           <View
             style={{
               top: 15,
-              width: 0.8 * width,
-              height: 0.12 * height
+              width: 0.8 * width
             }}
           >
             <DropDownPicker
@@ -93,7 +92,8 @@ const Register = ({ navigation }) => {
               dropDownDirection='BOTTOM'
               style={{
                 backgroundColor: '#f6f6f6',
-                borderColor: gc.colors.darkGrey
+                borderColor: gc.colors.darkGrey,
+                height: 0.045 * height
               }}
               containerStyle={{ backgroundColor: '#f6f6f6' }}
               onSelectItem={(item) => console.log(item.value)}
