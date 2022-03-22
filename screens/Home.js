@@ -32,7 +32,7 @@ const Home = ({ navigation }) => {
         </View>
         <View style={styles.reportBtn}>
           <Button
-            type={'secondary'}
+            type={'primary'}
             text={'Report'}
             onPress={() => {
               navigation.navigate('Report');

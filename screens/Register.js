@@ -80,7 +80,8 @@ const Register = ({ navigation }) => {
           <View
             style={{
               top: 15,
-              width: 0.8 * width
+              width: 0.8 * width,
+              zIndex: 9
             }}
           >
             <DropDownPicker
@@ -99,6 +100,14 @@ const Register = ({ navigation }) => {
               onSelectItem={(item) => console.log(item.value)}
             />
           </View>
+          <Button
+            type='primary'
+            text='Sign Up'
+            onPress={() => console.log('registered')}
+            wProportion={0.8}
+            hProportion={0.09}
+            topSpace={20}
+          />
         </View>
       </View>
     </>

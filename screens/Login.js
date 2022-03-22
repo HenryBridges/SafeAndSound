@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Text,
   View,
@@ -10,10 +10,11 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 import Button from '../components/Buttons/Button';
-import UserLoginReq from '../models/User/UserLoginReq';
 import gc from '../general/globalColors';
 import OurTextInput from '../components/Other/TextInput';
 import { loginGraphic } from '../assets/images/images';
+import OurModal from '../components/Other/OurModal';
+import { resetPasswordGraphic } from '../assets/images/images';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -22,6 +23,7 @@ const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [isSecure, setIsSecure] = useState(false);
+  const [showFPModal, setShowFPModal] = useState(false);
 
   return (
     <>
@@ -45,7 +47,7 @@ const Login = ({ navigation }) => {
           />
           <TouchableOpacity
             style={styles.forgotPass}
-            onPress={() => navigation.navigate('Register')} //In future add a render modal content to send email for reset password.
+            onPress={() => setShowFPModal(!showFPModal)} //In future add a render modal content to send email for reset password.
           >
             <Text style={{ textDecorationLine: 'underline' }}>
               Forgot Password?
@@ -68,6 +70,50 @@ const Login = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
+        {showFPModal && (
+          <OurModal visible={showFPModal} topSpace={0.118 * height}>
+            <View
+              style={{
+                height: 0.2 * height,
+                width: 0.6 * width
+              }}
+            >
+              <Image
+                source={resetPasswordGraphic}
+                resizeMode='contain'
+                style={{ flex: 1, height: null, width: null }}
+              />
+            </View>
+            <OurTextInput
+              type={'primary'}
+              text='Enter Email'
+              onChangeText={(item) => console.log(item)}
+              wProportion={0.6}
+              hProportion={0.09}
+            />
+            <View style={{ flexDirection: 'row' }}>
+              <Button
+                type={'secondary'}
+                text={'Back'}
+                onPress={() => setShowFPModal(!showFPModal)}
+                wProportion={0.25}
+                hProportion={0.09}
+                topSpace={5}
+              />
+              <Button
+                type={'primary'}
+                text={'Submit'}
+                onPress={() => {
+                  console.log('submitted');
+                  setShowFPModal(!showFPModal);
+                }}
+                wProportion={0.3}
+                hProportion={0.09}
+                topSpace={5}
+              />
+            </View>
+          </OurModal>
+        )}
       </SafeAreaView>
     </>
   );
