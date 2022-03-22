@@ -62,7 +62,7 @@ const Login = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => navigation.navigate('Register')} //In future add a render modal content to send email for reset password.
           >
-            <Text style={{ top: 30 }}>
+            <Text style={{ top: 20 }}>
               <Text>Don't have an account?</Text>
               <Text style={{ fontWeight: '600' }}> Sign up</Text>
             </Text>

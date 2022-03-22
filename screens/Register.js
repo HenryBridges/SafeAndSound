@@ -12,14 +12,20 @@ import Button from '../components/Buttons/Button';
 import gc from '../general/globalColors';
 import { signUp } from '../assets/images/images';
 import OurTextInput from '../components/Other/TextInput';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Register = ({ navigation }) => {
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('Gender');
+  const items = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+    { label: 'Other', value: 'other' }
+  ];
 
   const onChooseDateHandle = (event, dob) => {
     setDateOfBirth(dob);
@@ -27,7 +33,7 @@ const Register = ({ navigation }) => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.graphicContainer}>
           <Image source={signUp} />
         </View>
@@ -56,18 +62,45 @@ const Register = ({ navigation }) => {
             wProportion={0.8}
             hProportion={0.12}
           />
-        </View>
-        {/* <View>
-          {showDatePicker && (
-            <DateTimePicker
-              value={new Date()}
-              mode={'date'}
-              display={'default'}
-              onChange={onChooseDateHandle}
+          <View
+            style={{
+              justifyContent: 'flex-start',
+              alignSelf: 'flex-start',
+              left: 0.11 * width,
+              top: 5
+            }}
+          >
+            <Text>Date Of Birth</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <OurTextInput text='DD' wProportion={0.2} hProportion={0.12} />
+            <OurTextInput text='MM' wProportion={0.2} hProportion={0.12} />
+            <OurTextInput text='YYYY' wProportion={0.34} hProportion={0.12} />
+          </View>
+          <View
+            style={{
+              top: 15,
+              width: 0.8 * width,
+              height: 0.12 * height
+            }}
+          >
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              dropDownDirection='BOTTOM'
+              style={{
+                backgroundColor: '#f6f6f6',
+                borderColor: gc.colors.darkGrey
+              }}
+              containerStyle={{ backgroundColor: '#f6f6f6' }}
+              onSelectItem={(item) => console.log(item.value)}
             />
-          )}
-        </View> */}
-      </ScrollView>
+          </View>
+        </View>
+      </View>
     </>
   );
 };
@@ -80,7 +113,11 @@ const styles = StyleSheet.create({
   graphicContainer: {
     alignSelf: 'center'
   },
-  formContainer: { top: 40, justifyContent: 'center', alignItems: 'center' }
+  formContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  dobContainer: {}
 });
 
 export default Register;
