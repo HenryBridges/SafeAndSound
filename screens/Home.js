@@ -38,7 +38,7 @@ const Home = ({ navigation }) => {
               navigation.navigate('Report');
             }}
             hProportion={0.1}
-            wProportion={0.75}
+            wProportion={0.85}
           />
         </View>
       </SafeAreaView>
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     backgroundColor: ''
   },
   reportBtn: {
-    marginTop: 0.84 * height,
-    bottom: 0.05 * height,
+    position: 'absolute',
+    bottom: 0.035 * height,
     alignItems: 'center',
     width: '100%'
   }
