@@ -9,8 +9,6 @@ import {
   Fragment,
   SafeAreaView
 } from 'react-native';
-import { backArrow } from '../assets/images/images';
-import { StackActions } from '@react-navigation/native';
 import gc from '../general/globalColors';
 
 const width = Dimensions.get('window').width;
@@ -33,7 +31,7 @@ const Home = ({ navigation }) => {
           <View>
             <RoundButton
               icon={'menuIcon'}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.openDrawer()}
               wProportion={0.1}
               hProportion={0.1}
               background={true}
@@ -47,7 +45,7 @@ const Home = ({ navigation }) => {
           >
             <RoundButton
               icon={'chartIcon'}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate('Stats')}
               wProportion={0.1}
               hProportion={0.1}
               background={true}
