@@ -22,13 +22,37 @@ const Home = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <View style={styles.backBtn}>
           <RoundButton
-            type='primary'
-            icon={backArrow}
+            icon={'backArrow'}
             onPress={() => navigation.goBack()}
             wProportion={0.1}
             hProportion={0.1}
             background={true}
           />
+        </View>
+        <View style={styles.floatingButtonsContainer}>
+          <View>
+            <RoundButton
+              icon={'menuIcon'}
+              onPress={() => navigation.goBack()}
+              wProportion={0.1}
+              hProportion={0.1}
+              background={true}
+            />
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              right: 0
+            }}
+          >
+            <RoundButton
+              icon={'chartIcon'}
+              onPress={() => navigation.goBack()}
+              wProportion={0.1}
+              hProportion={0.1}
+              background={true}
+            />
+          </View>
         </View>
         <View style={styles.reportBtn}>
           <Button
@@ -57,6 +81,17 @@ const styles = StyleSheet.create({
     bottom: 0.035 * height,
     alignItems: 'center',
     width: '100%'
+  },
+  floatingButtonsContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    alignItems: 'flex-end',
+    bottom: 0.075 * height,
+    flexDirection: 'row',
+    width: 0.85 * width
+  },
+  backBtn: {
+    left: 30
   }
 });
 

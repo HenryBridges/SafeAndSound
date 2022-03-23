@@ -4,39 +4,46 @@ import {
   Text,
   Dimensions,
   Image,
-  Platform
+  Platform,
+  View
 } from 'react-native';
 import gc from '../../general/globalColors';
-
+import { backArrow, menuIcon, chartIcon } from '../../assets/images/images';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
 
 const RoundButton = (props) => {
-  const { type, icon, onPress, wProportion, hProportion, background } = props;
+  const { icon, onPress, wProportion, hProportion, background, margin } = props;
 
-  const btnColour = type == 'primary' ? gc.colors.pink : gc.colors.blue;
-
+  const img =
+    icon == 'backArrow' ? backArrow : icon == 'menuIcon' ? menuIcon : chartIcon;
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{
-        backgroundColor: background ? btnColour : null,
+        backgroundColor: background ? gc.colors.lightPeriwinkle : null,
         width: width * wProportion,
         height: height * hProportion,
         borderRadius: 0.5 * height,
         alignItems: 'center',
         textAlign: 'center',
         justifyContent: 'center',
-        margin: 10
+        margin: margin
       }}
     >
-      <Image
-        source={icon}
+      <View
         style={{
           height: height * hProportion * 0.75,
-          width: width * wProportion * 0.75
+          width: width * wProportion * 0.6,
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
-      />
+      >
+        <Image
+          source={img}
+          style={{ width: '80%', height: '80%', tintColor: gc.colors.white }}
+        />
+      </View>
     </TouchableOpacity>
   );
 };
