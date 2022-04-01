@@ -33,7 +33,7 @@ const Register = ({ navigation }) => {
 
   return (
     <>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.graphicContainer}>
           <Image source={signUp} />
         </View>
@@ -109,7 +109,7 @@ const Register = ({ navigation }) => {
             topSpace={20}
           />
         </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };
