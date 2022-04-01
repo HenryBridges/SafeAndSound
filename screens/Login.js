@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.colors.white
   },
   inputContainer: {
-    top: 0.355 * height,
+    top: 0.32 * height,
     position: 'absolute',
     alignSelf: 'center',
     alignItems: 'center',
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   graphicContainer: {
     alignSelf: 'center',
-    top: 0.095 * height
+    top: 0.08 * height
   },
   forgotPass: {
     left: 0.25 * width,
