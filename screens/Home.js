@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../components/Buttons/Button';
 import RoundButton from '../components/Buttons/roundButtons';
 import {
@@ -10,11 +10,14 @@ import {
   SafeAreaView
 } from 'react-native';
 import gc from '../general/globalColors';
+import ReportModal from './ReportModal';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
+  const [showReport, setShowReport] = useState(false);
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -57,12 +60,13 @@ const Home = ({ navigation }) => {
             type={'primary'}
             text={'Report'}
             onPress={() => {
-              navigation.navigate('Report');
+              setShowReport(!showReport);
             }}
             hProportion={0.1}
             wProportion={0.85}
           />
         </View>
+        {showReport && <ReportModal visible={true} topSpace={0} />}
       </SafeAreaView>
     </>
   );
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: ''
+    backgroundColor: gc.colors.white
   },
   reportBtn: {
     position: 'absolute',
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
     width: 0.85 * width
   },
   backBtn: {
-    left: 30
+    left: 25
   }
 });
 
