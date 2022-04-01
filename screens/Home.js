@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../components/Buttons/Button';
 import RoundButton from '../components/Buttons/roundButtons';
-import {
-  Text,
-  View,
-  Dimensions,
-  StyleSheet,
-  Fragment,
-  SafeAreaView
-} from 'react-native';
+import { Text, View, Dimensions, StyleSheet, SafeAreaView } from 'react-native';
 import gc from '../general/globalColors';
 import ReportModal from './ReportModal';
 
@@ -30,41 +23,43 @@ const Home = ({ navigation }) => {
             background={true}
           />
         </View>
-        <View style={styles.floatingButtonsContainer}>
-          <View>
-            <RoundButton
-              icon={'menuIcon'}
-              onPress={() => navigation.openDrawer()}
-              wProportion={0.1}
+        <View style={styles.reportAndButtonsContainer}>
+          <View style={styles.floatingButtonsContainer}>
+            <View>
+              <RoundButton
+                icon={'menuIcon'}
+                onPress={() => navigation.openDrawer()}
+                wProportion={0.1}
+                hProportion={0.1}
+                background={true}
+              />
+            </View>
+            <View
+              style={{
+                position: 'absolute',
+                right: 0
+              }}
+            >
+              <RoundButton
+                icon={'chartIcon'}
+                onPress={() => navigation.navigate('Stats')}
+                wProportion={0.1}
+                hProportion={0.1}
+                background={true}
+              />
+            </View>
+          </View>
+          <View style={styles.reportBtn}>
+            <Button
+              type={'primary'}
+              text={'Report'}
+              onPress={() => {
+                setShowReport(!showReport);
+              }}
               hProportion={0.1}
-              background={true}
+              wProportion={0.85}
             />
           </View>
-          <View
-            style={{
-              position: 'absolute',
-              right: 0
-            }}
-          >
-            <RoundButton
-              icon={'chartIcon'}
-              onPress={() => navigation.navigate('Stats')}
-              wProportion={0.1}
-              hProportion={0.1}
-              background={true}
-            />
-          </View>
-        </View>
-        <View style={styles.reportBtn}>
-          <Button
-            type={'primary'}
-            text={'Report'}
-            onPress={() => {
-              setShowReport(!showReport);
-            }}
-            hProportion={0.1}
-            wProportion={0.85}
-          />
         </View>
         {showReport && <ReportModal visible={true} topSpace={0} />}
       </SafeAreaView>
@@ -77,6 +72,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: gc.colors.white
+  },
+  reportAndButtonsContainer: {
+    position: 'absolute',
+    bottom: 0,
+    paddingVertical: 30,
+    alignSelf: 'center'
   },
   reportBtn: {
     position: 'absolute',
