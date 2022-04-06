@@ -16,6 +16,7 @@ const OurTextInput = (props) => {
 
   return (
     <TextInput
+      onChangeText={props.onChangeText}
       mode='outlined'
       label={text}
       onFocus={() => setIsFocused(true)}

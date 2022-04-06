@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -22,11 +22,33 @@ import {
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
+
+
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [isSecure, setIsSecure] = useState(false);
   const [showFPModal, setShowFPModal] = useState(false);
+
+  const validateLogin = () => {
+
+  }
+
+  const submit = () => {
+    console.log({ userEmail })
+    let valid = validateLogin();
+    if (valid) {
+      //save jwt token and user in the user phone 
+      //got to home
+    } else {
+      //show error colours around input
+    }
+  }
+
+  const saveData = (jwtToken, user) => {
+    //save both things to phone 
+  }
+
 
   return (
     <>
@@ -37,13 +59,13 @@ const Login = ({ navigation }) => {
         <View style={styles.inputContainer}>
           <OurTextInput
             text='Email'
-            onChangeText={(email) => setUserEmail(email)}
+            onChangeText={(txt) => setUserEmail(txt)}
             wProportion={0.8}
             hProportion={0.12}
           />
           <OurTextInput
             text='Password'
-            onChangeText={(email) => setUserEmail(email)}
+            onChangeText={(txt) => setUserPassword(txt)}
             wProportion={0.8}
             hProportion={0.12}
             secure={true}
@@ -59,7 +81,7 @@ const Login = ({ navigation }) => {
           <Button
             type={'primary'}
             text={'Login'}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => submit()}
             wProportion={0.8}
             hProportion={0.12}
             topSpace={10}

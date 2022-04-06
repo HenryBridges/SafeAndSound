@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthStack from './navigation/AuthStack';
 import AppDrawer from './navigation/AppDrawer';
 
-const hasLoggedIn = true;
+const hasLoggedIn = false;
 
 export default () => (
   <NavigationContainer>

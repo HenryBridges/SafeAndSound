@@ -7,3 +7,4 @@ export const resetPasswordGraphic = require('./resetPasswordGraphic.png');
 export const lostConnectionGraphic = require('./lostConnection.png');
 export const menuIcon = require('./menuIcon.png');
 export const chartIcon = require('./chartIcon.png');
+export const locationIcon = require('./locationIcon.png')
