@@ -27,17 +27,48 @@ const height = Dimensions.get('window').height;
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [isSecure, setIsSecure] = useState(false);
   const [showFPModal, setShowFPModal] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+
 
   const validateLogin = () => {
+    setEmailError(false);
+    setPasswordError(false);
+    let valid = true;
+    if (userEmail === "") {
+      valid = false;
+      setEmailError(true);
+    }
+    if (userPassword === "") {
+      valid = false;
+      setPasswordError(true)
+    }
+    return valid;
+  }
 
+  const login = () => {
+    fetch("https://safe-sound-208.herokuapp.com/user/login", {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        "user_password" : emailError,
+        "user_email": userEmail
+      })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(function(error) {
+      console.log(error)
+    });
   }
 
   const submit = () => {
-    console.log({ userEmail })
     let valid = validateLogin();
     if (valid) {
+      login();
       //save jwt token and user in the user phone 
       //got to home
     } else {
@@ -48,6 +79,7 @@ const Login = ({ navigation }) => {
   const saveData = (jwtToken, user) => {
     //save both things to phone 
   }
+  
 
 
   return (
@@ -62,6 +94,7 @@ const Login = ({ navigation }) => {
             onChangeText={(txt) => setUserEmail(txt)}
             wProportion={0.8}
             hProportion={0.12}
+            error={emailError ? true : false}
           />
           <OurTextInput
             text='Password'
@@ -69,6 +102,7 @@ const Login = ({ navigation }) => {
             wProportion={0.8}
             hProportion={0.12}
             secure={true}
+            error={passwordError ? true : false}
           />
           <TouchableOpacity
             style={styles.forgotPass}

@@ -19,7 +19,7 @@ import DatePickerModal from "react-native-modal-datetime-picker";
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const Register = ({navigation}) => {
+const Register = ({ navigation }) => {
 
   //calendar dob picker------------------------------------------------------
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -33,13 +33,12 @@ const Register = ({navigation}) => {
   };
 
   const handleConfirm = (date) => {
-    console.log(userDOB)
     let setDate = date.toISOString().split('T')[0]
     setUserDOB(setDate);
     hideDatePicker();
   };
 
-//gender picker--------------------------------------------------------------
+  //gender picker--------------------------------------------------------------
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Gender');
   const items = [
@@ -63,7 +62,7 @@ const Register = ({navigation}) => {
 
   //validation---------------------------------------------------------------------
   const isBetween = (length, min, max) => length < min || length > max ? false : true;
-  
+
   const isRequired = (value) => value === '' ? false : true;
 
   const isEmailValid = (email) => {
@@ -72,125 +71,118 @@ const Register = ({navigation}) => {
   };
 
   const isPasswordSecure = (password) => {
-    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const re = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$");
     return re.test(password);
-};
+  };
 
-const checkUserName = () => {
-  console.log("This " + userName);
-  let valid = true;
-  const min = 3,
-      max = 25;
-  const username = userName;
-  console.log(username)
-  if (!isRequired(username)) {
+  const checkUserName = () => {
+    let valid = true;
+    const min = 3, max = 25;
+    const username = userName;
+    if (!isRequired(username)) {
       valid = false;
-  } else if (!isBetween(username.length, min, max)) {
+    } else if (!isBetween(username.length, min, max)) {
       valid = false;
+    }
+    return valid;
   }
-  return valid;
-}
 
-const checkUserSurname = () => {
-  let valid = true;
-  const min = 3,max = 25;
-  const usersurname = userSurname;
-  if (!isRequired(usersurname)) {
-     valid = false;
-  } else if (!isBetween(usersurname.length, min, max)) {
-     valid = false;
-  } 
-  return valid;
-}
-
-const checkEmail = () => {
-  let valid = true;
-  const email = userEmail;
-  if (!isRequired(email)) {
+  const checkUserSurname = () => {
+    let valid = true;
+    const min = 3, max = 25;
+    const usersurname = userSurname;
+    if (!isRequired(usersurname)) {
       valid = false;
-  } else if (!isEmailValid(email)) {
+    } else if (!isBetween(usersurname.length, min, max)) {
       valid = false;
-  } 
-  return valid;
-}
+    }
+    return valid;
+  }
 
-const checkNHS = () => {
+  const checkEmail = () => {
+    let valid = true;
+    const email = userEmail;
+    if (!isRequired(email)) {
+      valid = false;
+    } else if (!isEmailValid(email)) {
+      valid = false;
+    }
+    return valid;
+  }
 
-  let valid = true;
-  const min = 10,max = 10;
-  if (!isRequired(userNHS)) {
-    valid = false;
-  } else if (!isBetween(userNHS.length, min, max)) {
-    valid = false;
-  } 
-  return valid;
-}
+  const checkNHS = () => {
+    let valid = true;
+    const min = 10, max = 10;
+    if (!isRequired(userNHS)) {
+      valid = false;
+    } else if (!isBetween(userNHS.length, min, max)) {
+      valid = false;
+    }
+    return valid;
+  }
 
-const checkPassword = () => {
+  const checkPassword = () => {
+    let valid = true;
+    const password = userPassword;
+    if (!isRequired(password)) {
+      valid = false;
+    } else if (!isPasswordSecure(password)) {
+      valid = false;
+    }
+    return valid;
+  };
 
-  let valid = true;
+  const checkConfirmPassword = () => {
+    let valid = true;
+    // check confirm password
+    const confirmPassword = userConfirmPassword;
+    const password = userPassword;
 
-  const password = userPassword;
+    if (!isRequired(confirmPassword)) {
+      valid = false;
+    } else if (password !== confirmPassword) {
+      valid = false;
+    }
+    return valid;
+  };
 
-  if (!isRequired(password)) {
-    valid = false;
-  } else if (!isPasswordSecure(password)) {
-    valid = false;
-  } 
-  return valid;
-};
-
-const checkConfirmPassword = () => {
-  let valid = true;
-  // check confirm password
-  const confirmPassword = userConfirmPassword;
-  const password = userPassword;
-
-  if (!isRequired(confirmPassword)) {
-    valid = false;
-  } else if (password !== confirmPassword) {
-    valid = false;
-  } 
-  return valid;
-};
+  const checkDOB = () => {
+    let valid = false; 
+    let date = userDOB.split("-");
+    let year = date[0];
+    let month = date[1];
+    let day = date[2];
+    let currentDate  = new Date();
+    let currentYear = currentDate.getFullYear();
+    let currentMonth = currentDate.getMonth();
+    let currentDay = currentDate.getDay();
+    if(currentYear - year > 18){
+      valid = true;
+    }else if(currentYear - year == 18 && month < currentMonth){
+      valid = true;
+    }
+    //validate same day or before acnt be arsed rn
+    return valid;
+  }
 
   const validateRegister = () => {
-  let validUsername = checkUserName();
-  let validuserSurname =  checkUserSurname();
-  let validEmail = checkEmail();
-  let validNHSnum = checkNHS();
-  let validPassword = checkPassword();
-  let validConfirmPAssword = checkConfirmPassword();
-  console.log(validUsername);
-  console.log(validuserSurname);
-  console.log(validEmail);
-  console.log(validNHSnum);
-  console.log(validPassword);
-  console.log(validConfirmPAssword);
-    if (!userName) {
-      alert('Please fill Name')
-      return (false)
-    
-    } if (!userSurname) {
-      alert('Please fill Surname');
-      return (false)
-    
-    } if (!userEmail) {
-      alert('Please fill Email')
-      return (false)
-    } if (!userNHS) {
-      alert('Please Eneter NHS Number')
-      return (false)
-    } if (!userPassword) {
-      alert('Please fill Password')
-      return (false)
+    let valid = false
+    let validUsername = checkUserName();
+    let validuserSurname = checkUserSurname();
+    let validEmail = checkEmail();
+    let validNHSnum = checkNHS();
+    let validPassword = checkPassword();
+    let validConfirmPAssword = checkConfirmPassword();
+    let validDOB = checkDOB();
+    if (validUsername && validuserSurname && validEmail && validNHSnum && validPassword && validConfirmPAssword && validDOB) {
+      valid = true;
     }
-    return (true)
+    return valid;
   }
 
 
   const register = () => {
-    fetch("https://safe-sound-208.herokuapp.com/user/register", {
+   fetch("https://safe-sound-208.herokuapp.com/user/register", {
       method: 'POST',
       headers: {
         Accept: 'application/json'
@@ -203,8 +195,12 @@ const checkConfirmPassword = () => {
         "nhs_number": userNHS,
         "user_password": userConfirmPassword,
         "gender": userGender
-
       })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(function(error) {
+      console.log(error)
     });
   }
 
@@ -214,10 +210,10 @@ const checkConfirmPassword = () => {
     setLoading(true);
     let valid = validateRegister();
     if (valid) {
-      let registered = register();
-      if (registered) {
-        navigation.navigate('Login');
-      }
+      register();
+    } else {
+      setSubmitting(false);
+      setLoading(false);
     }
   }
 
@@ -244,7 +240,7 @@ const checkConfirmPassword = () => {
             hProportion={0.09}
             keyboardType='numeric'
             onChangeText={(userNHS) => setUserNHS(userNHS)}
-            
+
           />
           <OurTextInput
             text='Password'
