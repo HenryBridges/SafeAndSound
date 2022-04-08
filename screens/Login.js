@@ -18,6 +18,9 @@ import {
   resetPasswordGraphic,
   lostConnectionGraphic
 } from '../assets/images/images';
+import { Snackbar } from 'react-native-paper';
+import { Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -33,6 +36,10 @@ const Login = ({ navigation }) => {
   const [forgotEmailValid, setForgotEmailValid] = useState(false);
   const [forgotMessage, setForgotMessage] = useState('');
   const [forgotResponse, setForgotResponse] = useState(false);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [loginMessage, setLoginMessage] = useState('');
+
+  const onDismissSnackBar = () => setSnackbarVisible(false);
 
   //handles the logic for the forgot password path
   const forgotPassHandle = () => {
@@ -91,13 +98,10 @@ const Login = ({ navigation }) => {
 
   //handle the logic of the login
   const submit = () => {
+    Keyboard.dismiss();
     let valid = validateLogin();
     if (valid) {
       login();
-      //save jwt token and user in the user phone
-      //got to home
-    } else {
-      //show error colours around input
     }
   };
 
@@ -136,17 +140,47 @@ const Login = ({ navigation }) => {
       });
   };
 
-  const handleLogin = () => {
-
+  const handleLogin = (data) => {
+    let success = data["success"];
+    let message = data["message"];
+    let generic = data["generic"];
+    if (!success) {
+      setSnackbarVisible(true);
+      setLoginMessage(message);
+    } else {
+      saveData(message, generic);
+    }
   }
 
-  const saveData = (jwtToken, user) => {
-    //save both things to phone
+  const saveData = async (jwtToken, user) => {
+    try {
+      const userObject = JSON.stringify(user)
+      await AsyncStorage.setItem('@user', userObject)
+      await AsyncStorage.setItem('@jwt', jwtToken)
+    } catch (e) {
+      console.log(e)
+    }
   };
 
   return (
     <>
       <SafeAreaView style={styles.container}>
+        <Snackbar
+          visible={snackbarVisible}
+          onDismiss={onDismissSnackBar}
+          style={{
+            backgroundColor: gc.colors.errorLightRed,
+            borderColor: gc.colors.errorRed,
+            borderWidth: 2,
+            borderRadius: 6
+          }}>
+          <Text
+            style={{
+              color: gc.colors.errorRed
+            }}>
+            {loginMessage}
+          </Text>
+        </Snackbar>
         <View style={styles.graphicContainer}>
           <Image source={loginGraphic} />
         </View>
@@ -184,7 +218,7 @@ const Login = ({ navigation }) => {
             topSpace={10}
           />
           <TouchableOpacity
-            onPress={() => navigation.navigate('Register')} //In future add a render modal content to send email for reset password.
+            onPress={() => navigation.navigate('Register')}
           >
             <Text style={{ top: 20 }}>
               <Text>Don't have an account?</Text>
