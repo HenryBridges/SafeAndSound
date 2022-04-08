@@ -14,17 +14,18 @@ import gc from '../general/globalColors';
 import { signUp } from '../assets/images/images';
 import OurTextInput from '../components/Other/TextInput';
 import DropDownPicker from 'react-native-dropdown-picker';
-import DatePickerModal from "react-native-modal-datetime-picker";
+import DatePickerModal from 'react-native-modal-datetime-picker';
+import { red } from 'react-native-reanimated/src/reanimated2/Colors';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Register = ({ navigation }) => {
-
   //calendar dob picker------------------------------------------------------
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
+    minMaxAgeDates();
     setDatePickerVisibility(true);
   };
 
@@ -33,7 +34,7 @@ const Register = ({ navigation }) => {
   };
 
   const handleConfirm = (date) => {
-    let setDate = date.toISOString().split('T')[0]
+    let setDate = date.toISOString().split('T')[0];
     setUserDOB(setDate);
     hideDatePicker();
   };
@@ -55,79 +56,122 @@ const Register = ({ navigation }) => {
   const [userConfirmPassword, setUserConfirmPassword] = useState('');
   const [userGender, setUserGender] = useState('');
   const [userDOB, setUserDOB] = useState('');
+  const [userPhone, setUserPhone] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errortText, setErrorText] = useState('');
+  const [maxDate, setMaxDate] = useState(new Date());
+  const [nameError, setNameError] = useState(false);
+  const [userSurnameError, setSurnameError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [nhsNumError, setNhsNumError] = useState(false);
+  const [genderError, setGenderError] = useState(false);
   const [isRegistraionSucess, setItsRegistrationSucess] = useState(false);
 
   //validation---------------------------------------------------------------------
-  const isBetween = (length, min, max) => length < min || length > max ? false : true;
+  const isBetween = (length, min, max) =>
+    length < min || length > max ? false : true;
 
-  const isRequired = (value) => value === '' ? false : true;
+  const isRequired = (value) => (value === '' ? false : true);
 
   const isEmailValid = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
 
+  const isPhoneNumValid = (phoneNum) => {
+    const re = new RegExp('^[+][0-9]{3}[0-9]{3}[0-9]{4,6}$');
+    return re.test(phoneNum);
+  };
   const isPasswordSecure = (password) => {
-    const re = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$");
+    const re = new RegExp(
+      '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$'
+    );
     return re.test(password);
   };
 
   const checkUserName = () => {
     let valid = true;
-    const min = 3, max = 25;
+    const min = 3,
+      max = 25;
     const username = userName;
     if (!isRequired(username)) {
       valid = false;
+      setNameError(true);
     } else if (!isBetween(username.length, min, max)) {
       valid = false;
+      setNameError(true);
     }
     return valid;
-  }
+  };
 
   const checkUserSurname = () => {
     let valid = true;
-    const min = 3, max = 25;
+    const min = 3,
+      max = 25;
     const usersurname = userSurname;
     if (!isRequired(usersurname)) {
       valid = false;
+      setSurnameError(true);
     } else if (!isBetween(usersurname.length, min, max)) {
       valid = false;
+      setSurnameError(true);
     }
     return valid;
-  }
+  };
 
   const checkEmail = () => {
     let valid = true;
     const email = userEmail;
     if (!isRequired(email)) {
       valid = false;
+      setEmailError(true);
     } else if (!isEmailValid(email)) {
       valid = false;
+      setEmailError(true);
     }
     return valid;
-  }
+  };
+
+  const checkPhoneNum = () => {
+    let valid = true;
+    const phoneNum = userPhone;
+    if (!isRequired(phoneNum)) {
+      valid = false;
+      setPhoneError(true);
+    } else if (!isPhoneNumValid(phoneNum)) {
+      valid = false;
+      setPhoneError(true);
+    }
+    return valid;
+  };
 
   const checkNHS = () => {
     let valid = true;
-    const min = 10, max = 10;
+    const min = 10,
+      max = 10;
     if (!isRequired(userNHS)) {
       valid = false;
+      setNhsNumError(true);
     } else if (!isBetween(userNHS.length, min, max)) {
       valid = false;
+      setNhsNumError(true);
     }
     return valid;
-  }
+  };
 
   const checkPassword = () => {
     let valid = true;
     const password = userPassword;
     if (!isRequired(password)) {
       valid = false;
+      setPasswordError(true);
     } else if (!isPasswordSecure(password)) {
       valid = false;
+      setPasswordError(true);
     }
     return valid;
   };
@@ -140,74 +184,93 @@ const Register = ({ navigation }) => {
 
     if (!isRequired(confirmPassword)) {
       valid = false;
+      setConfirmPasswordError(true);
     } else if (password !== confirmPassword) {
       valid = false;
+      setConfirmPasswordError(true);
     }
     return valid;
   };
 
-  const checkDOB = () => {
-    let valid = false; 
-    let date = userDOB.split("-");
-    let year = date[0];
-    let month = date[1];
-    let day = date[2];
-    let currentDate  = new Date();
-    let currentYear = currentDate.getFullYear();
-    let currentMonth = currentDate.getMonth();
-    let currentDay = currentDate.getDay();
-    if(currentYear - year > 18){
-      valid = true;
-    }else if(currentYear - year == 18 && month < currentMonth){
-      valid = true;
+  const checkGen = () => {
+    let valid = true;
+    if (userGender == '') {
+      valid = false;
+      setGenderError(false);
     }
-    //validate same day or before acnt be arsed rn
     return valid;
-  }
+  };
+
+  const minMaxAgeDates = () => {
+    let date = new Date();
+    let year = date.getFullYear() - 18;
+    let month = date.getMonth();
+    let day = date.getDay();
+    setMaxDate(new Date(year, month, day));
+    console.log(maxDate);
+  };
 
   const validateRegister = () => {
-    let valid = false
+    let valid = false;
     let validUsername = checkUserName();
     let validuserSurname = checkUserSurname();
     let validEmail = checkEmail();
     let validNHSnum = checkNHS();
     let validPassword = checkPassword();
-    let validConfirmPAssword = checkConfirmPassword();
-    let validDOB = checkDOB();
-    if (validUsername && validuserSurname && validEmail && validNHSnum && validPassword && validConfirmPAssword && validDOB) {
+    let validConfirmPassword = checkConfirmPassword();
+    let checkPhone = checkPhoneNum();
+    let checkGender = checkGen();
+    if (
+      validUsername &&
+      validuserSurname &&
+      validEmail &&
+      validNHSnum &&
+      validPassword &&
+      validConfirmPassword &&
+      checkPhone &&
+      checkGender
+    ) {
       valid = true;
     }
     return valid;
-  }
-
+  };
 
   const register = () => {
-   fetch("https://safe-sound-208.herokuapp.com/user/register", {
+    fetch('https://safe-sound-208.herokuapp.com/user/register', {
       method: 'POST',
       headers: {
-        Accept: 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "name": userName,
-        "surname": userSurname,
-        "user_email": userEmail,
-        "dob": userDOB,
-        "nhs_number": userNHS,
-        "user_password": userConfirmPassword,
-        "gender": userGender
+        name: userName,
+        surname: userSurname,
+        user_phone: userPhone,
+        user_email: userEmail.toLowerCase(),
+        dob: userDOB,
+        nhs_number: userNHS,
+        user_password: userConfirmPassword,
+        gender: userGender
       })
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(function(error) {
-      console.log(error)
-    });
-  }
-
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const submit = () => {
     setSubmitting(true);
     setLoading(true);
+    setNameError(false);
+    setSurnameError(false);
+    setEmailError(false);
+    setPhoneError(false);
+    setGenderError(false);
+    setNhsNumError(false);
+    setPasswordError(false);
+    setConfirmPasswordError(false);
     let valid = validateRegister();
     if (valid) {
       register();
@@ -215,7 +278,7 @@ const Register = ({ navigation }) => {
       setSubmitting(false);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -228,19 +291,39 @@ const Register = ({ navigation }) => {
             text='First Name'
             wProportion={0.8}
             hProportion={0.09}
-            onChangeText={userName => setUserName(userName)}
+            onChangeText={(userName) => setUserName(userName)}
+            error={nameError ? true : false}
           />
-          <OurTextInput text='Surname' wProportion={0.8} hProportion={0.09}
-            onChangeText={(userSurname) => setUserSurname(userSurname)} />
-          <OurTextInput text='Email' wProportion={0.8} hProportion={0.09}
-            onChangeText={(userEmail) => setUserEmail(userEmail)} />
+          <OurTextInput
+            text='Surname'
+            wProportion={0.8}
+            hProportion={0.09}
+            onChangeText={(userSurname) => setUserSurname(userSurname)}
+            error={userSurnameError ? true : false}
+          />
+          <OurTextInput
+            text='Email'
+            wProportion={0.8}
+            hProportion={0.09}
+            onChangeText={(userEmail) => setUserEmail(userEmail)}
+            error={emailError ? true : false}
+            keyboardType='email-address'
+          />
+          <OurTextInput
+            text='(+44) Phone Number'
+            wProportion={0.8}
+            hProportion={0.09}
+            onChangeText={(userPhone) => setUserPhone(userPhone)}
+            error={phoneError ? true : false}
+            keyboardType='phone-pad'
+          />
           <OurTextInput
             text='NHS Number'
             wProportion={0.8}
             hProportion={0.09}
-            keyboardType='numeric'
+            keyboardType='number-pad'
             onChangeText={(userNHS) => setUserNHS(userNHS)}
-
+            error={nhsNumError ? true : false}
           />
           <OurTextInput
             text='Password'
@@ -248,13 +331,17 @@ const Register = ({ navigation }) => {
             wProportion={0.8}
             hProportion={0.09}
             onChangeText={(userPassword) => setUserPassword(userPassword)}
+            error={passwordError ? true : false}
           />
           <OurTextInput
             text='Confirm Password'
             secure={true}
             wProportion={0.8}
             hProportion={0.09}
-            onChangeText={(userConfirmPassword) => setUserConfirmPassword(userConfirmPassword)}
+            onChangeText={(userConfirmPassword) =>
+              setUserConfirmPassword(userConfirmPassword)
+            }
+            error={confirmPasswordError ? true : false}
           />
           <View
             style={{
@@ -272,12 +359,14 @@ const Register = ({ navigation }) => {
               text='Choose Date'
               wProportion={0.8}
               hProportion={0.09}
-              onPress={showDatePicker} />
+              onPress={showDatePicker}
+            />
             <DatePickerModal
               isVisible={isDatePickerVisible}
-              mode="date"
+              mode='date'
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
+              maximumDate={maxDate}
             />
           </View>
           <View
@@ -294,26 +383,32 @@ const Register = ({ navigation }) => {
               setOpen={setOpen}
               setValue={setValue}
               dropDownDirection='BOTTOM'
+              textStyle={{
+                color: genderError ? gc.colors.errorRed : gc.colors.darkGrey,
+                fontWeight: '400',
+                fontSize: 0.02 * height
+              }}
               style={{
                 backgroundColor: '#f6f6f6',
-                borderColor: gc.colors.darkGrey,
+                borderColor: genderError
+                  ? gc.colors.errorRed
+                  : gc.colors.darkGrey,
                 height: 0.045 * height
               }}
               containerStyle={{ backgroundColor: '#f6f6f6' }}
               onSelectItem={(item) => setUserGender(item.value)}
             />
           </View>
-          {
-            submitting ? null :
-              <Button
-                type='primary'
-                text='Sign Up'
-                onPress={submit}
-                wProportion={0.8}
-                hProportion={0.09}
-                topSpace={20}
-              />
-          }
+          {submitting ? null : (
+            <Button
+              type='primary'
+              text='Sign Up'
+              onPress={submit}
+              wProportion={0.8}
+              hProportion={0.09}
+              topSpace={20}
+            />
+          )}
 
           <View style={styles.shadow}>
             <ActivityIndicator
@@ -323,7 +418,6 @@ const Register = ({ navigation }) => {
             />
           </View>
         </View>
-
       </SafeAreaView>
     </>
   );
@@ -344,11 +438,11 @@ const styles = StyleSheet.create({
   dobContainer: {},
   containerLoader: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: 'center'
   },
   horizontal: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     padding: 10
   },
   shadow: {

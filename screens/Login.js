@@ -22,65 +22,89 @@ import {
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-
-
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [showFPModal, setShowFPModal] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  const [forgotSent, setForgotSent] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotEmailValid, setForgotEmailValid] = useState(false);
+  const [forgotMessage, setForgotMessage] = useState('');
+  const [forgotResponse, setForgotResponse] = useState(false);
 
+  const forgotPassHandle = () => {
+    setForgotSent(false);
+    setForgotResponse(false);
+    setForgotMessage('');
+    setForgotEmailValid(false);
+    let valid = validateForgot();
+    if (valid) {
+      setForgotSent(true);
+      setForgotResponse(true);
+      setForgotMessage('Sent');
+      setForgotEmailValid(false);
+    }
+  };
+
+  const validateForgot = () => {
+    let valid = true;
+    if (forgotEmail == '') {
+      valid = false;
+      setForgotEmailValid(true);
+    }
+    return valid;
+  };
 
   const validateLogin = () => {
     setEmailError(false);
     setPasswordError(false);
     let valid = true;
-    if (userEmail === "") {
+    if (userEmail === '') {
       valid = false;
       setEmailError(true);
     }
-    if (userPassword === "") {
+    if (userPassword === '') {
       valid = false;
-      setPasswordError(true)
+      setPasswordError(true);
     }
     return valid;
-  }
+  };
 
   const login = () => {
-    fetch("https://safe-sound-208.herokuapp.com/user/login", {
+    fetch('https://safe-sound-208.herokuapp.com/user/login', {
       method: 'POST',
       headers: {
-        Accept: 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "user_password" : emailError,
-        "user_email": userEmail
+        user_password: userPassword,
+        user_email: userEmail.toLowerCase()
       })
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(function(error) {
-      console.log(error)
-    });
-  }
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const submit = () => {
     let valid = validateLogin();
     if (valid) {
       login();
-      //save jwt token and user in the user phone 
+      //save jwt token and user in the user phone
       //got to home
     } else {
       //show error colours around input
     }
-  }
+  };
 
   const saveData = (jwtToken, user) => {
-    //save both things to phone 
-  }
-  
-
+    //save both things to phone
+  };
 
   return (
     <>
@@ -95,6 +119,7 @@ const Login = ({ navigation }) => {
             wProportion={0.8}
             hProportion={0.12}
             error={emailError ? true : false}
+            keyboardType='email-address'
           />
           <OurTextInput
             text='Password'
@@ -130,7 +155,7 @@ const Login = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         {showFPModal && (
-          <OurModal visible={showFPModal} topSpace={0.118 * height}>
+          <OurModal visible={showFPModal} topSpace={-0.15 * height}>
             <View
               style={{
                 height: 0.25 * height,
@@ -146,15 +171,50 @@ const Login = ({ navigation }) => {
             <OurTextInput
               type={'primary'}
               text='Enter Email'
-              onChangeText={(item) => console.log(item)}
+              onChangeText={(email) => setForgotEmail(email)}
               wProportion={0.6}
               hProportion={0.09}
+              error={forgotEmailValid}
+              keyboardType='email-address'
             />
+            {forgotSent && (
+              <View
+                style={{
+                  backgroundColor: forgotResponse
+                    ? gc.colors.successLightGreen
+                    : gc.colors.errorLightRed,
+                  borderColor: forgotResponse
+                    ? gc.colors.successGreen
+                    : gc.colors.errorRed,
+                  borderWidth: 2,
+                  padding: 5,
+                  width: 0.6 * width,
+                  top: 4
+                }}
+              >
+                <Text
+                  style={{
+                    color: forgotResponse
+                      ? gc.colors.successGreen
+                      : gc.colors.errorRed,
+                    fontWeight: '600',
+                    textAlign: 'center'
+                  }}
+                >
+                  {forgotMessage}
+                </Text>
+              </View>
+            )}
             <View style={{ flexDirection: 'row' }}>
               <Button
                 type={'secondary'}
                 text={'Back'}
-                onPress={() => setShowFPModal(!showFPModal)}
+                onPress={() => {
+                  setShowFPModal(!showFPModal);
+                  setForgotSent(false);
+                  setForgotEmail('');
+                  setForgotEmailValid(false);
+                }}
                 wProportion={0.25}
                 hProportion={0.09}
                 topSpace={5}
@@ -162,10 +222,7 @@ const Login = ({ navigation }) => {
               <Button
                 type={'primary'}
                 text={'Submit'}
-                onPress={() => {
-                  console.log('submitted');
-                  setShowFPModal(!showFPModal);
-                }}
+                onPress={(email) => forgotPassHandle(email)}
                 wProportion={0.3}
                 hProportion={0.09}
                 topSpace={5}
@@ -197,7 +254,7 @@ const styles = StyleSheet.create({
   },
   forgotPass: {
     left: 0.25 * width,
-    top: 10
+    top: 0.01 * height
   }
 });
 

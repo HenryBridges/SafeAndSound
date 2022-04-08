@@ -17,6 +17,7 @@ const OurTextInput = (props) => {
   return (
     <TextInput
       error={props.error}
+      keyboardType={props.keyboardType}
       onChangeText={props.onChangeText}
       mode='outlined'
       label={text}
