@@ -84,8 +84,24 @@ const Login = ({ navigation }) => {
       setForgotResponse(false);
     }
     setForgotMessage(data["message"]);
+    setTimeout(() => {
+      setForgotSent(false);
+    }, 5000)
   }
 
+  //handle the logic of the login
+  const submit = () => {
+    let valid = validateLogin();
+    if (valid) {
+      login();
+      //save jwt token and user in the user phone
+      //got to home
+    } else {
+      //show error colours around input
+    }
+  };
+
+  //validates the login form
   const validateLogin = () => {
     setEmailError(false);
     setPasswordError(false);
@@ -100,10 +116,6 @@ const Login = ({ navigation }) => {
     }
     return valid;
   };
-
-  const handleLogin = () => {
-
-  }
 
   const login = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/login', {
@@ -124,16 +136,9 @@ const Login = ({ navigation }) => {
       });
   };
 
-  const submit = () => {
-    let valid = validateLogin();
-    if (valid) {
-      login();
-      //save jwt token and user in the user phone
-      //got to home
-    } else {
-      //show error colours around input
-    }
-  };
+  const handleLogin = () => {
+
+  }
 
   const saveData = (jwtToken, user) => {
     //save both things to phone
