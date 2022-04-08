@@ -34,6 +34,7 @@ const Login = ({ navigation }) => {
   const [forgotMessage, setForgotMessage] = useState('');
   const [forgotResponse, setForgotResponse] = useState(false);
 
+  //handles the logic for the forgot password path
   const forgotPassHandle = () => {
     setForgotSent(false);
     setForgotResponse(false);
@@ -41,13 +42,11 @@ const Login = ({ navigation }) => {
     setForgotEmailValid(false);
     let valid = validateForgot();
     if (valid) {
-      setForgotSent(true);
-      setForgotResponse(true);
-      setForgotMessage('Sent');
-      setForgotEmailValid(false);
+      forgot();
     }
   };
 
+  //validates the forgot password
   const validateForgot = () => {
     let valid = true;
     if (forgotEmail == '') {
@@ -56,6 +55,36 @@ const Login = ({ navigation }) => {
     }
     return valid;
   };
+
+  //posts data to the api server and receives response
+  const forgot = () => {
+    fetch('https://safe-sound-208.herokuapp.com/user/password/recover', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_email: forgotEmail
+      })
+    })
+      .then((response) => response.json())
+      .then((data) => handleForgotResponses(data))
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  //handles the response of the api server
+  const handleForgotResponses = (data) => {
+    setForgotSent(true);
+    if (data["success"]) {
+      setForgotResponse(true);
+    } else {
+      setForgotResponse(false);
+    }
+    setForgotMessage(data["message"]);
+  }
 
   const validateLogin = () => {
     setEmailError(false);
@@ -72,6 +101,10 @@ const Login = ({ navigation }) => {
     return valid;
   };
 
+  const handleLogin = () => {
+
+  }
+
   const login = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/login', {
       method: 'POST',
@@ -85,7 +118,7 @@ const Login = ({ navigation }) => {
       })
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => handleLogin(data))
       .catch(function (error) {
         console.log(error);
       });
@@ -155,78 +188,89 @@ const Login = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         {showFPModal && (
-          <OurModal visible={showFPModal} topSpace={-0.15 * height}>
-            <View
-              style={{
-                height: 0.25 * height,
-                width: 0.6 * width
-              }}
-            >
+          <OurModal style={{
+            height: 0.4 * height,
+            width: 0.6 * width,
+            flex: 1
+          }}
+            visible={showFPModal}>
+            <View style={{
+              height: '80%',
+              width: 0.6 * width
+            }}>
               <Image
                 source={resetPasswordGraphic}
                 resizeMode='contain'
                 style={{ flex: 1, height: null, width: null }}
               />
-            </View>
-            <OurTextInput
-              type={'primary'}
-              text='Enter Email'
-              onChangeText={(email) => setForgotEmail(email)}
-              wProportion={0.6}
-              hProportion={0.09}
-              error={forgotEmailValid}
-              keyboardType='email-address'
-            />
-            {forgotSent && (
               <View
                 style={{
-                  backgroundColor: forgotResponse
-                    ? gc.colors.successLightGreen
-                    : gc.colors.errorLightRed,
-                  borderColor: forgotResponse
-                    ? gc.colors.successGreen
-                    : gc.colors.errorRed,
-                  borderWidth: 2,
-                  padding: 5,
-                  width: 0.6 * width,
-                  top: 4
-                }}
-              >
-                <Text
-                  style={{
-                    color: forgotResponse
-                      ? gc.colors.successGreen
-                      : gc.colors.errorRed,
-                    fontWeight: '600',
-                    textAlign: 'center'
-                  }}
-                >
-                  {forgotMessage}
-                </Text>
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}>
+                <OurTextInput
+                  type={'primary'}
+                  text='Enter Email'
+                  onChangeText={(email) => setForgotEmail(email)}
+                  wProportion={0.6}
+                  hProportion={0.1}
+                  error={forgotEmailValid}
+                  keyboardType='email-address'
+                />
+                {forgotSent && (
+                  <View
+                    style={{
+                      backgroundColor: forgotResponse
+                        ? gc.colors.successLightGreen
+                        : gc.colors.errorLightRed,
+                      borderColor: forgotResponse
+                        ? gc.colors.successGreen
+                        : gc.colors.errorRed,
+                      borderWidth: 2,
+                      padding: 5,
+                      width: 0.6 * width,
+                      top: 4,
+                      borderRadius: 6
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: forgotResponse
+                          ? gc.colors.successGreen
+                          : gc.colors.errorRed,
+                        fontWeight: '600',
+                        textAlign: 'center'
+                      }}
+                    >
+                      {forgotMessage}
+                    </Text>
+                  </View>
+                )}
               </View>
-            )}
-            <View style={{ flexDirection: 'row' }}>
-              <Button
-                type={'secondary'}
-                text={'Back'}
-                onPress={() => {
-                  setShowFPModal(!showFPModal);
-                  setForgotSent(false);
-                  setForgotEmail('');
-                  setForgotEmailValid(false);
-                }}
-                wProportion={0.25}
-                hProportion={0.09}
-                topSpace={5}
-              />
-              <Button
-                type={'primary'}
-                text={'Submit'}
-                onPress={(email) => forgotPassHandle(email)}
-                wProportion={0.3}
-                hProportion={0.09}
-                topSpace={5}
-              />
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                <Button
+                  type={'secondary'}
+                  text={'Back'}
+                  onPress={() => {
+                    setShowFPModal(!showFPModal);
+                    setForgotSent(false);
+                    setForgotEmail('');
+                    setForgotEmailValid(false);
+                  }}
+                  wProportion={0.3}
+                  hProportion={0.09}
+                  topSpace={5}
+                />
+                <Button
+                  type={'primary'}
+                  text={'Submit'}
+                  onPress={(email) => forgotPassHandle(email)}
+                  wProportion={0.3}
+                  hProportion={0.09}
+                  topSpace={5}
+                />
+              </View>
             </View>
           </OurModal>
         )}
