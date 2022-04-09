@@ -12,7 +12,7 @@ import { useState } from 'react';
 import Button from '../components/Buttons/Button';
 import gc from '../general/globalColors';
 import OurTextInput from '../components/Other/TextInput';
-import { loginGraphic } from '../assets/images/images';
+import { appIcon } from '../assets/images/images';
 import OurModal from '../components/Other/OurModal';
 import {
   resetPasswordGraphic,
@@ -21,6 +21,9 @@ import {
 import { Snackbar } from 'react-native-paper';
 import { Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../components/Other/context';
+import { useContext } from 'react';
+
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -38,6 +41,8 @@ const Login = ({ navigation }) => {
   const [forgotResponse, setForgotResponse] = useState(false);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [loginMessage, setLoginMessage] = useState('');
+
+  const { signedIn } = useContext(AuthContext);
 
   const onDismissSnackBar = () => setSnackbarVisible(false);
 
@@ -130,7 +135,7 @@ const Login = ({ navigation }) => {
       },
       body: JSON.stringify({
         user_password: userPassword,
-        user_email: userEmail.toLowerCase()
+        user_email: userEmail
       })
     })
       .then((response) => response.json())
@@ -149,6 +154,7 @@ const Login = ({ navigation }) => {
       setLoginMessage(message);
     } else {
       saveData(message, generic);
+      signedIn(message);
     }
   }
 
@@ -182,7 +188,7 @@ const Login = ({ navigation }) => {
           </Text>
         </Snackbar>
         <View style={styles.graphicContainer}>
-          <Image source={loginGraphic} />
+          <Image source={appIcon} />
         </View>
         <View style={styles.inputContainer}>
           <OurTextInput
