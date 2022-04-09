@@ -18,7 +18,7 @@ import {
   resetPasswordGraphic,
   lostConnectionGraphic
 } from '../assets/images/images';
-import { Snackbar } from 'react-native-paper';
+import { ActivityIndicator, Snackbar } from 'react-native-paper';
 import { Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../components/Other/context';
@@ -41,6 +41,8 @@ const Login = ({ navigation }) => {
   const [forgotResponse, setForgotResponse] = useState(false);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [loginMessage, setLoginMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isForgotLoading, setIsForgotLoading] = useState(false);
 
   const { signedIn } = useContext(AuthContext);
 
@@ -48,6 +50,7 @@ const Login = ({ navigation }) => {
 
   //handles the logic for the forgot password path
   const forgotPassHandle = () => {
+    setIsForgotLoading(true);
     setForgotSent(false);
     setForgotResponse(false);
     setForgotMessage('');
@@ -55,6 +58,8 @@ const Login = ({ navigation }) => {
     let valid = validateForgot();
     if (valid) {
       forgot();
+    } else {
+      setIsForgotLoading(false);
     }
   };
 
@@ -89,6 +94,7 @@ const Login = ({ navigation }) => {
 
   //handles the response of the api server
   const handleForgotResponses = (data) => {
+    setIsForgotLoading(false);
     setForgotSent(true);
     if (data["success"]) {
       setForgotResponse(true);
@@ -104,9 +110,12 @@ const Login = ({ navigation }) => {
   //handle the logic of the login
   const submit = () => {
     Keyboard.dismiss();
+    setIsLoading(true);
     let valid = validateLogin();
     if (valid) {
       login();
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -152,6 +161,7 @@ const Login = ({ navigation }) => {
     if (!success) {
       setSnackbarVisible(true);
       setLoginMessage(message);
+      setIsLoading(false);
     } else {
       saveData(message, generic);
       signedIn(message);
@@ -215,14 +225,16 @@ const Login = ({ navigation }) => {
               Forgot Password?
             </Text>
           </TouchableOpacity>
-          <Button
-            type={'primary'}
-            text={'Login'}
-            onPress={() => submit()}
-            wProportion={0.8}
-            hProportion={0.12}
-            topSpace={10}
-          />
+          {isLoading ? <ActivityIndicator size='large' /> :
+            <Button
+              type={'primary'}
+              text={'Login'}
+              onPress={() => submit()}
+              wProportion={0.8}
+              hProportion={0.12}
+              topSpace={10}
+            />
+          }
           <TouchableOpacity
             onPress={() => navigation.navigate('Register')}
           >
@@ -292,7 +304,7 @@ const Login = ({ navigation }) => {
                   </View>
                 )}
               </View>
-
+              {isForgotLoading ? <ActivityIndicator size='small' style={{ marginTop: 10 }} /> : null}
               <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                 <Button
                   type={'secondary'}
@@ -307,6 +319,7 @@ const Login = ({ navigation }) => {
                   hProportion={0.09}
                   topSpace={5}
                 />
+
                 <Button
                   type={'primary'}
                   text={'Submit'}

@@ -40,7 +40,6 @@ const App = () => {
   const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
 
 
-
   const authContext = React.useMemo(() => ({
     signedIn: (token) => {
       dispatch({ type: 'LOGIN', token: token });
@@ -49,7 +48,6 @@ const App = () => {
       dispatch({ type: 'LOGOUT' });
     },
   }), []);
-
 
 
   const getToken = async () => {
@@ -66,7 +64,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    getToken();
+    setTimeout(() => {
+      getToken();
+    }, 1500);
   }, []);
 
   if (loginState.isLoading) {
