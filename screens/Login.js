@@ -40,10 +40,11 @@ const Login = ({ navigation }) => {
   const [forgotEmailValid, setForgotEmailValid] = useState(false);
   const [forgotMessage, setForgotMessage] = useState('');
   const [forgotResponse, setForgotResponse] = useState(false);
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [loginMessage, setLoginMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isForgotLoading, setIsForgotLoading] = useState(false);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+
 
   const { signedIn } = useContext(AuthContext);
 

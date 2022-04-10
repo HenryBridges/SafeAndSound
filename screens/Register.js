@@ -85,6 +85,7 @@ const Register = ({ navigation }) => {
     const re = new RegExp('^[+][0-9]{3}[0-9]{3}[0-9]{4,6}$');
     return re.test(phoneNum);
   };
+
   const isPasswordSecure = (password) => {
     const re = new RegExp(
       '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$'
