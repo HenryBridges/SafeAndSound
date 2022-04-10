@@ -6,16 +6,16 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import Button from '../components/Buttons/Button';
 import gc from '../general/globalColors';
-import { signUp } from '../assets/images/images';
+import { pinkMarker } from '../assets/images/images';
 import OurTextInput from '../components/Other/TextInput';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePickerModal from 'react-native-modal-datetime-picker';
 import { ActivityIndicator, Snackbar } from 'react-native-paper';
-
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -25,7 +25,6 @@ const Register = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const onDismissSnackBar = () => setSnackbarVisible(false);
-
 
   const showDatePicker = () => {
     minMaxAgeDates();
@@ -72,7 +71,6 @@ const Register = ({ navigation }) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [nhsNumError, setNhsNumError] = useState(false);
   const [genderError, setGenderError] = useState(false);
-
 
   const [isLoading, setIsLoading] = useState(false);
   const [registerMessage, setRegisterMessage] = useState('');
@@ -288,41 +286,52 @@ const Register = ({ navigation }) => {
   };
 
   const handleResponses = (data) => {
-    let success = data["success"];
-    let message = data["message"];
+    let success = data['success'];
+    let message = data['message'];
     if (!success) {
-      setSnackbarVisible(true)
+      setSnackbarVisible(true);
       setRegisterMessage(message);
       setIsLoading(false);
     } else {
       navigation.goBack();
     }
-  }
+  };
 
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <ScrollView nestedScrollEnabled={true} contentContainerStyle={{
-          flexGrow: 1
-        }}>
+        <ScrollView
+          nestedScrollEnabled={true}
+          contentContainerStyle={{
+            flexGrow: 1,
+            flexDirection: 'column',
+            top: 20
+          }}
+        >
+          <Text style={[styles.title, { color: gc.colors.periwinkle }]}>
+            Create Your
+          </Text>
+          <Text style={[styles.title, { color: gc.colors.lightPeriwinkle }]}>
+            Account
+          </Text>
           <Snackbar
             duration={5000}
             visible={snackbarVisible}
             onDismiss={onDismissSnackBar}
-            wrapperStyle={
-              { bottom: 0.02 * height }
-            }
+            wrapperStyle={{ bottom: 0.02 * height }}
             style={{
               backgroundColor: gc.colors.errorLightRed,
               borderColor: gc.colors.errorRed,
               borderWidth: 2,
               borderRadius: 6
-            }}>
+            }}
+          >
             <Text
               style={{
                 textAlign: 'center',
                 color: gc.colors.errorRed
-              }}>
+              }}
+            >
               {registerMessage}
             </Text>
           </Snackbar>
@@ -442,11 +451,14 @@ const Register = ({ navigation }) => {
                 maximumDate={maxDate}
               />
             </View>
-            {isLoading ? <ActivityIndicator
-              style={{
-                top: 20
-              }}
-              size='large' /> :
+            {isLoading ? (
+              <ActivityIndicator
+                style={{
+                  top: 20
+                }}
+                size='large'
+              />
+            ) : (
               <Button
                 type='primary'
                 text='Sign Up'
@@ -455,7 +467,13 @@ const Register = ({ navigation }) => {
                 hProportion={0.1}
                 topSpace={20}
               />
-            }
+            )}
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={{ top: 20 }}>
+                <Text>Have an account?</Text>
+                <Text style={{ fontWeight: '600' }}> Log in</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -473,7 +491,8 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    top: 20
   },
   dobContainer: {},
   containerLoader: {
@@ -492,6 +511,11 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
     top: 40
+  },
+  title: {
+    fontWeight: '700',
+    left: 0.1 * width,
+    fontSize: 30
   }
 });
 
