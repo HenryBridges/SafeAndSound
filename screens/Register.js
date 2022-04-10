@@ -15,7 +15,6 @@ import { signUp } from '../assets/images/images';
 import OurTextInput from '../components/Other/TextInput';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePickerModal from 'react-native-modal-datetime-picker';
-import { red } from 'react-native-reanimated/src/reanimated2/Colors';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -282,6 +281,7 @@ const Register = ({ navigation }) => {
 
   return (
     <>
+
       <SafeAreaView style={styles.container}>
         <View style={styles.graphicContainer}>
           <Image source={signUp} />
@@ -290,21 +290,21 @@ const Register = ({ navigation }) => {
           <OurTextInput
             text='First Name'
             wProportion={0.8}
-            hProportion={0.09}
+            hProportion={0.1}
             onChangeText={(userName) => setUserName(userName)}
             error={nameError ? true : false}
           />
           <OurTextInput
             text='Surname'
             wProportion={0.8}
-            hProportion={0.09}
+            hProportion={0.1}
             onChangeText={(userSurname) => setUserSurname(userSurname)}
             error={userSurnameError ? true : false}
           />
           <OurTextInput
             text='Email'
             wProportion={0.8}
-            hProportion={0.09}
+            hProportion={0.1}
             onChangeText={(userEmail) => setUserEmail(userEmail)}
             error={emailError ? true : false}
             keyboardType='email-address'
@@ -312,7 +312,7 @@ const Register = ({ navigation }) => {
           <OurTextInput
             text='(+44) Phone Number'
             wProportion={0.8}
-            hProportion={0.09}
+            hProportion={0.1}
             onChangeText={(userPhone) => setUserPhone(userPhone)}
             error={phoneError ? true : false}
             keyboardType='phone-pad'
@@ -320,7 +320,7 @@ const Register = ({ navigation }) => {
           <OurTextInput
             text='NHS Number'
             wProportion={0.8}
-            hProportion={0.09}
+            hProportion={0.1}
             keyboardType='number-pad'
             onChangeText={(userNHS) => setUserNHS(userNHS)}
             error={nhsNumError ? true : false}
@@ -329,7 +329,7 @@ const Register = ({ navigation }) => {
             text='Password'
             secure={true}
             wProportion={0.8}
-            hProportion={0.09}
+            hProportion={0.1}
             onChangeText={(userPassword) => setUserPassword(userPassword)}
             error={passwordError ? true : false}
           />
@@ -337,7 +337,7 @@ const Register = ({ navigation }) => {
             text='Confirm Password'
             secure={true}
             wProportion={0.8}
-            hProportion={0.09}
+            hProportion={0.1}
             onChangeText={(userConfirmPassword) =>
               setUserConfirmPassword(userConfirmPassword)
             }
@@ -358,7 +358,7 @@ const Register = ({ navigation }) => {
               type='primary'
               text='Choose Date'
               wProportion={0.8}
-              hProportion={0.09}
+              hProportion={0.1}
               onPress={showDatePicker}
             />
             <DatePickerModal
@@ -393,7 +393,7 @@ const Register = ({ navigation }) => {
                 borderColor: genderError
                   ? gc.colors.errorRed
                   : gc.colors.darkGrey,
-                height: 0.045 * height
+                height: 0.05 * height
               }}
               containerStyle={{ backgroundColor: '#f6f6f6' }}
               onSelectItem={(item) => setUserGender(item.value)}
@@ -405,7 +405,7 @@ const Register = ({ navigation }) => {
               text='Sign Up'
               onPress={submit}
               wProportion={0.8}
-              hProportion={0.09}
+              hProportion={0.1}
               topSpace={20}
             />
           )}

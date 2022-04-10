@@ -64,8 +64,9 @@ const App = () => {
   }
 
   useEffect(() => {
+    dispatch({ type: 'LOGOUT' })
     setTimeout(() => {
-      getToken();
+      // getToken();
     }, 1500);
   }, []);
 
