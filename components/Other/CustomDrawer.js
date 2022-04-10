@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, Dimensions } from 'react-native';
+import { View, Text, SafeAreaView, Dimensions, Image } from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList
@@ -11,6 +11,7 @@ import gc from '../../general/globalColors';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { appIcon } from '../../assets/images/images';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -20,16 +21,16 @@ const CustomDrawer = (props) => {
   const [username, setUsername] = useState('');
 
   //get user saved on the phone storage
-  //add it to the state 
+  //add it to the state
   const getUser = async () => {
     try {
       const userObject = await AsyncStorage.getItem('@user');
-      const user = JSON.parse(userObject)
-      setUsername(user["name"] + " " + user["surname"])
+      const user = JSON.parse(userObject);
+      setUsername(user['name'] + ' ' + user['surname']);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   //delete the user and jwt token from phone storage to logout
   const logout = async () => {
@@ -37,29 +38,25 @@ const CustomDrawer = (props) => {
       await AsyncStorage.removeItem('@jwt');
       await AsyncStorage.removeItem('@user');
       signOut();
+    } catch (e) {
+      console.log(e);
     }
-    catch (e) {
-      console.log(e)
-    }
-  }
+  };
 
   useEffect(() => {
     getUser();
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ height: '20%', backgroundColor: gc.colors.lightPeriwinkle }}>
-        <Text>Welcome, {username}</Text>
-      </View>
-      <DrawerContentScrollView contentContainerStyle>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View contentContainerStyle>
         <DrawerItemList {...props} />
-      </DrawerContentScrollView>
+      </View>
       <View
         style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          bottom: 0.023 * height
+          alignSelf: 'center',
+          position: 'absolute',
+          bottom: 0.025 * height
         }}
       >
         <Button
@@ -67,11 +64,11 @@ const CustomDrawer = (props) => {
           text='Log Out'
           onPress={() => logout()}
           wProportion={0.5}
-          hProportion={0.09}
+          hProportion={0.12}
           topSpace={0}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
