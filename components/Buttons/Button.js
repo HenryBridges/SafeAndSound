@@ -5,7 +5,7 @@ import gc from '../../general/globalColors';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
 
-const button = (props) => {
+const Button = (props) => {
   const { type, text, onPress, wProportion, hProportion, topSpace } = props;
 
   const btnColour = type == 'primary' ? gc.colors.periwinkle : gc.colors.white;
@@ -34,4 +34,4 @@ const button = (props) => {
   );
 };
 
-export default button;
+export default Button;

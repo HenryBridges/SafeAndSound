@@ -90,22 +90,22 @@ const Login = ({ navigation }) => {
       .catch(function (error) {
         console.log(error);
       });
-  }
+  };
 
   //handles the response of the api server
   const handleForgotResponses = (data) => {
     setIsForgotLoading(false);
     setForgotSent(true);
-    if (data["success"]) {
+    if (data['success']) {
       setForgotResponse(true);
     } else {
       setForgotResponse(false);
     }
-    setForgotMessage(data["message"]);
+    setForgotMessage(data['message']);
     setTimeout(() => {
       setForgotSent(false);
-    }, 5000)
-  }
+    }, 5000);
+  };
 
   //handle the logic of the login
   const submit = () => {
@@ -154,6 +154,7 @@ const Login = ({ navigation }) => {
       });
   };
 
+<<<<<<< HEAD
   const handleLogin = (data) => {
     let success = data["success"];
     let message = data["message"];
@@ -167,6 +168,9 @@ const Login = ({ navigation }) => {
       signedIn(message);
     }
   }
+=======
+  const handleLogin = () => {};
+>>>>>>> 066c6bb (Added vector icons package and its settings, made custom drawer content component for the menu screen, created a new account screen and removed old non-used screens)
 
   const saveData = async (jwtToken, user) => {
     try {
@@ -245,16 +249,20 @@ const Login = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         {showFPModal && (
-          <OurModal style={{
-            height: 0.4 * height,
-            width: 0.6 * width,
-            flex: 1
-          }}
-            visible={showFPModal}>
-            <View style={{
-              height: '80%',
-              width: 0.6 * width
-            }}>
+          <OurModal
+            style={{
+              height: 0.4 * height,
+              width: 0.6 * width,
+              flex: 1
+            }}
+            visible={showFPModal}
+          >
+            <View
+              style={{
+                height: '80%',
+                width: 0.6 * width
+              }}
+            >
               <Image
                 source={resetPasswordGraphic}
                 resizeMode='contain'
@@ -264,7 +272,8 @@ const Login = ({ navigation }) => {
                 style={{
                   flexDirection: 'column',
                   alignItems: 'center'
-                }}>
+                }}
+              >
                 <OurTextInput
                   type={'primary'}
                   text='Enter Email'
@@ -304,8 +313,15 @@ const Login = ({ navigation }) => {
                   </View>
                 )}
               </View>
+<<<<<<< HEAD
               {isForgotLoading ? <ActivityIndicator size='small' style={{ marginTop: 10 }} /> : null}
               <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+=======
+
+              <View
+                style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
+              >
+>>>>>>> 066c6bb (Added vector icons package and its settings, made custom drawer content component for the menu screen, created a new account screen and removed old non-used screens)
                 <Button
                   type={'secondary'}
                   text={'Back'}

@@ -1,19 +1,24 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+
+import CustomDrawer from '../components/Other/CustomDrawer';
 import Home from '../screens/Home';
 import Stats from '../screens/Stats';
+import Account from '../screens/Account';
 import Report from '../screens/ReportModal';
+
 import gc from '../general/globalColors';
-import { Dimensions } from 'react-native';
-import { openEye } from '../assets/images/images';
-import { black } from 'react-native-paper/lib/typescript/styles/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const Drawer = createDrawerNavigator();
 
 const AppDrawer = () => (
   <Drawer.Navigator
+    drawerContent={(props) => <CustomDrawer {...props} />}
     screenOptions={{
       headerShown: false,
       drawerActiveTintColor: gc.colors.white,
@@ -26,11 +31,33 @@ const AppDrawer = () => (
       }
     }}
   >
-    <Drawer.Screen name='Home' component={Home} />
+    <Drawer.Screen
+      name='Home'
+      component={Home}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Ionicons name='home-outline' size={22} color={color} />
+        )
+      }}
+    />
     <Drawer.Screen
       name='Stats'
       component={Stats}
-      options={{ title: 'Statistics' }}
+      options={{
+        title: 'Statistics',
+        drawerIcon: ({ color }) => (
+          <Ionicons name='bar-chart-outline' size={22} color={color} />
+        )
+      }}
+    />
+    <Drawer.Screen
+      name='Account'
+      component={Account}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Ionicons name='person-outline' size={22} color={color} />
+        )
+      }}
     />
   </Drawer.Navigator>
 );

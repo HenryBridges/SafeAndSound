@@ -28,7 +28,11 @@
     "react-native-reanimated": "^2.5.0",
     "react-native-safe-area-context": "^4.1.2",
     "react-native-screens": "^3.13.1",
+<<<<<<< HEAD
     "react-native-splash-screen": "^3.3.0"
+=======
+    "react-native-vector-icons": "^9.1.0"
+>>>>>>> 066c6bb (Added vector icons package and its settings, made custom drawer content component for the menu screen, created a new account screen and removed old non-used screens)
   },
   "devDependencies": {
     "@babel/core": "7.17.0",

@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		53A42672280066C700E8CFB4 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 53A42671280066C700E8CFB4 /* fonts */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B4FB788109D48E596EFDDF14 /* libPods-SafeSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 330BB83F0B66E7C751171582 /* libPods-SafeSound.a */; };
 /* End PBXBuildFile section */
@@ -37,6 +38,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SafeSound/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SafeSound/main.m; sourceTree = "<group>"; };
 		330BB83F0B66E7C751171582 /* libPods-SafeSound.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SafeSound.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53A42671280066C700E8CFB4 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SafeSound/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A017A60FF8A84DC5B6A4E0E /* Pods-SafeSound-SafeSoundTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound-SafeSoundTests.release.xcconfig"; path = "Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests.release.xcconfig"; sourceTree = "<group>"; };
 		9B9928867E35E84CE9D4C809 /* libPods-SafeSound-SafeSoundTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SafeSound-SafeSoundTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +118,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				53A42671280066C700E8CFB4 /* fonts */,
 				13B07FAE1A68108700A75B9A /* SafeSound */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* SafeSoundTests */,
@@ -242,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53A42672280066C700E8CFB4 /* fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
