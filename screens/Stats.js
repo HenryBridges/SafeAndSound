@@ -4,9 +4,9 @@ import RoundButton from '../components/Buttons/roundButtons';
 import { Text, View, Dimensions, StyleSheet, SafeAreaView } from 'react-native';
 import gc from '../general/globalColors';
 import ReportModal from './ReportModal';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import { mapDarkStyle } from './mapData';
 import { TextInput } from 'react-native-gesture-handler';
+import {locationIcon} from '../assets/images/images';
+import {menuIcon} from '../assets/images/images';
 
 
 
@@ -34,48 +34,7 @@ const Stats = ({ navigation }) => {
       <View style = {styles.titleWrapper}>
         <Text style = {styles.largeTitle}>Venue: </Text>
       </View>
-      
-    
-       
-        <View style={styles.reportAndButtonsContainer}>
-          <View style={styles.floatingButtonsContainer}>
-            <View>
-              <RoundButton
-                icon={'menuIcon'}
-                onPress={() => navigation.openDrawer()}
-                wProportion={0.1}
-                hProportion={0.1}
-                background={true}
-              />
-            </View>
-            <View
-              style={{
-                position: 'absolute',
-                right: 0
-              }}
-            >
-              <RoundButton
-                icon={'locationIcon'}
-                onPress={() => navigation.navigate('Home')}
-                wProportion={0.1}
-                hProportion={0.1}
-                background={true}
-              />
-            </View>
-          </View>
-          <View style={styles.reportBtn}>
-            <Button
-              type={'primary'}
-              text={'REPORT'}
-              onPress={() => {
-                setShowReport(!showReport);
-              }}
-              hProportion={0.1}
-              wProportion={0.85}
-            />
-          </View>
-        </View>
-        {showReport && <ReportModal visible={true} topSpace={0} />}
+
         
       </SafeAreaView>
     </>

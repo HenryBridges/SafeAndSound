@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import Button from '../components/Buttons/Button';
+
 import gc from '../general/globalColors';
 
 const width = Dimensions.get('window').width;
@@ -104,31 +105,41 @@ const Account = ({ navigation }) => {
   }, [])
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: gc.colors.white }}>
-      <View style={styles.titleWrapper}>
-        <Text style={styles.largeTitle} >Account </Text>
-      </View>
-      <View style={styles.subTitleWrapper}>
-        <Text style={styles.subTitle} >Details </Text>
-      </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: gc.colors.white, flexDirection: 'column'}}>
+      
+      <Text style={styles.largeTitle} >Account </Text>
+      <Text style={styles.subTitle} >Details </Text>
+
       <View style={styles.detailsWrapper}>
         <Text style={styles.detailsStyle}>Email: </Text>
         <Text style={styles.detailsStyle}>Signed up using: </Text>
         <Text style={styles.detailsStyle}>Email verified: </Text>
       </View>
 
-
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ alignSelf: 'center' }}>Account Screen</Text>
         <Button
           type={'Primary'}
           text={'Go Back'}
           onPress={() => navigation.goBack()}
           wProportion={0.6}
           hProportion={0.12}
-          topSpace={5}
+          topSpace={40}
+          style={{alignSelf: 'center'}}
         />
+      
+      <View style = {styles.deleteAccountWrapper}>
+      <Button
+          type={'Primary'}
+          text={'Delete Account'}
+          onPress={() => navigation.goBack()}
+          wProportion={0.6}
+          hProportion={0.12}
+          topSpace={0}
+          style={{}}
+        />
+
+
       </View>
+      
     </SafeAreaView>
   );
 
@@ -136,45 +147,45 @@ const Account = ({ navigation }) => {
 
 const styles = StyleSheet.create({
 
-  titleWrapper: {
-    marginTop: 40,
-    paddingHorizontal: 16,
-  },
-  subTitleWrapper: {
-    marginTop: 20,
-    paddingHorizontal: 16,
-  },
+
   detailsWrapper: {
-    marginTop: 20,
-    paddingHorizontal: 16,
-    marginLeft: 4.5
+    top: 30,
+    alignItems:'center'  
   },
-  reportAndButtonsContainer: {
-    position: 'absolute',
-    bottom: 0,
-    paddingVertical: 30,
-    alignSelf: 'center'
+  deleteAccountWrapper: {
+    backgroundColor: gc.colors.lightPink,
+    marginTop: 40,
+    height: 0.35 * height,
+    width: 0.9 * width,
+    borderRadius: 18,
+    alignSelf: 'center',
+    alignItems: 'center'
   },
   largeTitle: {
     fontSize: 0.056 * height,
     fontWeight: 'bold',
     marginLeft: 4.5,
-    color: gc.colors.periwinkle
+    color: gc.colors.periwinkle,
+    left: 16,
+    marginTop: 10,
   },
   subTitle: {
     fontSize: 0.034 * height,
     fontWeight: 'bold',
     marginLeft: 4.5,
-    color: gc.colors.periwinkle
+    color: gc.colors.periwinkle,
+    left: 16,
+    top: 15,
   },
   detailsStyle: {
-    fontSize: 0.016 * height,
+    fontSize: 0.02 * height,
     fontWeight: 'bold',
     padding: 8,
     backgroundColor: gc.colors.lightPink,
     borderRadius: 8,
     margin: 3.5,
-
+    width: 0.9 * width,
+    lineHeight: 0.025 * height
   }
 
 
