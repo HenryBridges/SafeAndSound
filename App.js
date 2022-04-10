@@ -8,15 +8,11 @@ import { AuthContext } from './components/Other/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Splash from './screens/Splash';
 
-<<<<<<< HEAD
 const App = () => {
   const initialLoginState = {
     isLoading: true,
-    userToken: null,
+    userToken: null
   };
-=======
-const hasLoggedIn = true;
->>>>>>> 066c6bb (Added vector icons package and its settings, made custom drawer content component for the menu screen, created a new account screen and removed old non-used screens)
 
   const loginReducer = (prevState, action) => {
     switch (action.type) {
@@ -24,13 +20,13 @@ const hasLoggedIn = true;
         return {
           ...prevState,
           userToken: action.token,
-          isLoading: false,
+          isLoading: false
         };
       case 'LOGOUT':
         return {
           ...prevState,
           userToken: null,
-          isLoading: false,
+          isLoading: false
         };
       case 'TOKEN':
         return {
@@ -39,20 +35,24 @@ const hasLoggedIn = true;
           isLoading: falsem
         };
     }
-  }
+  };
 
-  const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
+  const [loginState, dispatch] = React.useReducer(
+    loginReducer,
+    initialLoginState
+  );
 
-
-  const authContext = React.useMemo(() => ({
-    signedIn: (token) => {
-      dispatch({ type: 'LOGIN', token: token });
-    },
-    signOut: () => {
-      dispatch({ type: 'LOGOUT' });
-    },
-  }), []);
-
+  const authContext = React.useMemo(
+    () => ({
+      signedIn: (token) => {
+        dispatch({ type: 'LOGIN', token: token });
+      },
+      signOut: () => {
+        dispatch({ type: 'LOGOUT' });
+      }
+    }),
+    []
+  );
 
   const getToken = async () => {
     try {
@@ -65,28 +65,25 @@ const hasLoggedIn = true;
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    dispatch({ type: 'LOGOUT' })
     setTimeout(() => {
-      // getToken();
+      getToken();
     }, 1500);
   }, []);
 
   if (loginState.isLoading) {
-    return (
-      <Splash />
-    );
+    return <Splash />;
   }
 
   return (
-    <AuthContext.Provider value={authContext} >
+    <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {loginState.userToken !== null ? <AppDrawer /> : <AuthStack />}
       </NavigationContainer>
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 export default App;
