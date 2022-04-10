@@ -20,7 +20,6 @@ const AppDrawer = () => (
   <Drawer.Navigator
     drawerContent={(props) => <CustomDrawer {...props} />}
     screenOptions={{
-      headerShown: false,
       drawerActiveTintColor: gc.colors.white,
       drawerActiveBackgroundColor: gc.colors.periwinkle,
       drawerInactiveTintColor: gc.colors.lightPeriwinkle,
@@ -35,6 +34,7 @@ const AppDrawer = () => (
       name='Home'
       component={Home}
       options={{
+        headerShown: false,
         drawerIcon: ({ color }) => (
           <Ionicons name='home-outline' size={22} color={color} />
         )
@@ -44,6 +44,8 @@ const AppDrawer = () => (
       name='Stats'
       component={Stats}
       options={{
+        headerShown: true,
+        headerTitle: 'Statistics',
         title: 'Statistics',
         drawerIcon: ({ color }) => (
           <Ionicons name='bar-chart-outline' size={22} color={color} />
@@ -54,6 +56,8 @@ const AppDrawer = () => (
       name='Account'
       component={Account}
       options={{
+        headerShown: true,
+        headerTitle: 'Account',
         drawerIcon: ({ color }) => (
           <Ionicons name='person-outline' size={22} color={color} />
         )
