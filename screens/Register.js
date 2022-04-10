@@ -67,7 +67,7 @@ const Register = ({ navigation }) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [nhsNumError, setNhsNumError] = useState(false);
   const [genderError, setGenderError] = useState(false);
-  const [isRegistraionSucess, setItsRegistrationSucess] = useState(false);
+  const [isRegistraionSuccess, setItsRegistrationSuccess] = useState(false);
 
   //validation---------------------------------------------------------------------
   const isBetween = (length, min, max) =>
@@ -195,7 +195,7 @@ const Register = ({ navigation }) => {
     let valid = true;
     if (userGender == '') {
       valid = false;
-      setGenderError(false);
+      setGenderError(true);
     }
     return valid;
   };
@@ -281,7 +281,7 @@ const Register = ({ navigation }) => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView nestedScrollEnabled={true} style={styles.container}>
         <ScrollView>
           <View style={styles.graphicContainer}>
             <Image source={signUp} />
@@ -325,6 +325,7 @@ const Register = ({ navigation }) => {
               onChangeText={(userNHS) => setUserNHS(userNHS)}
               error={nhsNumError ? true : false}
             />
+
             <OurTextInput
               text='Password'
               secure={true}
@@ -345,15 +346,47 @@ const Register = ({ navigation }) => {
             />
             <View
               style={{
+                top: 10,
+                width: 0.8 * width,
+                zIndex: 9
+              }}
+            >
+              <DropDownPicker
+                open={open}
+                value={value}
+                items={items}
+                placeholder='Gender'
+                setOpen={setOpen}
+                setValue={setValue}
+                dropDownDirection='BOTTOM'
+                listMode='SCROLLVIEW'
+                textStyle={{
+                  color: genderError ? gc.colors.errorRed : gc.colors.darkGrey,
+                  fontWeight: '400',
+                  fontSize: 0.023 * height
+                }}
+                style={{
+                  backgroundColor: '#f6f6f6',
+                  borderColor: genderError
+                    ? gc.colors.errorRed
+                    : gc.colors.darkGrey,
+                  height: 0.05 * height
+                }}
+                containerStyle={{ backgroundColor: '#f6f6f6' }}
+                onSelectItem={(item) => setUserGender(item.value)}
+              />
+            </View>
+            <View
+              style={{
                 justifyContent: 'flex-start',
                 alignSelf: 'flex-start',
                 left: 0.11 * width,
-                top: 5
+                top: 20
               }}
             >
               <Text>Date Of Birth</Text>
             </View>
-            <View>
+            <View style={{ top: 10 }}>
               <Button
                 type='primary'
                 text='Choose Date'
@@ -367,36 +400,6 @@ const Register = ({ navigation }) => {
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
                 maximumDate={maxDate}
-              />
-            </View>
-            <View
-              style={{
-                top: 15,
-                width: 0.8 * width,
-                zIndex: 9
-              }}
-            >
-              <DropDownPicker
-                open={open}
-                value={value}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValue}
-                dropDownDirection='BOTTOM'
-                textStyle={{
-                  color: genderError ? gc.colors.errorRed : gc.colors.darkGrey,
-                  fontWeight: '400',
-                  fontSize: 0.02 * height
-                }}
-                style={{
-                  backgroundColor: '#f6f6f6',
-                  borderColor: genderError
-                    ? gc.colors.errorRed
-                    : gc.colors.darkGrey,
-                  height: 0.05 * height
-                }}
-                containerStyle={{ backgroundColor: '#f6f6f6' }}
-                onSelectItem={(item) => setUserGender(item.value)}
               />
             </View>
             {submitting ? null : (
