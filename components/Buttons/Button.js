@@ -29,7 +29,15 @@ const Button = (props) => {
         margin: 10
       }}
     >
-      <Text style={{ color: textColor, fontWeight: '700' }}>{text}</Text>
+      <Text
+        style={{
+          color: textColor,
+          fontWeight: '700',
+          fontSize: 0.04 * height
+        }}
+      >
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 };

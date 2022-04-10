@@ -21,7 +21,7 @@ const RoundButton = (props) => {
     <TouchableOpacity
       onPress={onPress}
       style={{
-        backgroundColor: background ? gc.colors.lightPeriwinkle : null,
+        backgroundColor: background ? gc.colors.periwinkle : null,
         width: width * wProportion,
         height: height * hProportion,
         borderRadius: 0.5 * height,

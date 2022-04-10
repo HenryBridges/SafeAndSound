@@ -96,7 +96,7 @@ const Home = ({ navigation }) => {
           <View style={styles.reportBtn}>
             <Button
               type={'primary'}
-              text={'REPORT'}
+              text={'Report'}
               onPress={() => {
                 setShowReport(!showReport);
               }}
