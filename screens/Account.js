@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import Button from '../components/Buttons/Button';
 
@@ -105,8 +105,8 @@ const Account = ({ navigation }) => {
   }, [])
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: gc.colors.white, flexDirection: 'column'}}>
-      
+    <SafeAreaView style={{ flex: 1, backgroundColor: gc.colors.white, flexDirection: 'column' }}>
+
       <Text style={styles.largeTitle} >Account </Text>
       <Text style={styles.subTitle} >Details </Text>
 
@@ -116,30 +116,51 @@ const Account = ({ navigation }) => {
         <Text style={styles.detailsStyle}>Email verified: </Text>
       </View>
 
-        <Button
-          type={'Primary'}
-          text={'Go Back'}
-          onPress={() => navigation.goBack()}
-          wProportion={0.6}
-          hProportion={0.12}
-          topSpace={40}
-          style={{alignSelf: 'center'}}
-        />
-      
-      <View style = {styles.deleteAccountWrapper}>
       <Button
+        type={'Primary'}
+        text={'Change Password'}
+        onPress={() => navigation.goBack()}
+        wProportion={0.6}
+        hProportion={0.12}
+        topSpace={40}
+        style={{ alignSelf: 'center' }}
+      />
+
+      <View style={styles.deleteAccountWrapper}>
+        <Text style={{
+          fontSize: 0.034 * height,
+          fontWeight: 'bold',
+          alignSelf: 'flex-start',
+          left: 15,
+          top: 10,
+          color: gc.colors.periwinkle
+        }}>Delete Your Account</Text>
+
+        <Text style={{
+          fontSize: 0.022 * height,
+          fontWeight: 'bold',
+          alignSelf: 'flex-start',
+          top: 20,
+          left: 15,
+          marginRight: 5,
+          color: gc.colors.lightGrey
+        }}>Click the button below to permentantly delete your account. This will
+          remove your account and associated data from our system. This acction cannot be undone.
+        </Text>
+
+        <Button
           type={'Primary'}
           text={'Delete Account'}
           onPress={() => navigation.goBack()}
           wProportion={0.6}
           hProportion={0.12}
-          topSpace={0}
+          topSpace={65}
           style={{}}
         />
 
 
       </View>
-      
+
     </SafeAreaView>
   );
 
@@ -150,7 +171,7 @@ const styles = StyleSheet.create({
 
   detailsWrapper: {
     top: 30,
-    alignItems:'center'  
+    alignItems: 'center'
   },
   deleteAccountWrapper: {
     backgroundColor: gc.colors.lightPink,
@@ -185,7 +206,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     margin: 3.5,
     width: 0.9 * width,
-    lineHeight: 0.025 * height
+    lineHeight: 0.025 * height,
+    color: gc.colors.lightGrey
   }
 
 
