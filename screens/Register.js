@@ -6,8 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
-  ScrollView,
-  ActivityIndicator
+  ScrollView
 } from 'react-native';
 import Button from '../components/Buttons/Button';
 import gc from '../general/globalColors';
@@ -15,6 +14,8 @@ import { signUp } from '../assets/images/images';
 import OurTextInput from '../components/Other/TextInput';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePickerModal from 'react-native-modal-datetime-picker';
+import { ActivityIndicator, Snackbar } from 'react-native-paper';
+
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -22,6 +23,9 @@ const height = Dimensions.get('window').height;
 const Register = ({ navigation }) => {
   //calendar dob picker------------------------------------------------------
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const onDismissSnackBar = () => setSnackbarVisible(false);
+
 
   const showDatePicker = () => {
     minMaxAgeDates();
@@ -47,6 +51,7 @@ const Register = ({ navigation }) => {
     { label: 'Other', value: 'other' }
   ];
 
+  //form
   const [userName, setUserName] = useState('');
   const [userSurname, setUserSurname] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -56,9 +61,9 @@ const Register = ({ navigation }) => {
   const [userGender, setUserGender] = useState('');
   const [userDOB, setUserDOB] = useState('');
   const [userPhone, setUserPhone] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [maxDate, setMaxDate] = useState(new Date());
+
+  //error
   const [nameError, setNameError] = useState(false);
   const [userSurnameError, setSurnameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
@@ -67,7 +72,11 @@ const Register = ({ navigation }) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [nhsNumError, setNhsNumError] = useState(false);
   const [genderError, setGenderError] = useState(false);
-  const [isRegistraionSuccess, setItsRegistrationSuccess] = useState(false);
+
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [registerMessage, setRegisterMessage] = useState('');
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
 
   //validation---------------------------------------------------------------------
   const isBetween = (length, min, max) =>
@@ -254,15 +263,14 @@ const Register = ({ navigation }) => {
       })
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => handleResponses(data))
       .catch(function (error) {
         console.log(error);
       });
   };
 
   const submit = () => {
-    setSubmitting(true);
-    setLoading(true);
+    setIsLoading(true);
     setNameError(false);
     setSurnameError(false);
     setEmailError(false);
@@ -275,18 +283,49 @@ const Register = ({ navigation }) => {
     if (valid) {
       register();
     } else {
-      setSubmitting(false);
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
+  const handleResponses = (data) => {
+    let success = data["success"];
+    let message = data["message"];
+    if (!success) {
+      setSnackbarVisible(true)
+      setRegisterMessage(message);
+      setIsLoading(false);
+    } else {
+      navigation.goBack();
+    }
+  }
+
   return (
     <>
-      <SafeAreaView nestedScrollEnabled={true} style={styles.container}>
-        <ScrollView>
-          <View style={styles.graphicContainer}>
-            <Image source={signUp} />
-          </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView nestedScrollEnabled={true} contentContainerStyle={{
+          flexGrow: 1
+        }}>
+          <Snackbar
+            duration={5000}
+            visible={snackbarVisible}
+            onDismiss={onDismissSnackBar}
+            wrapperStyle={
+              { bottom: 0.02 * height }
+            }
+            style={{
+              backgroundColor: gc.colors.errorLightRed,
+              borderColor: gc.colors.errorRed,
+              borderWidth: 2,
+              borderRadius: 6
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: gc.colors.errorRed
+              }}>
+              {registerMessage}
+            </Text>
+          </Snackbar>
           <View style={styles.formContainer}>
             <OurTextInput
               text='First Name'
@@ -389,7 +428,7 @@ const Register = ({ navigation }) => {
             </View>
             <View style={{ top: 10 }}>
               <Button
-                type='primary'
+                type='secondary'
                 text='Choose Date'
                 wProportion={0.8}
                 hProportion={0.1}
@@ -403,7 +442,11 @@ const Register = ({ navigation }) => {
                 maximumDate={maxDate}
               />
             </View>
-            {submitting ? null : (
+            {isLoading ? <ActivityIndicator
+              style={{
+                top: 20
+              }}
+              size='large' /> :
               <Button
                 type='primary'
                 text='Sign Up'
@@ -412,15 +455,7 @@ const Register = ({ navigation }) => {
                 hProportion={0.1}
                 topSpace={20}
               />
-            )}
-
-            <View style={styles.shadow}>
-              <ActivityIndicator
-                color={gc.colors.blue}
-                size={'large'}
-                animating={loading ? true : false}
-              />
-            </View>
+            }
           </View>
         </ScrollView>
       </SafeAreaView>
