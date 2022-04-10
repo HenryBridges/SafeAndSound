@@ -313,7 +313,6 @@ const Login = ({ navigation }) => {
                   </View>
                 )}
               </View>
-<<<<<<< HEAD
               {isForgotLoading ? <ActivityIndicator size='small' style={{ marginTop: 10 }} /> : null}
               <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
 =======
