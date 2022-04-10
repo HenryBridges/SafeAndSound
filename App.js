@@ -11,22 +11,16 @@ import Splash from './screens/Splash';
 const App = () => {
   const initialLoginState = {
     isLoading: true,
-    userToken: null
+    userToken: null,
   };
 
   const loginReducer = (prevState, action) => {
     switch (action.type) {
-      case 'LOGIN':
-        return {
-          ...prevState,
-          userToken: action.token,
-          isLoading: false
-        };
       case 'LOGOUT':
         return {
           ...prevState,
           userToken: null,
-          isLoading: false
+          isLoading: false,
         };
       case 'TOKEN':
         return {
@@ -35,37 +29,33 @@ const App = () => {
           isLoading: false
         };
     }
-  };
+  }
 
-  const [loginState, dispatch] = React.useReducer(
-    loginReducer,
-    initialLoginState
-  );
+  const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
 
-  const authContext = React.useMemo(
-    () => ({
-      signedIn: (token) => {
-        dispatch({ type: 'LOGIN', token: token });
-      },
-      signOut: () => {
-        dispatch({ type: 'LOGOUT' });
-      }
-    }),
-    []
-  );
+
+  const authContext = React.useMemo(() => ({
+    signedIn: (token) => {
+      dispatch({ type: 'TOKEN', token: token });
+    },
+    signOut: () => {
+      dispatch({ type: 'LOGOUT' });
+    },
+  }), []);
+
 
   const getToken = async () => {
     try {
       const token = await AsyncStorage.getItem('@jwt');
       if (token !== null) {
-        {
-          dispatch({ type: 'LOGIN', token: token });
-        }
+        dispatch({ type: 'TOKEN', token: token });
+      } else {
+        dispatch({ type: 'LOGOUT' })
       }
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -74,16 +64,18 @@ const App = () => {
   }, []);
 
   if (loginState.isLoading) {
-    return <Splash />;
+    return (
+      <Splash />
+    );
   }
 
   return (
-    <AuthContext.Provider value={authContext}>
+    <AuthContext.Provider value={authContext} >
       <NavigationContainer>
         {loginState.userToken !== null ? <AppDrawer /> : <AuthStack />}
       </NavigationContainer>
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 export default App;
