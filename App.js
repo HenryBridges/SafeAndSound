@@ -22,7 +22,7 @@ const App = () => {
           userToken: null,
           isLoading: false,
         };
-      case 'TOKEN':
+      case 'LOGIN':
         return {
           ...prevState,
           userToken: action.token,
@@ -36,7 +36,7 @@ const App = () => {
 
   const authContext = React.useMemo(() => ({
     signedIn: (token) => {
-      dispatch({ type: 'TOKEN', token: token });
+      dispatch({ type: 'LOGIN', token: token });
     },
     signOut: () => {
       dispatch({ type: 'LOGOUT' });
@@ -47,11 +47,7 @@ const App = () => {
   const getToken = async () => {
     try {
       const token = await AsyncStorage.getItem('@jwt');
-      if (token !== null) {
-        dispatch({ type: 'TOKEN', token: token });
-      } else {
-        dispatch({ type: 'LOGOUT' })
-      }
+      dispatch({ type: 'LOGIN', token: token !== null ? token : null });
     } catch (error) {
       console.log(error);
     }
