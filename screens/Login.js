@@ -23,6 +23,7 @@ import { Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../components/Other/context';
 import { useContext } from 'react';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 
 const width = Dimensions.get('window').width;
@@ -47,6 +48,8 @@ const Login = ({ navigation }) => {
   const { signedIn } = useContext(AuthContext);
 
   const onDismissSnackBar = () => setSnackbarVisible(false);
+
+  const netInfo = useNetInfo();
 
   //handles the logic for the forgot password path
   const forgotPassHandle = () => {
@@ -111,12 +114,19 @@ const Login = ({ navigation }) => {
   const submit = () => {
     Keyboard.dismiss();
     setIsLoading(true);
-    let valid = validateLogin();
-    if (valid) {
-      login();
+    if (netInfo.isConnected) {
+      let valid = validateLogin();
+      if (valid) {
+        login();
+      } else {
+        setIsLoading(false);
+      }
     } else {
+      setSnackbarVisible(true);
+      setLoginMessage("No internet Connection");
       setIsLoading(false);
     }
+
   };
 
   //validates the login form
@@ -184,6 +194,9 @@ const Login = ({ navigation }) => {
         <Snackbar
           visible={snackbarVisible}
           onDismiss={onDismissSnackBar}
+          wrapperStyle={
+            { bottom: 0.02 * height }
+          }
           style={{
             backgroundColor: gc.colors.errorLightRed,
             borderColor: gc.colors.errorRed,
@@ -192,6 +205,7 @@ const Login = ({ navigation }) => {
           }}>
           <Text
             style={{
+              textAlign: 'center',
               color: gc.colors.errorRed
             }}>
             {loginMessage}
