@@ -44,7 +44,6 @@ const Account = ({ navigation }) => {
         nhs_number: user.nhs_number,
         gender: user.gender
       });
-      console.log(userObj);
     } catch (error) {
       console.log(error);
     }
@@ -100,73 +99,91 @@ const Account = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: gc.colors.white,
-        flexDirection: 'column'
-      }}
-    >
-      <Text style={styles.largeTitle}>Account </Text>
-      <Text style={styles.subTitle}>Details </Text>
+    <>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: gc.colors.white,
+          flexDirection: 'column'
+        }}
+      >
+        <Text style={styles.largeTitle}>Account </Text>
+        <Text style={styles.subTitle}>Details </Text>
 
-      <View style={styles.detailsWrapper}>
-        <Text style={styles.detailsStyle}>Email: </Text>
-        <Text style={styles.detailsStyle}>Signed up using: </Text>
-        <Text style={styles.detailsStyle}>Email verified: </Text>
-      </View>
+        <View style={styles.detailsWrapper}>
+          <Text style={styles.detailsStyle}>
+            <Text>Email: </Text>
+            <Text style={{ color: gc.colors.lightPeriwinkle }}>
+              {userObj.user_email}
+            </Text>
+          </Text>
+          <Text style={styles.detailsStyle}>
+            <Text>Phone: </Text>
+            <Text style={{ color: gc.colors.lightPeriwinkle }}>
+              {userObj.user_phone}
+            </Text>
+          </Text>
+          <Text style={styles.detailsStyle}>
+            <Text>NHS Number: </Text>
+            <Text style={{ color: gc.colors.lightPeriwinkle }}>
+              {userObj.nhs_number}
+            </Text>
+          </Text>
+        </View>
+        <View>
+          <Button
+            type={'primary'}
+            text={'Change Password'}
+            onPress={() => navigation.goBack()}
+            wProportion={0.9}
+            hProportion={0.12}
+            topSpace={40}
+            style={{ alignSelf: 'center' }}
+          />
+        </View>
 
-      <Button
-        type={'Primary'}
-        text={'Change Password'}
-        onPress={() => navigation.goBack()}
-        wProportion={0.6}
-        hProportion={0.12}
-        topSpace={40}
-        style={{ alignSelf: 'center' }}
-      />
+        <View style={styles.deleteAccountWrapper}>
+          <Text
+            style={{
+              fontSize: 0.034 * height,
+              fontWeight: 'bold',
+              alignSelf: 'flex-start',
+              left: 15,
+              top: 10,
+              color: gc.colors.periwinkle
+            }}
+          >
+            Delete Your Account
+          </Text>
 
-      <View style={styles.deleteAccountWrapper}>
-        <Text
-          style={{
-            fontSize: 0.034 * height,
-            fontWeight: 'bold',
-            alignSelf: 'flex-start',
-            left: 15,
-            top: 10,
-            color: gc.colors.periwinkle
-          }}
-        >
-          Delete Your Account
-        </Text>
+          <Text
+            style={{
+              fontSize: 0.022 * height,
+              fontWeight: '400',
+              alignSelf: 'flex-start',
+              top: 20,
+              textAlign: 'left',
+              marginHorizontal: 15,
+              color: gc.colors.lightPeriwinkle
+            }}
+          >
+            Click the button below to permentantly delete your account. This
+            will remove your account and associated data from our system. This
+            action cannot be undone.
+          </Text>
 
-        <Text
-          style={{
-            fontSize: 0.022 * height,
-            fontWeight: 'bold',
-            alignSelf: 'flex-start',
-            top: 20,
-            textAlign: 'left',
-            marginHorizontal: 15,
-            color: gc.colors.lightGrey
-          }}
-        >
-          Click the button below to permentantly delete your account. This will
-          remove your account and associated data from our system. This action
-          cannot be undone.
-        </Text>
-
-        <Button
-          type={'Primary'}
-          text={'Delete Account'}
-          onPress={() => navigation.goBack()}
-          wProportion={0.6}
-          hProportion={0.12}
-          topSpace={65}
-          style={{}}
-        />
-      </View>
-    </SafeAreaView>
+          <Button
+            type={'primary'}
+            text={'Delete Account'}
+            onPress={() => navigation.goBack()}
+            wProportion={0.8125}
+            hProportion={0.12}
+            topSpace={65}
+            style={{}}
+          />
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -177,7 +194,7 @@ const styles = StyleSheet.create({
   },
   deleteAccountWrapper: {
     backgroundColor: gc.colors.lightPink,
-    marginTop: 40,
+    marginTop: 60,
     height: 0.35 * height,
     width: 0.9 * width,
     borderRadius: 18,
@@ -202,14 +219,13 @@ const styles = StyleSheet.create({
   },
   detailsStyle: {
     fontSize: 0.02 * height,
-    fontWeight: 'bold',
+    fontWeight: '500',
     padding: 8,
     backgroundColor: gc.colors.lightPink,
-    borderRadius: 8,
     margin: 3.5,
     width: 0.9 * width,
     lineHeight: 0.025 * height,
-    color: gc.colors.lightGrey
+    color: gc.colors.periwinkle
   }
 });
 
