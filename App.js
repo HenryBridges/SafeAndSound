@@ -8,15 +8,11 @@ import { AuthContext } from './components/Other/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Splash from './screens/Splash';
 
-<<<<<<< HEAD
 const App = () => {
   const initialLoginState = {
     isLoading: true,
     userToken: null,
   };
-=======
-const hasLoggedIn = true;
->>>>>>> 066c6bb (Added vector icons package and its settings, made custom drawer content component for the menu screen, created a new account screen and removed old non-used screens)
 
   const loginReducer = (prevState, action) => {
     switch (action.type) {
@@ -36,7 +32,7 @@ const hasLoggedIn = true;
         return {
           ...prevState,
           userToken: action.token,
-          isLoading: falsem
+          isLoading: false
         };
     }
   }
@@ -68,9 +64,8 @@ const hasLoggedIn = true;
   }
 
   useEffect(() => {
-    dispatch({ type: 'LOGOUT' })
     setTimeout(() => {
-      // getToken();
+      getToken();
     }, 1500);
   }, []);
 

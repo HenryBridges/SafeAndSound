@@ -9,8 +9,7 @@ const AuthStack = () => (
   <Stack.Navigator screenOptions={{
     headerShown: false,
     animation: 'slide_from_right',
-    orientation: 'portrait_up',
-    presentation: 'card'
+    orientation: 'portrait_up'
   }}>
     <Stack.Screen component={Login} name='Login' />
     <Stack.Screen component={Register} name='Register' />

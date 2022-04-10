@@ -281,143 +281,144 @@ const Register = ({ navigation }) => {
 
   return (
     <>
-
       <SafeAreaView style={styles.container}>
-        <View style={styles.graphicContainer}>
-          <Image source={signUp} />
-        </View>
-        <View style={styles.formContainer}>
-          <OurTextInput
-            text='First Name'
-            wProportion={0.8}
-            hProportion={0.1}
-            onChangeText={(userName) => setUserName(userName)}
-            error={nameError ? true : false}
-          />
-          <OurTextInput
-            text='Surname'
-            wProportion={0.8}
-            hProportion={0.1}
-            onChangeText={(userSurname) => setUserSurname(userSurname)}
-            error={userSurnameError ? true : false}
-          />
-          <OurTextInput
-            text='Email'
-            wProportion={0.8}
-            hProportion={0.1}
-            onChangeText={(userEmail) => setUserEmail(userEmail)}
-            error={emailError ? true : false}
-            keyboardType='email-address'
-          />
-          <OurTextInput
-            text='(+44) Phone Number'
-            wProportion={0.8}
-            hProportion={0.1}
-            onChangeText={(userPhone) => setUserPhone(userPhone)}
-            error={phoneError ? true : false}
-            keyboardType='phone-pad'
-          />
-          <OurTextInput
-            text='NHS Number'
-            wProportion={0.8}
-            hProportion={0.1}
-            keyboardType='number-pad'
-            onChangeText={(userNHS) => setUserNHS(userNHS)}
-            error={nhsNumError ? true : false}
-          />
-          <OurTextInput
-            text='Password'
-            secure={true}
-            wProportion={0.8}
-            hProportion={0.1}
-            onChangeText={(userPassword) => setUserPassword(userPassword)}
-            error={passwordError ? true : false}
-          />
-          <OurTextInput
-            text='Confirm Password'
-            secure={true}
-            wProportion={0.8}
-            hProportion={0.1}
-            onChangeText={(userConfirmPassword) =>
-              setUserConfirmPassword(userConfirmPassword)
-            }
-            error={confirmPasswordError ? true : false}
-          />
-          <View
-            style={{
-              justifyContent: 'flex-start',
-              alignSelf: 'flex-start',
-              left: 0.11 * width,
-              top: 5
-            }}
-          >
-            <Text>Date Of Birth</Text>
+        <ScrollView>
+          <View style={styles.graphicContainer}>
+            <Image source={signUp} />
           </View>
-          <View>
-            <Button
-              type='primary'
-              text='Choose Date'
+          <View style={styles.formContainer}>
+            <OurTextInput
+              text='First Name'
               wProportion={0.8}
               hProportion={0.1}
-              onPress={showDatePicker}
+              onChangeText={(userName) => setUserName(userName)}
+              error={nameError ? true : false}
             />
-            <DatePickerModal
-              isVisible={isDatePickerVisible}
-              mode='date'
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-              maximumDate={maxDate}
+            <OurTextInput
+              text='Surname'
+              wProportion={0.8}
+              hProportion={0.1}
+              onChangeText={(userSurname) => setUserSurname(userSurname)}
+              error={userSurnameError ? true : false}
             />
-          </View>
-          <View
-            style={{
-              top: 15,
-              width: 0.8 * width,
-              zIndex: 9
-            }}
-          >
-            <DropDownPicker
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setValue}
-              dropDownDirection='BOTTOM'
-              textStyle={{
-                color: genderError ? gc.colors.errorRed : gc.colors.darkGrey,
-                fontWeight: '400',
-                fontSize: 0.02 * height
-              }}
+            <OurTextInput
+              text='Email'
+              wProportion={0.8}
+              hProportion={0.1}
+              onChangeText={(userEmail) => setUserEmail(userEmail)}
+              error={emailError ? true : false}
+              keyboardType='email-address'
+            />
+            <OurTextInput
+              text='(+44) Phone Number'
+              wProportion={0.8}
+              hProportion={0.1}
+              onChangeText={(userPhone) => setUserPhone(userPhone)}
+              error={phoneError ? true : false}
+              keyboardType='phone-pad'
+            />
+            <OurTextInput
+              text='NHS Number'
+              wProportion={0.8}
+              hProportion={0.1}
+              keyboardType='number-pad'
+              onChangeText={(userNHS) => setUserNHS(userNHS)}
+              error={nhsNumError ? true : false}
+            />
+            <OurTextInput
+              text='Password'
+              secure={true}
+              wProportion={0.8}
+              hProportion={0.1}
+              onChangeText={(userPassword) => setUserPassword(userPassword)}
+              error={passwordError ? true : false}
+            />
+            <OurTextInput
+              text='Confirm Password'
+              secure={true}
+              wProportion={0.8}
+              hProportion={0.1}
+              onChangeText={(userConfirmPassword) =>
+                setUserConfirmPassword(userConfirmPassword)
+              }
+              error={confirmPasswordError ? true : false}
+            />
+            <View
               style={{
-                backgroundColor: '#f6f6f6',
-                borderColor: genderError
-                  ? gc.colors.errorRed
-                  : gc.colors.darkGrey,
-                height: 0.05 * height
+                justifyContent: 'flex-start',
+                alignSelf: 'flex-start',
+                left: 0.11 * width,
+                top: 5
               }}
-              containerStyle={{ backgroundColor: '#f6f6f6' }}
-              onSelectItem={(item) => setUserGender(item.value)}
-            />
-          </View>
-          {submitting ? null : (
-            <Button
-              type='primary'
-              text='Sign Up'
-              onPress={submit}
-              wProportion={0.8}
-              hProportion={0.1}
-              topSpace={20}
-            />
-          )}
+            >
+              <Text>Date Of Birth</Text>
+            </View>
+            <View>
+              <Button
+                type='primary'
+                text='Choose Date'
+                wProportion={0.8}
+                hProportion={0.1}
+                onPress={showDatePicker}
+              />
+              <DatePickerModal
+                isVisible={isDatePickerVisible}
+                mode='date'
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+                maximumDate={maxDate}
+              />
+            </View>
+            <View
+              style={{
+                top: 15,
+                width: 0.8 * width,
+                zIndex: 9
+              }}
+            >
+              <DropDownPicker
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                dropDownDirection='BOTTOM'
+                textStyle={{
+                  color: genderError ? gc.colors.errorRed : gc.colors.darkGrey,
+                  fontWeight: '400',
+                  fontSize: 0.02 * height
+                }}
+                style={{
+                  backgroundColor: '#f6f6f6',
+                  borderColor: genderError
+                    ? gc.colors.errorRed
+                    : gc.colors.darkGrey,
+                  height: 0.05 * height
+                }}
+                containerStyle={{ backgroundColor: '#f6f6f6' }}
+                onSelectItem={(item) => setUserGender(item.value)}
+              />
+            </View>
+            {submitting ? null : (
+              <Button
+                type='primary'
+                text='Sign Up'
+                onPress={submit}
+                wProportion={0.8}
+                hProportion={0.1}
+                topSpace={20}
+              />
+            )}
 
-          <View style={styles.shadow}>
-            <ActivityIndicator
-              color={gc.colors.blue}
-              size={'large'}
-              animating={loading ? true : false}
-            />
+            <View style={styles.shadow}>
+              <ActivityIndicator
+                color={gc.colors.blue}
+                size={'large'}
+                animating={loading ? true : false}
+              />
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </>
   );
