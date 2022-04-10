@@ -127,7 +127,6 @@ const Login = ({ navigation }) => {
       setLoginMessage("No internet Connection");
       setIsLoading(false);
     }
-
   };
 
   //validates the login form
@@ -155,7 +154,7 @@ const Login = ({ navigation }) => {
       },
       body: JSON.stringify({
         user_password: userPassword,
-        user_email: userEmail
+        user_email: userEmail.toLowerCase()
       })
     })
       .then((response) => response.json())
@@ -193,6 +192,7 @@ const Login = ({ navigation }) => {
     <>
       <SafeAreaView style={styles.container}>
         <Snackbar
+          duration={5000}
           visible={snackbarVisible}
           onDismiss={onDismissSnackBar}
           wrapperStyle={
