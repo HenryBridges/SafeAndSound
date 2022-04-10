@@ -154,7 +154,6 @@ const Login = ({ navigation }) => {
       });
   };
 
-<<<<<<< HEAD
   const handleLogin = (data) => {
     let success = data["success"];
     let message = data["message"];
@@ -168,9 +167,6 @@ const Login = ({ navigation }) => {
       signedIn(message);
     }
   }
-=======
-  const handleLogin = () => {};
->>>>>>> 066c6bb (Added vector icons package and its settings, made custom drawer content component for the menu screen, created a new account screen and removed old non-used screens)
 
   const saveData = async (jwtToken, user) => {
     try {
