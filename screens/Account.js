@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import Button from '../components/Buttons/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import gc from '../general/globalColors';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-console.log(height);
-console.log(width);
 
 const Account = ({ navigation }) => {
   const [userObj, setUser] = useState({
@@ -28,13 +27,12 @@ const Account = ({ navigation }) => {
   const [changeResponse, setChangeResponse] = useState(false);
   const [changeMessage, setChangeMessage] = useState('');
 
-
   const getUser = async () => {
     try {
       const token = await AsyncStorage.getItem('@jwt');
       setJwtToken(token);
       const userObject = await AsyncStorage.getItem('@user');
-      const user = JSON.parse(userObject)
+      const user = JSON.parse(userObject);
       setUser({
         ...userObj,
         user_id: user.user_id,
@@ -46,12 +44,11 @@ const Account = ({ navigation }) => {
         nhs_number: user.nhs_number,
         gender: user.gender
       });
-      console.log(userObj)
-
+      console.log(userObj);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const isPasswordSecure = () => {
     const re = new RegExp(
@@ -68,14 +65,14 @@ const Account = ({ navigation }) => {
       valid = false;
     }
     return valid;
-  }
+  };
 
   const validatePassword = () => {
     let valid = checkPassword();
     if (valid) {
       changePassword();
     }
-  }
+  };
 
   const changePassword = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/password/change', {
@@ -83,7 +80,7 @@ const Account = ({ navigation }) => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwtToken}`
+        Authorization: `Bearer ${jwtToken}`
       },
       body: JSON.stringify({
         user_password: newPassword
@@ -94,21 +91,24 @@ const Account = ({ navigation }) => {
       .catch(function (error) {
         console.log(error);
       });
-  }
+  };
 
-  const handleResponses = () => {
-
-  }
+  const handleResponses = () => {};
 
   useEffect(() => {
     getUser();
-  }, [])
+  }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: gc.colors.white, flexDirection: 'column' }}>
-
-      <Text style={styles.largeTitle} >Account </Text>
-      <Text style={styles.subTitle} >Details </Text>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: gc.colors.white,
+        flexDirection: 'column'
+      }}
+    >
+      <Text style={styles.largeTitle}>Account </Text>
+      <Text style={styles.subTitle}>Details </Text>
 
       <View style={styles.detailsWrapper}>
         <Text style={styles.detailsStyle}>Email: </Text>
@@ -127,25 +127,33 @@ const Account = ({ navigation }) => {
       />
 
       <View style={styles.deleteAccountWrapper}>
-        <Text style={{
-          fontSize: 0.034 * height,
-          fontWeight: 'bold',
-          alignSelf: 'flex-start',
-          left: 15,
-          top: 10,
-          color: gc.colors.periwinkle
-        }}>Delete Your Account</Text>
+        <Text
+          style={{
+            fontSize: 0.034 * height,
+            fontWeight: 'bold',
+            alignSelf: 'flex-start',
+            left: 15,
+            top: 10,
+            color: gc.colors.periwinkle
+          }}
+        >
+          Delete Your Account
+        </Text>
 
-        <Text style={{
-          fontSize: 0.022 * height,
-          fontWeight: 'bold',
-          alignSelf: 'flex-start',
-          top: 20,
-          left: 15,
-          marginRight: 5,
-          color: gc.colors.lightGrey
-        }}>Click the button below to permentantly delete your account. This will
-          remove your account and associated data from our system. This acction cannot be undone.
+        <Text
+          style={{
+            fontSize: 0.022 * height,
+            fontWeight: 'bold',
+            alignSelf: 'flex-start',
+            top: 20,
+            textAlign: 'left',
+            marginHorizontal: 15,
+            color: gc.colors.lightGrey
+          }}
+        >
+          Click the button below to permentantly delete your account. This will
+          remove your account and associated data from our system. This action
+          cannot be undone.
         </Text>
 
         <Button
@@ -157,18 +165,12 @@ const Account = ({ navigation }) => {
           topSpace={65}
           style={{}}
         />
-
-
       </View>
-
     </SafeAreaView>
   );
-
 };
 
 const styles = StyleSheet.create({
-
-
   detailsWrapper: {
     top: 30,
     alignItems: 'center'
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     marginLeft: 4.5,
     color: gc.colors.periwinkle,
     left: 16,
-    marginTop: 10,
+    marginTop: 10
   },
   subTitle: {
     fontSize: 0.034 * height,
@@ -196,7 +198,7 @@ const styles = StyleSheet.create({
     marginLeft: 4.5,
     color: gc.colors.periwinkle,
     left: 16,
-    top: 15,
+    top: 15
   },
   detailsStyle: {
     fontSize: 0.02 * height,
@@ -209,8 +211,6 @@ const styles = StyleSheet.create({
     lineHeight: 0.025 * height,
     color: gc.colors.lightGrey
   }
-
-
 });
 
 export default Account;
