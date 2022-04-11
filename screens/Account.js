@@ -303,14 +303,14 @@ const Account = ({ navigation }) => {
 const styles = StyleSheet.create({
   detailsWrapper: {
     top: 30,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   deleteAccountWrapper: {
-    backgroundColor: gc.colors.errorLightRed,
+    backgroundColor: gc.colors.greyWhite,
     marginTop: 60,
     height: 0.35 * height,
     width: 0.9 * width,
-    borderRadius: 18,
+    borderRadius: 8,
     alignSelf: 'center',
     alignItems: 'center'
   },
@@ -337,7 +337,9 @@ const styles = StyleSheet.create({
     margin: 3.5,
     width: 0.9 * width,
     lineHeight: 0.025 * height,
-    color: 'black'
+    color: 'black',
+    backgroundColor: gc.colors.greyWhite,
+    borderRadius: 8
   }
 });
 
