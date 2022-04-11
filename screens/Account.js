@@ -5,10 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import OurModal from '../components/Other/OurModal';
 import OurTextInput from '../components/Other/TextInput';
 import { ActivityIndicator } from 'react-native-paper';
-
-
 import gc from '../general/globalColors';
-import { isRequired } from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -276,30 +273,26 @@ const Account = ({ navigation }) => {
           <Text
             style={{
               fontSize: 0.022 * height,
-              fontWeight: '400',
+              fontWeight: '500',
               alignSelf: 'flex-start',
               top: 20,
               textAlign: 'left',
               marginHorizontal: 15,
-              color: gc.colors.lightPeriwinkle
+              color: 'black'
             }}
           >
-            Click the button below to permanently delete your account. This
-            will remove your account and associated data from our system. This
-            action cannot be undone.
+            Click the button below to permanently deactivate your account.
+            This action cannot be undone.
           </Text>
 
           <Button
-            style={{
-              backgroundColor: gc.colors.errorRed
-            }}
             type={'primary'}
-            text={'Delete Account'}
+            text={'Deactivate Account'}
             onPress={() => navigation.goBack()}
             wProportion={0.8125}
             hProportion={0.12}
-            topSpace={65}
-
+            topSpace={100}
+            backgroundColor={gc.colors.errorRed}
           />
         </View>
       </SafeAreaView>
@@ -313,7 +306,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   deleteAccountWrapper: {
-    backgroundColor: gc.colors.lightPink,
+    backgroundColor: gc.colors.errorLightRed,
     marginTop: 60,
     height: 0.35 * height,
     width: 0.9 * width,
@@ -341,11 +334,10 @@ const styles = StyleSheet.create({
     fontSize: 0.02 * height,
     fontWeight: '500',
     padding: 8,
-    backgroundColor: gc.colors.lightPink,
     margin: 3.5,
     width: 0.9 * width,
     lineHeight: 0.025 * height,
-    color: gc.colors.periwinkle
+    color: 'black'
   }
 });
 

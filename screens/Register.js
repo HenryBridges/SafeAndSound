@@ -304,175 +304,177 @@ const Register = ({ navigation }) => {
           contentContainerStyle={{
             flexGrow: 1,
             flexDirection: 'column',
-            top: 20
+            top: 20,
           }}
         >
-          <Text style={[styles.title, { color: gc.colors.periwinkle }]}>
-            Create Your
-          </Text>
-          <Text style={[styles.title, { color: gc.colors.lightPeriwinkle }]}>
-            Account
-          </Text>
-          <Snackbar
-            duration={5000}
-            visible={snackbarVisible}
-            onDismiss={onDismissSnackBar}
-            wrapperStyle={{ bottom: 0.02 * height }}
-            style={{
-              backgroundColor: gc.colors.errorLightRed,
-              borderColor: gc.colors.errorRed,
-              borderWidth: 2,
-              borderRadius: 6
-            }}
-          >
-            <Text
-              style={{
-                textAlign: 'center',
-                color: gc.colors.errorRed
-              }}
-            >
-              {registerMessage}
+          <View>
+            <Text style={[styles.title, { color: gc.colors.periwinkle }]}>
+              Create Your
             </Text>
-          </Snackbar>
-          <View style={styles.formContainer}>
-            <OurTextInput
-              text='First Name'
-              wProportion={0.8}
-              hProportion={0.1}
-              onChangeText={(userName) => setUserName(userName)}
-              error={nameError}
-            />
-            <OurTextInput
-              text='Surname'
-              wProportion={0.8}
-              hProportion={0.1}
-              onChangeText={(userSurname) => setUserSurname(userSurname)}
-              error={userSurnameError}
-            />
-            <OurTextInput
-              text='Email'
-              wProportion={0.8}
-              hProportion={0.1}
-              onChangeText={(userEmail) => setUserEmail(userEmail)}
-              error={emailError}
-              keyboardType='email-address'
-            />
-            <OurTextInput
-              text='(+44) Phone Number'
-              wProportion={0.8}
-              hProportion={0.1}
-              onChangeText={(userPhone) => setUserPhone(userPhone)}
-              error={phoneError}
-              keyboardType='phone-pad'
-            />
-            <OurTextInput
-              text='NHS Number'
-              wProportion={0.8}
-              hProportion={0.1}
-              keyboardType='number-pad'
-              onChangeText={(userNHS) => setUserNHS(userNHS)}
-              error={nhsNumError}
-            />
-
-            <OurTextInput
-              text='Password'
-              secure={true}
-              wProportion={0.8}
-              hProportion={0.1}
-              onChangeText={(userPassword) => setUserPassword(userPassword)}
-              error={passwordError}
-            />
-            <OurTextInput
-              text='Confirm Password'
-              secure={true}
-              wProportion={0.8}
-              hProportion={0.1}
-              onChangeText={(userConfirmPassword) =>
-                setUserConfirmPassword(userConfirmPassword)
-              }
-              error={confirmPasswordError}
-            />
-            <View
+            <Text style={[styles.title, { color: gc.colors.lightPeriwinkle }]}>
+              Account
+            </Text>
+            <Snackbar
+              duration={5000}
+              visible={snackbarVisible}
+              onDismiss={onDismissSnackBar}
+              wrapperStyle={{ bottom: 0.02 * height }}
               style={{
-                top: 10,
-                width: 0.8 * width,
-                zIndex: 9
+                backgroundColor: gc.colors.errorLightRed,
+                borderColor: gc.colors.errorRed,
+                borderWidth: 2,
+                borderRadius: 6
               }}
             >
-              <DropDownPicker
-                open={open}
-                value={value}
-                items={items}
-                placeholder='Gender'
-                setOpen={setOpen}
-                setValue={setValue}
-                dropDownDirection='BOTTOM'
-                listMode='SCROLLVIEW'
-                textStyle={{
-                  color: genderError ? gc.colors.errorRed : gc.colors.darkGrey,
-                  fontWeight: '400',
-                  fontSize: 0.023 * height
-                }}
+              <Text
                 style={{
-                  backgroundColor: '#f6f6f6',
-                  borderColor: genderError
-                    ? gc.colors.errorRed
-                    : gc.colors.darkGrey,
-                  height: 0.05 * height
+                  textAlign: 'center',
+                  color: gc.colors.errorRed
                 }}
-                containerStyle={{ backgroundColor: '#f6f6f6' }}
-                onSelectItem={(item) => setUserGender(item.value)}
-              />
-            </View>
-            <View
-              style={{
-                justifyContent: 'flex-start',
-                alignSelf: 'flex-start',
-                left: 0.11 * width,
-                top: 20
-              }}
-            >
-              <Text>Date Of Birth</Text>
-            </View>
-            <View style={{ top: 10 }}>
-              <Button
-                type='secondary'
-                text='Choose Date'
+              >
+                {registerMessage}
+              </Text>
+            </Snackbar>
+            <View style={styles.formContainer}>
+              <OurTextInput
+                text='First Name'
                 wProportion={0.8}
                 hProportion={0.1}
-                onPress={showDatePicker}
+                onChangeText={(userName) => setUserName(userName)}
+                error={nameError}
               />
-              <DatePickerModal
-                isVisible={isDatePickerVisible}
-                mode='date'
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-                maximumDate={maxDate}
+              <OurTextInput
+                text='Surname'
+                wProportion={0.8}
+                hProportion={0.1}
+                onChangeText={(userSurname) => setUserSurname(userSurname)}
+                error={userSurnameError}
               />
-            </View>
-            {isLoading ? (
-              <ActivityIndicator
+              <OurTextInput
+                text='Email'
+                wProportion={0.8}
+                hProportion={0.1}
+                onChangeText={(userEmail) => setUserEmail(userEmail)}
+                error={emailError}
+                keyboardType='email-address'
+              />
+              <OurTextInput
+                text='(+44) Phone Number'
+                wProportion={0.8}
+                hProportion={0.1}
+                onChangeText={(userPhone) => setUserPhone(userPhone)}
+                error={phoneError}
+                keyboardType='phone-pad'
+              />
+              <OurTextInput
+                text='NHS Number'
+                wProportion={0.8}
+                hProportion={0.1}
+                keyboardType='number-pad'
+                onChangeText={(userNHS) => setUserNHS(userNHS)}
+                error={nhsNumError}
+              />
+
+              <OurTextInput
+                text='Password'
+                secure={true}
+                wProportion={0.8}
+                hProportion={0.1}
+                onChangeText={(userPassword) => setUserPassword(userPassword)}
+                error={passwordError}
+              />
+              <OurTextInput
+                text='Confirm Password'
+                secure={true}
+                wProportion={0.8}
+                hProportion={0.1}
+                onChangeText={(userConfirmPassword) =>
+                  setUserConfirmPassword(userConfirmPassword)
+                }
+                error={confirmPasswordError}
+              />
+              <View
                 style={{
+                  top: 10,
+                  width: 0.8 * width,
+                  zIndex: 9
+                }}
+              >
+                <DropDownPicker
+                  open={open}
+                  value={value}
+                  items={items}
+                  placeholder='Gender'
+                  setOpen={setOpen}
+                  setValue={setValue}
+                  dropDownDirection='BOTTOM'
+                  listMode='SCROLLVIEW'
+                  textStyle={{
+                    color: genderError ? gc.colors.errorRed : gc.colors.darkGrey,
+                    fontWeight: '400',
+                    fontSize: 0.023 * height
+                  }}
+                  style={{
+                    backgroundColor: '#f6f6f6',
+                    borderColor: genderError
+                      ? gc.colors.errorRed
+                      : gc.colors.darkGrey,
+                    height: 0.05 * height
+                  }}
+                  containerStyle={{ backgroundColor: '#f6f6f6' }}
+                  onSelectItem={(item) => setUserGender(item.value)}
+                />
+              </View>
+              <View
+                style={{
+                  justifyContent: 'flex-start',
+                  alignSelf: 'flex-start',
+                  left: 0.11 * width,
                   top: 20
                 }}
-                size='large'
-              />
-            ) : (
-              <Button
-                type='primary'
-                text='Sign Up'
-                onPress={submit}
-                wProportion={0.8}
-                hProportion={0.1}
-                topSpace={20}
-              />
-            )}
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={{ top: 20 }}>
-                <Text>Have an account?</Text>
-                <Text style={{ fontWeight: '600' }}> Log in</Text>
-              </Text>
-            </TouchableOpacity>
+              >
+                <Text>Date Of Birth</Text>
+              </View>
+              <View style={{ top: 10 }}>
+                <Button
+                  type='secondary'
+                  text='Choose Date'
+                  wProportion={0.8}
+                  hProportion={0.1}
+                  onPress={showDatePicker}
+                />
+                <DatePickerModal
+                  isVisible={isDatePickerVisible}
+                  mode='date'
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                  maximumDate={maxDate}
+                />
+              </View>
+              {isLoading ? (
+                <ActivityIndicator
+                  style={{
+                    top: 20
+                  }}
+                  size='large'
+                />
+              ) : (
+                <Button
+                  type='primary'
+                  text='Sign Up'
+                  onPress={submit}
+                  wProportion={0.8}
+                  hProportion={0.1}
+                  topSpace={20}
+                />
+              )}
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ top: 20 }}>
+                  <Text>Have an account?</Text>
+                  <Text style={{ fontWeight: '600' }}> Log in</Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>

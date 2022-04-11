@@ -1,16 +1,20 @@
 import React from 'react';
 import { TouchableOpacity, Text, Dimensions } from 'react-native';
+import { isValidElement } from 'react/cjs/react.production.min';
 import gc from '../../general/globalColors';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
 
 const Button = (props) => {
-  const { type, text, onPress, wProportion, hProportion, topSpace } = props;
+  const { type, text, onPress, wProportion, hProportion, topSpace, bottomSpace, backgroundColor } = props;
 
-  const btnColour = type == 'primary' ? gc.colors.periwinkle : gc.colors.white;
+  let btnColour = type == 'primary' ? gc.colors.periwinkle : gc.colors.white;
   const textColor = type == 'primary' ? gc.colors.white : gc.colors.periwinkle;
   const bordThick = type == 'primary' ? 0 : 1;
+  if (backgroundColor != null) {
+    btnColour = backgroundColor
+  }
 
   return (
     <TouchableOpacity
@@ -26,8 +30,8 @@ const Button = (props) => {
         textAlign: 'center',
         justifyContent: 'center',
         top: topSpace,
+        bottom: bottomSpace,
         margin: 10
-
       }]}
     >
       <Text
