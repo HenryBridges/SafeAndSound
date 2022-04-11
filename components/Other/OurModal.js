@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '80%',
-    height: '45%',
+    padding: 10,
     backgroundColor: gc.colors.white,
-    borderRadius: 40,
-    elevation: 20
+    borderRadius: 12,
+    elevation: 40
   }
 });
 

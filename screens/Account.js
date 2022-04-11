@@ -122,7 +122,6 @@ const Account = ({ navigation }) => {
 
   }
 
-
   useEffect(() => {
     getUser();
   }, []);
@@ -139,7 +138,7 @@ const Account = ({ navigation }) => {
         {showModal && (
           <OurModal
             style={{
-              height: 0.3 * height,
+              height: 0.4 * height,
               width: 0.6 * width,
               flex: 1
             }}
@@ -156,6 +155,7 @@ const Account = ({ navigation }) => {
                 onChangeText={(password) => setNewPassword(password)}
                 wProportion={0.7}
                 hProportion={0.12}
+                secure={true}
                 error={passwordError}
               />
               <OurTextInput
@@ -164,6 +164,7 @@ const Account = ({ navigation }) => {
                 onChangeText={(password) => setConfirmPassword(password)}
                 wProportion={0.7}
                 hProportion={0.12}
+                secure={true}
                 error={confirmPasswordError}
               />
               {changeSent && (
@@ -267,7 +268,7 @@ const Account = ({ navigation }) => {
               color: gc.colors.periwinkle
             }}
           >
-            Delete Your Account
+            Deactivate Your Account
           </Text>
 
           <Text
