@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import Button from '../components/Buttons/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import OurModal from '../components/Other/OurModal';
+import OurTextInput from '../components/Other/TextInput';
+import { ActivityIndicator } from 'react-native-paper';
+
 
 import gc from '../general/globalColors';
+import { isRequired } from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -21,11 +26,14 @@ const Account = ({ navigation }) => {
   });
   const [jwtToken, setJwtToken] = useState('');
   const [newPassword, setNewPassword] = useState('');
-
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isChangeLoading, setIsChangeLoading] = useState(false);
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [changeResponse, setChangeResponse] = useState(false);
   const [changeMessage, setChangeMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [changeSent, setChangeSent] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
   const getUser = async () => {
     try {
@@ -56,22 +64,43 @@ const Account = ({ navigation }) => {
     return re.test(newPassword);
   };
 
+
+  const newPassHandle = () => {
+    setIsChangeLoading(true);
+    let validPassword = checkPassword();
+    let validConfirmPassword = checkConfirmPassword();
+    if (validPassword && validConfirmPassword) {
+      changePassword();
+    }
+
+  }
+
   const checkPassword = () => {
     let valid = true;
     if (newPassword == '') {
       valid = false;
-    } else if (!isPasswordSecure()) {
+    }
+    if (!isPasswordSecure()) {
       valid = false;
     }
+    setPasswordError(!valid)
+    setIsChangeLoading(valid);
     return valid;
   };
 
-  const validatePassword = () => {
-    let valid = checkPassword();
-    if (valid) {
-      changePassword();
+  const checkConfirmPassword = () => {
+    let valid = true;
+    if (newPassword != confirmPassword) {
+      valid = false;
     }
-  };
+    if (confirmPassword == '') {
+      valid = false
+    }
+    setConfirmPasswordError(!valid)
+    setIsChangeLoading(valid);
+    return valid;
+  }
+
 
   const changePassword = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/password/change', {
@@ -86,13 +115,16 @@ const Account = ({ navigation }) => {
       })
     })
       .then((response) => response.json())
-      .then((data) => handleForgotResponses(data))
+      .then((data) => handleResponses(data))
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  const handleResponses = () => {};
+  const handleResponses = (data) => {
+
+  }
+
 
   useEffect(() => {
     getUser();
@@ -107,6 +139,91 @@ const Account = ({ navigation }) => {
           flexDirection: 'column'
         }}
       >
+        {showModal && (
+          <OurModal
+            style={{
+              height: 0.3 * height,
+              width: 0.6 * width,
+              flex: 1
+            }}
+            visible={showModal}>
+            <View
+              style={{
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}
+            >
+              <OurTextInput
+                type={'primary'}
+                text='New Password'
+                onChangeText={(password) => setNewPassword(password)}
+                wProportion={0.7}
+                hProportion={0.12}
+                error={passwordError}
+              />
+              <OurTextInput
+                type={'primary'}
+                text='Confirm Password'
+                onChangeText={(password) => setConfirmPassword(password)}
+                wProportion={0.7}
+                hProportion={0.12}
+                error={confirmPasswordError}
+              />
+              {changeSent && (
+                <View
+                  style={{
+                    backgroundColor: forgotResponse
+                      ? gc.colors.successLightGreen
+                      : gc.colors.errorLightRed,
+                    borderColor: forgotResponse
+                      ? gc.colors.successGreen
+                      : gc.colors.errorRed,
+                    borderWidth: 2,
+                    padding: 5,
+                    width: 0.6 * width,
+                    top: 4,
+                    borderRadius: 6
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: forgotResponse
+                        ? gc.colors.successGreen
+                        : gc.colors.errorRed,
+                      fontWeight: '600',
+                      textAlign: 'center'
+                    }}
+                  >
+                    {forgotMessage}
+                  </Text>
+                </View>
+              )}
+            </View>
+            {isChangeLoading ? <ActivityIndicator size='small' style={{ marginTop: 10 }} /> :
+              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                <Button
+                  type={'secondary'}
+                  text={'Back'}
+                  onPress={() => {
+                    setShowModal(!showModal);
+                  }}
+                  wProportion={0.33}
+                  hProportion={0.1}
+                  topSpace={5}
+                />
+
+                <Button
+                  type={'primary'}
+                  text={'Submit'}
+                  onPress={(newPassword) => newPassHandle(newPassword)}
+                  wProportion={0.33}
+                  hProportion={0.1}
+                  topSpace={5}
+                />
+              </View>
+            }
+          </OurModal >
+        )}
         <Text style={styles.largeTitle}>Account </Text>
         <Text style={styles.subTitle}>Details </Text>
 
@@ -134,7 +251,7 @@ const Account = ({ navigation }) => {
           <Button
             type={'primary'}
             text={'Change Password'}
-            onPress={() => navigation.goBack()}
+            onPress={() => setShowModal(true)}
             wProportion={0.9}
             hProportion={0.12}
             topSpace={40}
@@ -167,19 +284,22 @@ const Account = ({ navigation }) => {
               color: gc.colors.lightPeriwinkle
             }}
           >
-            Click the button below to permentantly delete your account. This
+            Click the button below to permanently delete your account. This
             will remove your account and associated data from our system. This
             action cannot be undone.
           </Text>
 
           <Button
+            style={{
+              backgroundColor: gc.colors.errorRed
+            }}
             type={'primary'}
             text={'Delete Account'}
             onPress={() => navigation.goBack()}
             wProportion={0.8125}
             hProportion={0.12}
             topSpace={65}
-            style={{}}
+
           />
         </View>
       </SafeAreaView>

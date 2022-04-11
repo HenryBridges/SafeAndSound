@@ -214,7 +214,6 @@ const Register = ({ navigation }) => {
     let month = date.getMonth();
     let day = date.getDay();
     setMaxDate(new Date(year, month, day));
-    console.log(maxDate);
   };
 
   const validateRegister = () => {
@@ -341,21 +340,21 @@ const Register = ({ navigation }) => {
               wProportion={0.8}
               hProportion={0.1}
               onChangeText={(userName) => setUserName(userName)}
-              error={nameError ? true : false}
+              error={nameError}
             />
             <OurTextInput
               text='Surname'
               wProportion={0.8}
               hProportion={0.1}
               onChangeText={(userSurname) => setUserSurname(userSurname)}
-              error={userSurnameError ? true : false}
+              error={userSurnameError}
             />
             <OurTextInput
               text='Email'
               wProportion={0.8}
               hProportion={0.1}
               onChangeText={(userEmail) => setUserEmail(userEmail)}
-              error={emailError ? true : false}
+              error={emailError}
               keyboardType='email-address'
             />
             <OurTextInput
@@ -363,7 +362,7 @@ const Register = ({ navigation }) => {
               wProportion={0.8}
               hProportion={0.1}
               onChangeText={(userPhone) => setUserPhone(userPhone)}
-              error={phoneError ? true : false}
+              error={phoneError}
               keyboardType='phone-pad'
             />
             <OurTextInput
@@ -372,7 +371,7 @@ const Register = ({ navigation }) => {
               hProportion={0.1}
               keyboardType='number-pad'
               onChangeText={(userNHS) => setUserNHS(userNHS)}
-              error={nhsNumError ? true : false}
+              error={nhsNumError}
             />
 
             <OurTextInput
@@ -381,7 +380,7 @@ const Register = ({ navigation }) => {
               wProportion={0.8}
               hProportion={0.1}
               onChangeText={(userPassword) => setUserPassword(userPassword)}
-              error={passwordError ? true : false}
+              error={passwordError}
             />
             <OurTextInput
               text='Confirm Password'
@@ -391,7 +390,7 @@ const Register = ({ navigation }) => {
               onChangeText={(userConfirmPassword) =>
                 setUserConfirmPassword(userConfirmPassword)
               }
-              error={confirmPasswordError ? true : false}
+              error={confirmPasswordError}
             />
             <View
               style={{

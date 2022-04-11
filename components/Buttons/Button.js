@@ -6,7 +6,7 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').width;
 
 const Button = (props) => {
-  const { type, text, onPress, wProportion, hProportion, topSpace} = props;
+  const { type, text, onPress, wProportion, hProportion, topSpace } = props;
 
   const btnColour = type == 'primary' ? gc.colors.periwinkle : gc.colors.white;
   const textColor = type == 'primary' ? gc.colors.white : gc.colors.periwinkle;
@@ -27,7 +27,7 @@ const Button = (props) => {
         justifyContent: 'center',
         top: topSpace,
         margin: 10
-        
+
       }]}
     >
       <Text
