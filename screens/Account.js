@@ -6,11 +6,16 @@ import OurModal from '../components/Other/OurModal';
 import OurTextInput from '../components/Other/TextInput';
 import { ActivityIndicator } from 'react-native-paper';
 import gc from '../general/globalColors';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { Keyboard } from 'react-native';
+
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Account = ({ navigation }) => {
+  const netInfo = useNetInfo();
+
   const [userObj, setUser] = useState({
     user_id: 0,
     name: '',
@@ -61,17 +66,6 @@ const Account = ({ navigation }) => {
     return re.test(newPassword);
   };
 
-
-  const newPassHandle = () => {
-    setIsChangeLoading(true);
-    let validPassword = checkPassword();
-    let validConfirmPassword = checkConfirmPassword();
-    if (validPassword && validConfirmPassword) {
-      changePassword();
-    }
-
-  }
-
   const checkPassword = () => {
     let valid = true;
     if (newPassword == '') {
@@ -98,6 +92,25 @@ const Account = ({ navigation }) => {
     return valid;
   }
 
+  const newPassHandle = () => {
+    Keyboard.dismiss();
+    setChangeSent(false);
+    setIsChangeLoading(true);
+    let validPassword = checkPassword();
+    let validConfirmPassword = checkConfirmPassword();
+    if (netInfo.isConnected) {
+      if (validPassword && validConfirmPassword) {
+        changePassword();
+      } else {
+        setIsChangeLoading(false);
+      }
+    } else {
+      setChangeSent(true);
+      setChangeResponse(false);
+      setChangeMessage("No internet Connection");
+      setIsChangeLoading(false);
+    }
+  }
 
   const changePassword = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/password/change', {
@@ -119,7 +132,16 @@ const Account = ({ navigation }) => {
   };
 
   const handleResponses = (data) => {
-
+    let success = data["success"];
+    let message = data["message"];
+    setIsChangeLoading(false);
+    setChangeSent(true);
+    setChangeResponse(success);
+    setChangeMessage(message);
+    setTimeout(() => {
+      setChangeSent(false);
+      setShowModal(false);
+    }, 3000)
   }
 
   useEffect(() => {
@@ -170,10 +192,10 @@ const Account = ({ navigation }) => {
               {changeSent && (
                 <View
                   style={{
-                    backgroundColor: forgotResponse
+                    backgroundColor: changeResponse
                       ? gc.colors.successLightGreen
                       : gc.colors.errorLightRed,
-                    borderColor: forgotResponse
+                    borderColor: changeResponse
                       ? gc.colors.successGreen
                       : gc.colors.errorRed,
                     borderWidth: 2,
@@ -185,14 +207,14 @@ const Account = ({ navigation }) => {
                 >
                   <Text
                     style={{
-                      color: forgotResponse
+                      color: changeResponse
                         ? gc.colors.successGreen
                         : gc.colors.errorRed,
                       fontWeight: '600',
                       textAlign: 'center'
                     }}
                   >
-                    {forgotMessage}
+                    {changeMessage}
                   </Text>
                 </View>
               )}
@@ -226,24 +248,24 @@ const Account = ({ navigation }) => {
         <Text style={styles.subTitle}>Details </Text>
 
         <View style={styles.detailsWrapper}>
-          <Text style={styles.detailsStyle}>
+          <View style={styles.detailsStyle}>
             <Text>Email: </Text>
             <Text style={{ color: gc.colors.lightPeriwinkle }}>
               {userObj.user_email}
             </Text>
-          </Text>
-          <Text style={styles.detailsStyle}>
+          </View>
+          <View style={styles.detailsStyle}>
             <Text>Phone: </Text>
             <Text style={{ color: gc.colors.lightPeriwinkle }}>
               {userObj.user_phone}
             </Text>
-          </Text>
-          <Text style={styles.detailsStyle}>
+          </View>
+          <View style={styles.detailsStyle}>
             <Text>NHS Number: </Text>
             <Text style={{ color: gc.colors.lightPeriwinkle }}>
               {userObj.nhs_number}
             </Text>
-          </Text>
+          </View>
         </View>
         <View>
           <Button
@@ -332,6 +354,7 @@ const styles = StyleSheet.create({
     top: 15
   },
   detailsStyle: {
+    flexDirection: 'row',
     fontSize: 0.02 * height,
     fontWeight: '500',
     padding: 8,

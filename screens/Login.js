@@ -86,7 +86,7 @@ const Login = ({ navigation }) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        user_email: forgotEmail
+        user_email: forgotEmail.toLowerCase()
       })
     })
       .then((response) => response.json())
