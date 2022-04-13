@@ -1,18 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../components/Buttons/Button';
 import RoundButton from '../components/Buttons/roundButtons';
-import { Text, View, Dimensions, StyleSheet, SafeAreaView } from 'react-native';
+import {
+  Text,
+  View,
+  Dimensions,
+  StyleSheet,
+  SafeAreaView,
+  PermissionsAndroid,
+  Platform
+} from 'react-native';
 import gc from '../general/globalColors';
 import ReportModal from './ReportModal';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { mapDarkStyle } from './mapData';
 import { TextInput } from 'react-native-gesture-handler';
+import { Searchbar } from 'react-native-paper';
+import Geolocation from 'react-native-geolocation-service';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
   const [showReport, setShowReport] = useState(false);
+  const [currLocation, setCurrLocation] = useState({
+    latitude: 10,
+    longitude: 10,
+    latitudeDelta: 0.0025,
+    longitudeDelta: 0.0025
+  });
+
+  useEffect(() => {
+    if (Platform.OS === 'ios') {
+      Geolocation.requestAuthorization('always');
+    }
+  }, []);
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      (position) =>
+        setCurrLocation({
+          ...currLocation,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }),
+      (error) => {
+        console.log(error);
+      },
+      { enableHighAccuracy: true }
+    );
+  });
+
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
@@ -20,12 +58,7 @@ const Home = ({ navigation }) => {
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
           style={styles.map}
           customMapStyle={mapDarkStyle}
-          region={{
-            latitude: 53.40337920431939,
-            longitude: -2.9800671712865228,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121
-          }}
+          region={currLocation}
         >
           <Marker
             coordinate={{
@@ -36,35 +69,10 @@ const Home = ({ navigation }) => {
             title='SOHO'
             description='Safety Level: Dangerous'
           />
-
-          <Marker
-            coordinate={{
-              latitude: 53.40170704874639,
-              longitude: -2.978476676066523
-            }}
-            image={require('../assets/images/orangeMark.png')}
-            title='Brooklyn Mixer'
-            description='Safety Level: Medium'
-          />
-
-          <Marker
-            coordinate={{
-              latitude: 53.40299911902814,
-              longitude: -2.9814141739698314
-            }}
-            image={require('../assets/images/greenMark.png')}
-            title='Bar 54'
-            description='Safety Level: Safe'
-          />
         </MapView>
 
         <View style={styles.searchBox}>
-          <TextInput
-            placeholder='Search here'
-            placeholderTextColor='#000'
-            autoCapitalize='none'
-            style={{ flex: 1, padding: 0 }}
-          />
+          <TextInput />
         </View>
 
         <View style={styles.reportAndButtonsContainer}>

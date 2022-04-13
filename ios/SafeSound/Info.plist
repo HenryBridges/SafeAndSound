@@ -37,6 +37,10 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location access is required to run the app</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location access is required to run the app</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location access is required to run the app</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/Ionicons.ttf</string>
