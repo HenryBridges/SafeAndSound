@@ -55,6 +55,7 @@ const Home = ({ navigation }) => {
     <>
       <SafeAreaView style={{ flex: 1 }}>
         <MapView
+          showsUserLocation={true}
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
           style={styles.map}
           customMapStyle={mapDarkStyle}
