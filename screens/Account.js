@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Dimensions, Alert } from 'react-native';
 import Button from '../components/Buttons/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OurModal from '../components/Other/OurModal';
 import OurTextInput from '../components/Other/TextInput';
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator, Snackbar } from 'react-native-paper';
 import gc from '../general/globalColors';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { Keyboard } from 'react-native';
-
+import { AuthContext } from '../components/Other/context';
+import { useContext } from 'react';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -36,6 +37,10 @@ const Account = ({ navigation }) => {
   const [changeSent, setChangeSent] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [deactivateMessage, setDeactivateMessage] = useState('');
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const onDismissSnackBar = () => setSnackbarVisible(false);
+  const { signOut } = useContext(AuthContext);
 
   const getUser = async () => {
     try {
@@ -68,7 +73,7 @@ const Account = ({ navigation }) => {
 
   const checkPassword = () => {
     let valid = true;
-    if (newPassword == '') {
+    if (newPassword == null) {
       valid = false;
     }
     if (!isPasswordSecure()) {
@@ -84,7 +89,7 @@ const Account = ({ navigation }) => {
     if (newPassword != confirmPassword) {
       valid = false;
     }
-    if (confirmPassword == '') {
+    if (confirmPassword == null) {
       valid = false
     }
     setConfirmPasswordError(!valid)
@@ -144,6 +149,71 @@ const Account = ({ navigation }) => {
     }, 3000)
   }
 
+
+  const logout = async () => {
+    try {
+      await AsyncStorage.removeItem('@jwt');
+      await AsyncStorage.removeItem('@user');
+      signOut();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deactivateAccountAlert = () => {
+    Alert.alert(
+      "Deactivate Account",
+      "Are you sure you want to deactivate the account?",
+      [
+        {
+          text: "No",
+          onPress: () => console.log("Not Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Yes",
+          onPress: () => { deactivateAccountHandle() }
+        }
+      ]
+    );
+  };
+
+  const deactivateAccount = () => {
+    fetch('https://safe-sound-208.herokuapp.com/user/deactivate', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwtToken}`
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => handleResponseDeactivate(data))
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const handleResponseDeactivate = (data) => {
+    let success = data["success"];
+    let message = data["message"];
+    setSnackbarVisible(true);
+    setDeactivateMessage(message);
+    if (success) {
+      setTimeout(() => {
+        logout();
+      }, 3000)
+    }
+  }
+  const deactivateAccountHandle = () => {
+    if (netInfo.isConnected) {
+      deactivateAccount();
+    } else {
+      setSnackbarVisible(true);
+      setDeactivateMessage("No internet connection")
+    }
+  };
+
   useEffect(() => {
     getUser();
   }, []);
@@ -157,6 +227,27 @@ const Account = ({ navigation }) => {
           flexDirection: 'column'
         }}
       >
+        <Snackbar
+          duration={5000}
+          visible={snackbarVisible}
+          onDismiss={onDismissSnackBar}
+          wrapperStyle={
+            { bottom: 0.02 * height }
+          }
+          style={{
+            backgroundColor: gc.colors.errorLightRed,
+            borderColor: gc.colors.errorRed,
+            borderWidth: 2,
+            borderRadius: 6
+          }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: gc.colors.errorRed
+            }}>
+            {deactivateMessage}
+          </Text>
+        </Snackbar>
         {showModal && (
           <OurModal
             style={{
@@ -311,7 +402,7 @@ const Account = ({ navigation }) => {
           <Button
             type={'primary'}
             text={'Deactivate Account'}
-            onPress={() => navigation.goBack()}
+            onPress={deactivateAccountAlert}
             wProportion={0.8125}
             hProportion={0.12}
             topSpace={100}
