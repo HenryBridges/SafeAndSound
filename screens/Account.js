@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Dimensions, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  Alert
+} from 'react-native';
 import Button from '../components/Buttons/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OurModal from '../components/Other/OurModal';
@@ -15,8 +22,10 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Account = ({ navigation }) => {
+  // Hook used for checking internet connection.
   const netInfo = useNetInfo();
 
+  // An object that can be set, with correct fields to be filled from back-end.
   const [userObj, setUser] = useState({
     user_id: 0,
     name: '',
@@ -27,7 +36,11 @@ const Account = ({ navigation }) => {
     nhs_number: '',
     gender: ''
   });
+
+  // UseState for JWT token
   const [jwtToken, setJwtToken] = useState('');
+
+  // Changing password useStates
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isChangeLoading, setIsChangeLoading] = useState(false);
@@ -37,11 +50,14 @@ const Account = ({ navigation }) => {
   const [changeSent, setChangeSent] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+
+  // Deactivating account useStates
   const [deactivateMessage, setDeactivateMessage] = useState('');
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const onDismissSnackBar = () => setSnackbarVisible(false);
   const { signOut } = useContext(AuthContext);
 
+  // Fetches user from local storage after it was saved during login process.
   const getUser = async () => {
     try {
       const token = await AsyncStorage.getItem('@jwt');
@@ -64,6 +80,7 @@ const Account = ({ navigation }) => {
     }
   };
 
+  // Checks to make sure new password meets requirements when changing it.
   const isPasswordSecure = () => {
     const re = new RegExp(
       '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$'
@@ -71,6 +88,7 @@ const Account = ({ navigation }) => {
     return re.test(newPassword);
   };
 
+  // Calls the isPasswordSecure method if password is entered to check for validity.
   const checkPassword = () => {
     let valid = true;
     if (newPassword == null) {
@@ -79,24 +97,28 @@ const Account = ({ navigation }) => {
     if (!isPasswordSecure()) {
       valid = false;
     }
-    setPasswordError(!valid)
+    setPasswordError(!valid);
     setIsChangeLoading(valid);
     return valid;
   };
 
+  // Checks confirm password is set and is equal to new password.
   const checkConfirmPassword = () => {
     let valid = true;
     if (newPassword != confirmPassword) {
       valid = false;
     }
     if (confirmPassword == null) {
-      valid = false
+      valid = false;
     }
-    setConfirmPasswordError(!valid)
+    setConfirmPasswordError(!valid);
     setIsChangeLoading(valid);
     return valid;
-  }
+  };
 
+  /* Makes sure new password entered is valid and the confirm password is
+     equal to this. Calls the changePassword method if so or handles an error
+     such as no internet connection. */
   const newPassHandle = () => {
     Keyboard.dismiss();
     setChangeSent(false);
@@ -112,11 +134,13 @@ const Account = ({ navigation }) => {
     } else {
       setChangeSent(true);
       setChangeResponse(false);
-      setChangeMessage("No internet Connection");
+      setChangeMessage('No internet Connection');
       setIsChangeLoading(false);
     }
-  }
+  };
 
+  /* POST request to api to update the password (uses jwt token here to allow use of the api),
+    Changes the password for the assosciated account. */
   const changePassword = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/password/change', {
       method: 'POST',
@@ -136,9 +160,10 @@ const Account = ({ navigation }) => {
       });
   };
 
+  // Handles the response from the API request for changing password.
   const handleResponses = (data) => {
-    let success = data["success"];
-    let message = data["message"];
+    let success = data['success'];
+    let message = data['message'];
     setIsChangeLoading(false);
     setChangeSent(true);
     setChangeResponse(success);
@@ -146,10 +171,11 @@ const Account = ({ navigation }) => {
     setTimeout(() => {
       setChangeSent(false);
       setShowModal(false);
-    }, 3000)
-  }
+    }, 3000);
+  };
 
-
+  /* Removes the jwt token and user info from local storage when they log out,
+    will be used during deactivate account method */
   const logout = async () => {
     try {
       await AsyncStorage.removeItem('@jwt');
@@ -160,24 +186,29 @@ const Account = ({ navigation }) => {
     }
   };
 
+  /* Makes sure the user wants to deactivate their account, with an alert. 
+    Stops the user from deactivating their account by accidental press. */
   const deactivateAccountAlert = () => {
     Alert.alert(
-      "Deactivate Account",
-      "Are you sure you want to deactivate the account?",
+      'Deactivate Account',
+      'Are you sure you want to deactivate the account?',
       [
         {
-          text: "No",
-          onPress: () => console.log("Not Pressed"),
-          style: "cancel"
+          text: 'No',
+          onPress: () => console.log('Not Pressed'),
+          style: 'cancel'
         },
         {
-          text: "Yes",
-          onPress: () => { deactivateAccountHandle() }
+          text: 'Yes',
+          onPress: () => {
+            deactivateAccountHandle();
+          }
         }
       ]
     );
   };
 
+  // Sends post request to de-activate the user to API.
   const deactivateAccount = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/deactivate', {
       method: 'POST',
@@ -185,7 +216,7 @@ const Account = ({ navigation }) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${jwtToken}`
-      },
+      }
     })
       .then((response) => response.json())
       .then((data) => handleResponseDeactivate(data))
@@ -194,26 +225,30 @@ const Account = ({ navigation }) => {
       });
   };
 
+  // Handles the response from the post request for de-activating.
   const handleResponseDeactivate = (data) => {
-    let success = data["success"];
-    let message = data["message"];
+    let success = data['success'];
+    let message = data['message'];
     setSnackbarVisible(true);
     setDeactivateMessage(message);
     if (success) {
       setTimeout(() => {
         logout();
-      }, 3000)
+      }, 3000);
     }
-  }
+  };
+
+  // Handles the deactivating of account when pressed. Checks to see if their is internet connection.
   const deactivateAccountHandle = () => {
     if (netInfo.isConnected) {
       deactivateAccount();
     } else {
       setSnackbarVisible(true);
-      setDeactivateMessage("No internet connection")
+      setDeactivateMessage('No internet connection');
     }
   };
 
+  // Fetches the user information from local storage on initial rendering of screen.
   useEffect(() => {
     getUser();
   }, []);
@@ -231,20 +266,20 @@ const Account = ({ navigation }) => {
           duration={5000}
           visible={snackbarVisible}
           onDismiss={onDismissSnackBar}
-          wrapperStyle={
-            { bottom: 0.02 * height }
-          }
+          wrapperStyle={{ bottom: 0.02 * height }}
           style={{
             backgroundColor: gc.colors.errorLightRed,
             borderColor: gc.colors.errorRed,
             borderWidth: 2,
             borderRadius: 6
-          }}>
+          }}
+        >
           <Text
             style={{
               textAlign: 'center',
               color: gc.colors.errorRed
-            }}>
+            }}
+          >
             {deactivateMessage}
           </Text>
         </Snackbar>
@@ -255,7 +290,8 @@ const Account = ({ navigation }) => {
               width: 0.6 * width,
               flex: 1
             }}
-            visible={showModal}>
+            visible={showModal}
+          >
             <View
               style={{
                 flexDirection: 'column',
@@ -310,8 +346,12 @@ const Account = ({ navigation }) => {
                 </View>
               )}
             </View>
-            {isChangeLoading ? <ActivityIndicator size='small' style={{ marginTop: 10 }} /> :
-              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+            {isChangeLoading ? (
+              <ActivityIndicator size='small' style={{ marginTop: 10 }} />
+            ) : (
+              <View
+                style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
+              >
                 <Button
                   type={'secondary'}
                   text={'Back'}
@@ -332,8 +372,8 @@ const Account = ({ navigation }) => {
                   topSpace={5}
                 />
               </View>
-            }
-          </OurModal >
+            )}
+          </OurModal>
         )}
         <Text style={styles.largeTitle}>Account </Text>
         <Text style={styles.subTitle}>Details </Text>
@@ -395,8 +435,8 @@ const Account = ({ navigation }) => {
               color: 'black'
             }}
           >
-            Click the button below to permanently deactivate your account.
-            This action cannot be undone.
+            Click the button below to permanently deactivate your account. This
+            action cannot be undone.
           </Text>
 
           <Button
@@ -417,7 +457,7 @@ const Account = ({ navigation }) => {
 const styles = StyleSheet.create({
   detailsWrapper: {
     top: 30,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   deleteAccountWrapper: {
     backgroundColor: gc.colors.greyWhite,

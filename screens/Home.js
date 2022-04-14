@@ -18,10 +18,20 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
+<<<<<<< Updated upstream
   const ws = useRef(null);
   const netInfo = useNetInfo();
   const [showReport, setShowReport] = useState(false);
   const initialState = {
+=======
+  // Report Modal UseStates
+  const [incidentOpen, setIncidentOpen] = useState(false);
+  const [incidentValue, setIncidentValue] = useState('');
+  const [showReport, setShowReport] = useState(false);
+
+  // Map/Location UseStates
+  const [currLocation, setCurrLocation] = useState({
+>>>>>>> Stashed changes
     latitude: 10,
     longitude: 10,
     latitudeDelta: 0.002,
@@ -242,14 +252,22 @@ const Home = ({ navigation }) => {
             />
           </View>
         </View>
+<<<<<<< Updated upstream
         {showReport && <OurModal>
+=======
+        {showReport && (
+>>>>>>> Stashed changes
           <View style={styles.formContainer}>
             <View style={{ padding: 10, zIndex: 1000 }}>
               <DropDownPicker
                 placeholder='Type of Incident'
                 open={incidentOpen}
                 value={incidentValue}
+<<<<<<< Updated upstream
                 items={incidentItems.map(crime => ({ label: crime["crime_name"], value: crime["crime_id"] }))}
+=======
+                items={incidentItems}
+>>>>>>> Stashed changes
                 setOpen={setIncidentOpen}
                 setValue={setIncidentValue}
                 dropDownDirection='BOTTOM'
@@ -264,6 +282,7 @@ const Home = ({ navigation }) => {
                   backgroundColor: '#f6f6f6',
                   width: 0.65 * width
                 }}
+<<<<<<< Updated upstream
                 onSelectItem={(item) => setSelectedIncident(item.value)}
               />
             </View>
@@ -273,12 +292,26 @@ const Home = ({ navigation }) => {
                 open={venueOpen}
                 items={venues.map(venue => ({ label: venue["venue_name"] + " - " + venue["venue_city"], value: venue["venue_id"] }))}
                 value={venueValue}
+=======
+                onSelectItem={(item) => console.log(item.value)}
+              />
+            </View>
+            <View style={{ padding: 10 }}>
+              <DropDownPicker
+                placeholder='Venue'
+                open={venueOpen}
+                value={venueValue}
+                items={venues}
+>>>>>>> Stashed changes
                 setOpen={setVenueOpen}
                 setValue={setVenueValue}
                 dropDownDirection='BOTTOM'
                 zIndex={800}
                 style={{
+<<<<<<< Updated upstream
                   zIndex: 10,
+=======
+>>>>>>> Stashed changes
                   backgroundColor: '#f6f6f6',
                   borderColor: gc.colors.darkGrey,
                   height: 0.05 * height,
@@ -288,6 +321,7 @@ const Home = ({ navigation }) => {
                   backgroundColor: '#f6f6f6',
                   width: 0.65 * width
                 }}
+<<<<<<< Updated upstream
                 onSelectItem={(item) => setSelectedVenue(item.value)}
               />
 
@@ -333,6 +367,13 @@ const Home = ({ navigation }) => {
 
           </View>
         </OurModal>}
+=======
+                onSelectItem={(item) => console.log(item.value)}
+              />
+            </View>
+          </View>
+        )}
+>>>>>>> Stashed changes
       </SafeAreaView>
     </>
   );
@@ -385,6 +426,12 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     left: 25
+  },
+  formContainer: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
   }
 });
 

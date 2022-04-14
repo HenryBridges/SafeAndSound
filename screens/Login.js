@@ -25,13 +25,15 @@ import { AuthContext } from '../components/Other/context';
 import { useContext } from 'react';
 import { useNetInfo } from '@react-native-community/netinfo';
 
-
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Login = ({ navigation }) => {
+  // Use States for Setting user information when logging in.
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+
+  // Forgot Password UseStates
   const [showFPModal, setShowFPModal] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -40,16 +42,21 @@ const Login = ({ navigation }) => {
   const [forgotEmailValid, setForgotEmailValid] = useState(false);
   const [forgotMessage, setForgotMessage] = useState('');
   const [forgotResponse, setForgotResponse] = useState(false);
+
+  // UseStates for logging in (Handling errors)
   const [loginMessage, setLoginMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isForgotLoading, setIsForgotLoading] = useState(false);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
 
-
+  /* This allows us to access the scope of authContext (in App.js),
+   letting it handle the movement to a new navigator */
   const { signedIn } = useContext(AuthContext);
 
+  // Handles hiding the snackbar.
   const onDismissSnackBar = () => setSnackbarVisible(false);
 
+  // Hook for using the package netInfo (for monitoring internet connection)
   const netInfo = useNetInfo();
 
   //handles the logic for the forgot password path
@@ -86,6 +93,7 @@ const Login = ({ navigation }) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        // convert the email to lowercase such that an email is unique (won't differ on capital letters)
         user_email: forgotEmail.toLowerCase()
       })
     })
@@ -96,7 +104,7 @@ const Login = ({ navigation }) => {
       });
   };
 
-  //handles the response of the api server
+  //handles the response of the api server for forgot password
   const handleForgotResponses = (data) => {
     setIsForgotLoading(false);
     setForgotSent(true);
@@ -124,7 +132,7 @@ const Login = ({ navigation }) => {
       }
     } else {
       setSnackbarVisible(true);
-      setLoginMessage("No internet Connection");
+      setLoginMessage('No internet Connection');
       setIsLoading(false);
     }
   };
@@ -145,6 +153,7 @@ const Login = ({ navigation }) => {
     return valid;
   };
 
+  // posts data to the API for logging in a user
   const login = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/login', {
       method: 'POST',
@@ -164,10 +173,11 @@ const Login = ({ navigation }) => {
       });
   };
 
+  // Handles the response of a post request to API for logging in a user
   const handleLogin = (data) => {
-    let success = data["success"];
-    let message = data["message"];
-    let generic = data["generic"];
+    let success = data['success'];
+    let message = data['message'];
+    let generic = data['generic'];
     if (!success) {
       setSnackbarVisible(true);
       setLoginMessage(message);
@@ -176,15 +186,17 @@ const Login = ({ navigation }) => {
       saveData(message, generic);
       signedIn(message);
     }
-  }
+  };
 
+  /* On login, this saves the received jwt token and user info to the app's local storage
+     on a device */
   const saveData = async (jwtToken, user) => {
     try {
-      const userObject = JSON.stringify(user)
-      await AsyncStorage.setItem('@user', userObject)
-      await AsyncStorage.setItem('@jwt', jwtToken)
+      const userObject = JSON.stringify(user);
+      await AsyncStorage.setItem('@user', userObject);
+      await AsyncStorage.setItem('@jwt', jwtToken);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   };
 
@@ -195,20 +207,20 @@ const Login = ({ navigation }) => {
           duration={5000}
           visible={snackbarVisible}
           onDismiss={onDismissSnackBar}
-          wrapperStyle={
-            { bottom: 0.02 * height }
-          }
+          wrapperStyle={{ bottom: 0.02 * height }}
           style={{
             backgroundColor: gc.colors.errorLightRed,
             borderColor: gc.colors.errorRed,
             borderWidth: 2,
             borderRadius: 6
-          }}>
+          }}
+        >
           <Text
             style={{
               textAlign: 'center',
               color: gc.colors.errorRed
-            }}>
+            }}
+          >
             {loginMessage}
           </Text>
         </Snackbar>
@@ -240,7 +252,9 @@ const Login = ({ navigation }) => {
               Forgot Password?
             </Text>
           </TouchableOpacity>
-          {isLoading ? <ActivityIndicator size='large' /> :
+          {isLoading ? (
+            <ActivityIndicator size='large' />
+          ) : (
             <Button
               type={'primary'}
               text={'Login'}
@@ -249,10 +263,8 @@ const Login = ({ navigation }) => {
               hProportion={0.12}
               topSpace={10}
             />
-          }
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Register')}
-          >
+          )}
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <Text style={{ top: 20 }}>
               <Text>Don't have an account?</Text>
               <Text style={{ fontWeight: '600' }}> Sign up</Text>
@@ -324,8 +336,12 @@ const Login = ({ navigation }) => {
                   </View>
                 )}
               </View>
-              {isForgotLoading ? <ActivityIndicator size='small' style={{ marginTop: 10 }} /> : null}
-              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+              {isForgotLoading ? (
+                <ActivityIndicator size='small' style={{ marginTop: 10 }} />
+              ) : null}
+              <View
+                style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
+              >
                 <Button
                   type={'secondary'}
                   text={'Back'}
@@ -350,9 +366,9 @@ const Login = ({ navigation }) => {
                 />
               </View>
             </View>
-          </OurModal >
+          </OurModal>
         )}
-      </SafeAreaView >
+      </SafeAreaView>
     </>
   );
 };

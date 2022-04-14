@@ -82,17 +82,20 @@ const Register = ({ navigation }) => {
 
   const isRequired = (value) => (value === '' ? false : true);
 
+  // Checks email is valid using a regex.
   const isEmailValid = (email) => {
     const re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
 
+  // Checks phone number is valid using a regex
   const isPhoneNumValid = (phoneNum) => {
     const re = new RegExp('^[+][0-9]{3}[0-9]{3}[0-9]{4,6}$');
     return re.test(phoneNum);
   };
 
+  // Checks password meets our requirements using regex
   const isPasswordSecure = (password) => {
     const re = new RegExp(
       '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$'
@@ -100,6 +103,7 @@ const Register = ({ navigation }) => {
     return re.test(password);
   };
 
+  // Checks user name is a between a certain length.
   const checkUserName = () => {
     let valid = true;
     const min = 3,
@@ -115,6 +119,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // Checks user's last name is between a certain length.
   const checkUserSurname = () => {
     let valid = true;
     const min = 3,
@@ -130,6 +135,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // Checks email validity by calling the valid checker function made earlier.
   const checkEmail = () => {
     let valid = true;
     const email = userEmail;
@@ -143,6 +149,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // Checks phone number validity by calling the valid checker function made earlier.
   const checkPhoneNum = () => {
     let valid = true;
     const phoneNum = userPhone;
@@ -156,6 +163,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // Checks that the NHS number is valid.
   const checkNHS = () => {
     let valid = true;
     const min = 10,
@@ -170,6 +178,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // Checks password validity by calling the valid checker function made earlier.
   const checkPassword = () => {
     let valid = true;
     const password = userPassword;
@@ -183,6 +192,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // Checks to see if this is equal to the password set.
   const checkConfirmPassword = () => {
     let valid = true;
     // check confirm password
@@ -199,6 +209,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // Makes sure a gender is selected.
   const checkGen = () => {
     let valid = true;
     if (userGender == '') {
@@ -208,6 +219,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // Sets the max date possible for sign up (as user must be 18+)
   const minMaxAgeDates = () => {
     let date = new Date();
     let year = date.getFullYear() - 18;
@@ -216,6 +228,7 @@ const Register = ({ navigation }) => {
     setMaxDate(new Date(year, month, day));
   };
 
+  // Calls all the valid functions to make sure correct before registering.
   const validateRegister = () => {
     let valid = false;
     let validUsername = checkUserName();
@@ -241,6 +254,7 @@ const Register = ({ navigation }) => {
     return valid;
   };
 
+  // POST request to the API to register a user.
   const register = () => {
     fetch('https://safe-sound-208.herokuapp.com/user/register', {
       method: 'POST',
@@ -252,6 +266,7 @@ const Register = ({ navigation }) => {
         name: userName,
         surname: userSurname,
         user_phone: userPhone,
+        // Email set to lowercase to make sure all emails are unique (capital letters don't matter)
         user_email: userEmail.toLowerCase(),
         dob: userDOB,
         nhs_number: userNHS,
@@ -266,6 +281,9 @@ const Register = ({ navigation }) => {
       });
   };
 
+  /* Make sure all the fields are set to false when pressing submit, then call the validation function
+    That makes sure every field is valid, if all are then we can register. If not, fields should now be 
+    outlined in red, signifying an error. */
   const submit = () => {
     setIsLoading(true);
     setNameError(false);
@@ -284,6 +302,7 @@ const Register = ({ navigation }) => {
     }
   };
 
+  // Handles the reponse from the register, and if successful, sends us to login screen.
   const handleResponses = (data) => {
     let success = data['success'];
     let message = data['message'];
@@ -304,7 +323,7 @@ const Register = ({ navigation }) => {
           contentContainerStyle={{
             flexGrow: 1,
             flexDirection: 'column',
-            top: 20,
+            top: 20
           }}
         >
           <View>
@@ -410,7 +429,9 @@ const Register = ({ navigation }) => {
                   dropDownDirection='BOTTOM'
                   listMode='SCROLLVIEW'
                   textStyle={{
-                    color: genderError ? gc.colors.errorRed : gc.colors.darkGrey,
+                    color: genderError
+                      ? gc.colors.errorRed
+                      : gc.colors.darkGrey,
                     fontWeight: '400',
                     fontSize: 0.023 * height
                   }}
