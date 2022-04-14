@@ -1,61 +1,53 @@
-export const mapDarkStyle = [
+export const mapStyle = [
   {
-    featureType: 'administrative.land_parcel',
-    elementType: 'labels',
-    stylers: [
+    "featureType": "administrative.land_parcel",
+    "elementType": "labels",
+    "stylers": [
       {
-        visibility: 'off'
+        "visibility": "off"
       }
     ]
   },
   {
-    featureType: 'poi',
-    elementType: 'labels.text',
-    stylers: [
+    "featureType": "poi",
+    "elementType": "labels.text",
+    "stylers": [
       {
-        visibility: 'off'
+        "visibility": "off"
       }
     ]
   },
   {
-    featureType: 'poi.business',
-    stylers: [
+    "featureType": "poi.business",
+    "stylers": [
       {
-        visibility: 'off'
+        "visibility": "off"
       }
     ]
   },
   {
-    featureType: 'poi.medical',
-    stylers: [
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
       {
-        color: '#00f900'
+        "visibility": "off"
       }
     ]
   },
   {
-    featureType: 'poi.park',
-    elementType: 'labels.text',
-    stylers: [
+    "featureType": "road.local",
+    "elementType": "labels",
+    "stylers": [
       {
-        visibility: 'off'
+        "visibility": "off"
       }
     ]
   },
   {
-    featureType: 'road.local',
-    elementType: 'labels',
-    stylers: [
+    "featureType": "transit",
+    "stylers": [
       {
-        visibility: 'off'
-      }
-    ]
-  },
-  {
-    featureType: 'transit.station.bus',
-    stylers: [
-      {
-        color: '#7980ff'
+        "visibility": "off"
       }
     ]
   }

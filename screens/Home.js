@@ -1,79 +1,207 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from '../components/Buttons/Button';
 import RoundButton from '../components/Buttons/roundButtons';
-import {
-  Text,
-  View,
-  Dimensions,
-  StyleSheet,
-  SafeAreaView,
-  PermissionsAndroid,
-  Platform
-} from 'react-native';
+import { Text, View, Dimensions, StyleSheet, SafeAreaView } from 'react-native';
 import gc from '../general/globalColors';
-import ReportModal from './ReportModal';
+import OurModal from '../components/Other/OurModal';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import { mapDarkStyle } from './mapData';
-import { TextInput } from 'react-native-gesture-handler';
-import { Searchbar } from 'react-native-paper';
-import Geolocation from 'react-native-geolocation-service';
+import { useEffect } from 'react';
+import Geolocation from '@react-native-community/geolocation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Snackbar } from 'react-native-paper';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { mapStyle } from './mapData';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { TextInput } from 'react-native-paper';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
+  const ws = useRef(null);
+  const netInfo = useNetInfo();
   const [showReport, setShowReport] = useState(false);
-  const [currLocation, setCurrLocation] = useState({
+  const initialState = {
     latitude: 10,
     longitude: 10,
-    latitudeDelta: 0.0025,
-    longitudeDelta: 0.0025
-  });
+    latitudeDelta: 0.002,
+    longitudeDelta: 0.002,
+  }
+  const [currentPosition, setCurrentPosition] = useState(initialState)
+  const [jwtToken, setJwtToken] = useState('');
+  const [venues, setVenues] = useState([]);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const onDismissSnackBar = () => setSnackbarVisible(false);
+  const [incidentOpen, setIncidentOpen] = useState(false);
+  const [incidentValue, setIncidentValue] = useState(0);
+  const [incidentItems, setIncidentItems] = useState([]);
+  const [venueOpen, setVenueOpen] = useState(false);
+  const [venueValue, setVenueValue] = useState(0);
+  const [details, setDetails] = useState('');
+  const [venueSelected, setSelectedVenue] = useState(0);
+  const [incidentSelected, setSelectedIncident] = useState(0);
+  const socket = new WebSocket('wss://safe-sound-208.herokuapp.com/reports/add/user');
 
-  useEffect(() => {
-    if (Platform.OS === 'ios') {
-      Geolocation.requestAuthorization('always');
-    }
-  }, []);
-
-  useEffect(() => {
-    Geolocation.getCurrentPosition(
-      (position) =>
-        setCurrLocation({
-          ...currLocation,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }),
-      (error) => {
+  const getCrimes = async () => {
+    await getJwt()
+      .then(jwt => {
+        fetch("https://safe-sound-208.herokuapp.com/user/crimes", {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwt}`
+          }
+        })
+          .then((result) => result.json())
+          .then((data) => setIncidentItems(data["generic"]))
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
+      .catch(function (error) {
         console.log(error);
+      });
+  }
+
+  const getVenues = async () => {
+    await getJwt()
+      .then(jwt => {
+        fetch("https://safe-sound-208.herokuapp.com/venues", {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwt}`
+          }
+        })
+          .then((result) => result.json())
+          .then((data) => setVenues(data["generic"]))
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  const getJwt = async () => {
+    try {
+      let jwt = await AsyncStorage.getItem("@jwt");
+      setJwtToken(jwt);
+      return jwt
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const sendReport = () => {
+    getUser().then(user => {
+      let data = {
+        report_date: new Date().toISOString().replace("Z", ""),
+        report_details: details,
+        report_user: user["user_id"],
+        report_type: incidentSelected,
+        report_venue: venueSelected
+      }
+      socket.send(JSON.stringify(data));
+    })
+    setDetails("");
+    setIncidentValue("");
+    setVenueValue("");
+    setShowReport(false);
+  }
+
+  const getUser = async () => {
+    try {
+      let obj = await AsyncStorage.getItem("@user");
+      let user = JSON.parse(obj)
+      return user;
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords
+      setCurrentPosition({
+        ...currentPosition,
+        latitude,
+        longitude
+      })
+    },
+      error => {
+        console.log(error)
       },
-      { enableHighAccuracy: true }
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-  });
+    getVenues();
+    getCrimes();
+    socket.onmessage = (e) => {
+      console.log(e);
+    };
+  }, []);
 
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
+        <Snackbar
+          duration={3000}
+          visible={snackbarVisible}
+          onDismiss={onDismissSnackBar}
+          wrapperStyle={
+            { bottom: 0.02 * height }
+          }
+          style={{
+            backgroundColor: gc.colors.errorLightRed,
+            borderColor: gc.colors.errorRed,
+            borderWidth: 2,
+            borderRadius: 6,
+            zIndex: 10
+          }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: gc.colors.errorRed
+            }}>
+            No internet connection, please connect and reload app.
+          </Text>
+        </Snackbar>
         <MapView
           showsUserLocation={true}
-          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          provider={PROVIDER_GOOGLE}
           style={styles.map}
-          customMapStyle={mapDarkStyle}
-          region={currLocation}
+          region={currentPosition}
+          customMapStyle={mapStyle}
+          userLocationPriority='high'
+          followsUserLocation={true}
+          userLocationUpdateInterval={500}
+          userLocationFastestInterval={500}
         >
-          <Marker
-            coordinate={{
-              latitude: 53.40337920431939,
-              longitude: -2.9800671712865228
-            }}
-            image={require('../assets/images/redMark1.png')}
-            title='SOHO'
-            description='Safety Level: Dangerous'
-          />
+          {venues !== [] ? venues.map((venue) => {
+            return (
+              <Marker
+                key={venue["venue_id"]}
+                coordinate={{
+                  latitude: venue["venue_lat"],
+                  longitude: venue["venue_long"]
+                }}
+                image={require('../assets/images/redMark1.png')}
+                title={venue["venue_name"]}
+                tracksViewChanges={false}
+                onCalloutPress={() => console.log("go to")}
+              />
+            )
+          }) : null}
         </MapView>
 
         <View style={styles.searchBox}>
-          <TextInput />
+          <TextInput
+            placeholder='Search here'
+            placeholderTextColor='#000'
+            autoCapitalize='none'
+            style={{ flex: 1, padding: 0 }}
+          />
         </View>
 
         <View style={styles.reportAndButtonsContainer}>
@@ -114,7 +242,97 @@ const Home = ({ navigation }) => {
             />
           </View>
         </View>
-        {showReport && <ReportModal visible={true} topSpace={0} />}
+        {showReport && <OurModal>
+          <View style={styles.formContainer}>
+            <View style={{ padding: 10, zIndex: 1000 }}>
+              <DropDownPicker
+                placeholder='Type of Incident'
+                open={incidentOpen}
+                value={incidentValue}
+                items={incidentItems.map(crime => ({ label: crime["crime_name"], value: crime["crime_id"] }))}
+                setOpen={setIncidentOpen}
+                setValue={setIncidentValue}
+                dropDownDirection='BOTTOM'
+                zIndex={1000}
+                style={{
+                  backgroundColor: '#f6f6f6',
+                  borderColor: gc.colors.darkGrey,
+                  height: 0.05 * height,
+                  width: 0.65 * width
+                }}
+                containerStyle={{
+                  backgroundColor: '#f6f6f6',
+                  width: 0.65 * width
+                }}
+                onSelectItem={(item) => setSelectedIncident(item.value)}
+              />
+            </View>
+            <View style={{ padding: 10, zIndex: 10 }}>
+              <DropDownPicker
+                placeholder='Venue'
+                open={venueOpen}
+                items={venues.map(venue => ({ label: venue["venue_name"] + " - " + venue["venue_city"], value: venue["venue_id"] }))}
+                value={venueValue}
+                setOpen={setVenueOpen}
+                setValue={setVenueValue}
+                dropDownDirection='BOTTOM'
+                zIndex={800}
+                style={{
+                  zIndex: 10,
+                  backgroundColor: '#f6f6f6',
+                  borderColor: gc.colors.darkGrey,
+                  height: 0.05 * height,
+                  width: 0.65 * width
+                }}
+                containerStyle={{
+                  backgroundColor: '#f6f6f6',
+                  width: 0.65 * width
+                }}
+                onSelectItem={(item) => setSelectedVenue(item.value)}
+              />
+
+            </View>
+            <View style={{ padding: 10 }}>
+              <TextInput
+                style={{
+                  maxHeight: 0.3 * height,
+                  width: 0.65 * width
+                }}
+                mode='outlined'
+                multiline={true}
+                label="Details"
+                value={details}
+                onChangeText={details => setDetails(details)}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+              <Button
+                type={'secondary'}
+                text={'Back'}
+                onPress={() => {
+                  setIncidentValue('');
+                  setVenueValue('');
+                  setDetails('')
+                  setShowReport(false)
+                }}
+                wProportion={0.3}
+                hProportion={0.09}
+                topSpace={5}
+              />
+
+              <Button
+                type={'primary'}
+                text={'Submit'}
+                onPress={() => sendReport()}
+                wProportion={0.3}
+                hProportion={0.09}
+                topSpace={5}
+              />
+            </View>
+
+
+          </View>
+        </OurModal>}
       </SafeAreaView>
     </>
   );
