@@ -18,26 +18,16 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
-<<<<<<< Updated upstream
   const ws = useRef(null);
   const netInfo = useNetInfo();
   const [showReport, setShowReport] = useState(false);
   const initialState = {
-=======
-  // Report Modal UseStates
-  const [incidentOpen, setIncidentOpen] = useState(false);
-  const [incidentValue, setIncidentValue] = useState('');
-  const [showReport, setShowReport] = useState(false);
-
-  // Map/Location UseStates
-  const [currLocation, setCurrLocation] = useState({
->>>>>>> Stashed changes
     latitude: 10,
     longitude: 10,
     latitudeDelta: 0.002,
-    longitudeDelta: 0.002,
-  }
-  const [currentPosition, setCurrentPosition] = useState(initialState)
+    longitudeDelta: 0.002
+  };
+  const [currentPosition, setCurrentPosition] = useState(initialState);
   const [jwtToken, setJwtToken] = useState('');
   const [venues, setVenues] = useState([]);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
@@ -50,12 +40,14 @@ const Home = ({ navigation }) => {
   const [details, setDetails] = useState('');
   const [venueSelected, setSelectedVenue] = useState(0);
   const [incidentSelected, setSelectedIncident] = useState(0);
-  const socket = new WebSocket('wss://safe-sound-208.herokuapp.com/reports/add/user');
+  const socket = new WebSocket(
+    'wss://safe-sound-208.herokuapp.com/reports/add/user'
+  );
 
   const getCrimes = async () => {
     await getJwt()
-      .then(jwt => {
-        fetch("https://safe-sound-208.herokuapp.com/user/crimes", {
+      .then((jwt) => {
+        fetch('https://safe-sound-208.herokuapp.com/user/crimes', {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -63,7 +55,7 @@ const Home = ({ navigation }) => {
           }
         })
           .then((result) => result.json())
-          .then((data) => setIncidentItems(data["generic"]))
+          .then((data) => setIncidentItems(data['generic']))
           .catch(function (error) {
             console.log(error);
           });
@@ -71,12 +63,12 @@ const Home = ({ navigation }) => {
       .catch(function (error) {
         console.log(error);
       });
-  }
+  };
 
   const getVenues = async () => {
     await getJwt()
-      .then(jwt => {
-        fetch("https://safe-sound-208.herokuapp.com/venues", {
+      .then((jwt) => {
+        fetch('https://safe-sound-208.herokuapp.com/venues', {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -84,7 +76,7 @@ const Home = ({ navigation }) => {
           }
         })
           .then((result) => result.json())
-          .then((data) => setVenues(data["generic"]))
+          .then((data) => setVenues(data['generic']))
           .catch(function (error) {
             console.log(error);
           });
@@ -92,56 +84,57 @@ const Home = ({ navigation }) => {
       .catch(function (error) {
         console.log(error);
       });
-  }
+  };
 
   const getJwt = async () => {
     try {
-      let jwt = await AsyncStorage.getItem("@jwt");
+      let jwt = await AsyncStorage.getItem('@jwt');
       setJwtToken(jwt);
-      return jwt
+      return jwt;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const sendReport = () => {
-    getUser().then(user => {
+    getUser().then((user) => {
       let data = {
-        report_date: new Date().toISOString().replace("Z", ""),
+        report_date: new Date().toISOString().replace('Z', ''),
         report_details: details,
-        report_user: user["user_id"],
+        report_user: user['user_id'],
         report_type: incidentSelected,
         report_venue: venueSelected
-      }
+      };
       socket.send(JSON.stringify(data));
-    })
-    setDetails("");
-    setIncidentValue("");
-    setVenueValue("");
+    });
+    setDetails('');
+    setIncidentValue('');
+    setVenueValue('');
     setShowReport(false);
-  }
+  };
 
   const getUser = async () => {
     try {
-      let obj = await AsyncStorage.getItem("@user");
-      let user = JSON.parse(obj)
+      let obj = await AsyncStorage.getItem('@user');
+      let user = JSON.parse(obj);
       return user;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords
-      setCurrentPosition({
-        ...currentPosition,
-        latitude,
-        longitude
-      })
-    },
-      error => {
-        console.log(error)
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setCurrentPosition({
+          ...currentPosition,
+          latitude,
+          longitude
+        });
+      },
+      (error) => {
+        console.log(error);
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
@@ -159,21 +152,21 @@ const Home = ({ navigation }) => {
           duration={3000}
           visible={snackbarVisible}
           onDismiss={onDismissSnackBar}
-          wrapperStyle={
-            { bottom: 0.02 * height }
-          }
+          wrapperStyle={{ bottom: 0.02 * height }}
           style={{
             backgroundColor: gc.colors.errorLightRed,
             borderColor: gc.colors.errorRed,
             borderWidth: 2,
             borderRadius: 6,
             zIndex: 10
-          }}>
+          }}
+        >
           <Text
             style={{
               textAlign: 'center',
               color: gc.colors.errorRed
-            }}>
+            }}
+          >
             No internet connection, please connect and reload app.
           </Text>
         </Snackbar>
@@ -188,21 +181,23 @@ const Home = ({ navigation }) => {
           userLocationUpdateInterval={500}
           userLocationFastestInterval={500}
         >
-          {venues !== [] ? venues.map((venue) => {
-            return (
-              <Marker
-                key={venue["venue_id"]}
-                coordinate={{
-                  latitude: venue["venue_lat"],
-                  longitude: venue["venue_long"]
-                }}
-                image={require('../assets/images/redMark1.png')}
-                title={venue["venue_name"]}
-                tracksViewChanges={false}
-                onCalloutPress={() => console.log("go to")}
-              />
-            )
-          }) : null}
+          {venues !== []
+            ? venues.map((venue) => {
+                return (
+                  <Marker
+                    key={venue['venue_id']}
+                    coordinate={{
+                      latitude: venue['venue_lat'],
+                      longitude: venue['venue_long']
+                    }}
+                    image={require('../assets/images/redMark1.png')}
+                    title={venue['venue_name']}
+                    tracksViewChanges={false}
+                    onCalloutPress={() => console.log('go to')}
+                  />
+                );
+              })
+            : null}
         </MapView>
 
         <View style={styles.searchBox}>
@@ -252,128 +247,104 @@ const Home = ({ navigation }) => {
             />
           </View>
         </View>
-<<<<<<< Updated upstream
-        {showReport && <OurModal>
-=======
         {showReport && (
->>>>>>> Stashed changes
-          <View style={styles.formContainer}>
-            <View style={{ padding: 10, zIndex: 1000 }}>
-              <DropDownPicker
-                placeholder='Type of Incident'
-                open={incidentOpen}
-                value={incidentValue}
-<<<<<<< Updated upstream
-                items={incidentItems.map(crime => ({ label: crime["crime_name"], value: crime["crime_id"] }))}
-=======
-                items={incidentItems}
->>>>>>> Stashed changes
-                setOpen={setIncidentOpen}
-                setValue={setIncidentValue}
-                dropDownDirection='BOTTOM'
-                zIndex={1000}
-                style={{
-                  backgroundColor: '#f6f6f6',
-                  borderColor: gc.colors.darkGrey,
-                  height: 0.05 * height,
-                  width: 0.65 * width
-                }}
-                containerStyle={{
-                  backgroundColor: '#f6f6f6',
-                  width: 0.65 * width
-                }}
-<<<<<<< Updated upstream
-                onSelectItem={(item) => setSelectedIncident(item.value)}
-              />
-            </View>
-            <View style={{ padding: 10, zIndex: 10 }}>
-              <DropDownPicker
-                placeholder='Venue'
-                open={venueOpen}
-                items={venues.map(venue => ({ label: venue["venue_name"] + " - " + venue["venue_city"], value: venue["venue_id"] }))}
-                value={venueValue}
-=======
-                onSelectItem={(item) => console.log(item.value)}
-              />
-            </View>
-            <View style={{ padding: 10 }}>
-              <DropDownPicker
-                placeholder='Venue'
-                open={venueOpen}
-                value={venueValue}
-                items={venues}
->>>>>>> Stashed changes
-                setOpen={setVenueOpen}
-                setValue={setVenueValue}
-                dropDownDirection='BOTTOM'
-                zIndex={800}
-                style={{
-<<<<<<< Updated upstream
-                  zIndex: 10,
-=======
->>>>>>> Stashed changes
-                  backgroundColor: '#f6f6f6',
-                  borderColor: gc.colors.darkGrey,
-                  height: 0.05 * height,
-                  width: 0.65 * width
-                }}
-                containerStyle={{
-                  backgroundColor: '#f6f6f6',
-                  width: 0.65 * width
-                }}
-<<<<<<< Updated upstream
-                onSelectItem={(item) => setSelectedVenue(item.value)}
-              />
+          <OurModal>
+            <View style={styles.formContainer}>
+              <View style={{ padding: 10, zIndex: 1000 }}>
+                <DropDownPicker
+                  placeholder='Type of Incident'
+                  open={incidentOpen}
+                  value={incidentValue}
+                  items={incidentItems.map((crime) => ({
+                    label: crime['crime_name'],
+                    value: crime['crime_id']
+                  }))}
+                  setOpen={setIncidentOpen}
+                  setValue={setIncidentValue}
+                  dropDownDirection='BOTTOM'
+                  zIndex={1000}
+                  style={{
+                    backgroundColor: '#f6f6f6',
+                    borderColor: gc.colors.darkGrey,
+                    height: 0.05 * height,
+                    width: 0.65 * width
+                  }}
+                  containerStyle={{
+                    backgroundColor: '#f6f6f6',
+                    width: 0.65 * width
+                  }}
+                  onSelectItem={(item) => setSelectedIncident(item.value)}
+                />
+              </View>
+              <View style={{ padding: 10, zIndex: 10 }}>
+                <DropDownPicker
+                  placeholder='Venue'
+                  open={venueOpen}
+                  items={venues.map((venue) => ({
+                    label: venue['venue_name'] + ' - ' + venue['venue_city'],
+                    value: venue['venue_id']
+                  }))}
+                  value={venueValue}
+                  setOpen={setVenueOpen}
+                  setValue={setVenueValue}
+                  dropDownDirection='BOTTOM'
+                  zIndex={800}
+                  style={{
+                    zIndex: 10,
+                    backgroundColor: '#f6f6f6',
+                    borderColor: gc.colors.darkGrey,
+                    height: 0.05 * height,
+                    width: 0.65 * width
+                  }}
+                  containerStyle={{
+                    backgroundColor: '#f6f6f6',
+                    width: 0.65 * width
+                  }}
+                  onSelectItem={(item) => setSelectedVenue(item.value)}
+                />
+              </View>
+              <View style={{ padding: 10 }}>
+                <TextInput
+                  style={{
+                    maxHeight: 0.3 * height,
+                    width: 0.65 * width
+                  }}
+                  mode='outlined'
+                  multiline={true}
+                  label='Details'
+                  value={details}
+                  onChangeText={(details) => setDetails(details)}
+                />
+              </View>
+              <View
+                style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
+              >
+                <Button
+                  type={'secondary'}
+                  text={'Back'}
+                  onPress={() => {
+                    setIncidentValue('');
+                    setVenueValue('');
+                    setDetails('');
+                    setShowReport(false);
+                  }}
+                  wProportion={0.3}
+                  hProportion={0.09}
+                  topSpace={5}
+                />
 
+                <Button
+                  type={'primary'}
+                  text={'Submit'}
+                  onPress={() => sendReport()}
+                  wProportion={0.3}
+                  hProportion={0.09}
+                  topSpace={5}
+                />
+              </View>
             </View>
-            <View style={{ padding: 10 }}>
-              <TextInput
-                style={{
-                  maxHeight: 0.3 * height,
-                  width: 0.65 * width
-                }}
-                mode='outlined'
-                multiline={true}
-                label="Details"
-                value={details}
-                onChangeText={details => setDetails(details)}
-              />
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-              <Button
-                type={'secondary'}
-                text={'Back'}
-                onPress={() => {
-                  setIncidentValue('');
-                  setVenueValue('');
-                  setDetails('')
-                  setShowReport(false)
-                }}
-                wProportion={0.3}
-                hProportion={0.09}
-                topSpace={5}
-              />
-
-              <Button
-                type={'primary'}
-                text={'Submit'}
-                onPress={() => sendReport()}
-                wProportion={0.3}
-                hProportion={0.09}
-                topSpace={5}
-              />
-            </View>
-
-
-          </View>
-        </OurModal>}
-=======
-                onSelectItem={(item) => console.log(item.value)}
-              />
-            </View>
-          </View>
+          </OurModal>
         )}
->>>>>>> Stashed changes
       </SafeAreaView>
     </>
   );
