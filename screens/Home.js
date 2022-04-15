@@ -12,13 +12,12 @@ import { Snackbar } from 'react-native-paper';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { mapStyle } from './mapData';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { TextInput } from 'react-native-paper';
+import { TextInput, Searchbar } from 'react-native-paper';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
-  const ws = useRef(null);
   const netInfo = useNetInfo();
   const [showReport, setShowReport] = useState(false);
   const initialState = {
@@ -43,6 +42,13 @@ const Home = ({ navigation }) => {
   const socket = new WebSocket(
     'wss://safe-sound-208.herokuapp.com/reports/add/user'
   );
+
+  socket.onmessage = (e) => {
+    let data = JSON.parse(e.data);
+    if (data.success) {
+      setSnackbarVisible(true);
+    }
+  };
 
   const getCrimes = async () => {
     await getJwt()
@@ -85,6 +91,27 @@ const Home = ({ navigation }) => {
         console.log(error);
       });
   };
+
+  const getVenuesBySearch = async (name) => {
+    await getJwt()
+      .then(
+        fetch(`https://safe-sound-208.herokuapp.com/venues/name/${name}`, {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwt}`
+          }
+        })
+          .then((result) => result.json())
+          .then((data) => setVenues(data['generic']))
+          .catch(function (error) {
+            console.log(error);
+          })
+      )
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   const getJwt = async () => {
     try {
@@ -140,9 +167,6 @@ const Home = ({ navigation }) => {
     );
     getVenues();
     getCrimes();
-    socket.onmessage = (e) => {
-      console.log(e);
-    };
   }, []);
 
   return (
@@ -154,8 +178,8 @@ const Home = ({ navigation }) => {
           onDismiss={onDismissSnackBar}
           wrapperStyle={{ bottom: 0.02 * height }}
           style={{
-            backgroundColor: gc.colors.errorLightRed,
-            borderColor: gc.colors.errorRed,
+            backgroundColor: gc.colors.successLightGreen,
+            borderColor: gc.colors.successGreen,
             borderWidth: 2,
             borderRadius: 6,
             zIndex: 10
@@ -164,10 +188,10 @@ const Home = ({ navigation }) => {
           <Text
             style={{
               textAlign: 'center',
-              color: gc.colors.errorRed
+              color: gc.colors.successGreen
             }}
           >
-            No internet connection, please connect and reload app.
+            Report Sent! Thank you for making this city safer!
           </Text>
         </Snackbar>
         <MapView
@@ -183,31 +207,22 @@ const Home = ({ navigation }) => {
         >
           {venues !== []
             ? venues.map((venue) => {
-                return (
-                  <Marker
-                    key={venue['venue_id']}
-                    coordinate={{
-                      latitude: venue['venue_lat'],
-                      longitude: venue['venue_long']
-                    }}
-                    image={require('../assets/images/redMark1.png')}
-                    title={venue['venue_name']}
-                    tracksViewChanges={false}
-                    onCalloutPress={() => console.log('go to')}
-                  />
-                );
-              })
+              return (
+                <Marker
+                  key={venue['venue_id']}
+                  coordinate={{
+                    latitude: venue['venue_lat'],
+                    longitude: venue['venue_long']
+                  }}
+                  image={require('../assets/images/redMark1.png')}
+                  title={venue['venue_name']}
+                  tracksViewChanges={false}
+                  onCalloutPress={() => console.log('go to')}
+                />
+              );
+            })
             : null}
         </MapView>
-
-        <View style={styles.searchBox}>
-          <TextInput
-            placeholder='Search here'
-            placeholderTextColor='#000'
-            autoCapitalize='none'
-            style={{ flex: 1, padding: 0 }}
-          />
-        </View>
 
         <View style={styles.reportAndButtonsContainer}>
           <View style={styles.floatingButtonsContainer}>

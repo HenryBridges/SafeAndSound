@@ -21,6 +21,8 @@ target 'SafeSound' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
   target 'SafeSoundTests' do
     inherit! :complete
     # Pods for testing
