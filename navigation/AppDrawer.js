@@ -7,7 +7,6 @@ import CustomDrawer from '../components/Other/CustomDrawer';
 import Home from '../screens/Home';
 import Stats from '../screens/Stats';
 import Account from '../screens/Account';
-
 import gc from '../general/globalColors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 

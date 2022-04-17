@@ -13,6 +13,9 @@ export default globalColors = {
     errorRed: '#bf314a',
     errorLightRed: '#F7DFE3',
     successGreen: '#1cac78',
-    successLightGreen: '#d0f8e9'
+    successLightGreen: '#d0f8e9',
+    dangerRed: '#F32013',
+    safeGreen: '#1AA33C',
+    warningYellow: '#F1970D'
   }
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthStack from './navigation/AuthStack';
-import AppDrawer from './navigation/AppDrawer';
+import DetailStack from './navigation/Stack';
 import { useEffect } from 'react';
 import { AuthContext } from './components/Other/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -68,7 +68,9 @@ const App = () => {
   return (
     <AuthContext.Provider value={authContext} >
       <NavigationContainer>
-        {loginState.userToken !== null ? <AppDrawer /> : <AuthStack />}
+        {loginState.userToken !== null ?
+          <DetailStack />
+          : <AuthStack />}
       </NavigationContainer>
     </AuthContext.Provider>
   )
