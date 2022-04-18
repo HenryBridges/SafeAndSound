@@ -61,17 +61,25 @@ const Login = ({ navigation }) => {
 
   //handles the logic for the forgot password path
   const forgotPassHandle = () => {
-    setIsForgotLoading(true);
-    setForgotSent(false);
-    setForgotResponse(false);
-    setForgotMessage('');
-    setForgotEmailValid(false);
-    let valid = validateForgot();
-    if (valid) {
-      forgot();
+    if (netInfo.isConnected) {
+      setIsForgotLoading(true);
+      setForgotSent(false);
+      setForgotResponse(false);
+      setForgotMessage('');
+      setForgotEmailValid(false);
+      let valid = validateForgot();
+      if (valid) {
+        forgot();
+      } else {
+        setIsForgotLoading(false);
+      }
     } else {
       setIsForgotLoading(false);
+      setForgotSent(true);
+      setForgotResponse(false);
+      setForgotMessage("No internet connection");
     }
+
   };
 
   //validates the forgot password

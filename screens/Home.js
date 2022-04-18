@@ -10,6 +10,7 @@ import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, Snackbar } from 'react-native-paper';
 import { useNetInfo } from '@react-native-community/netinfo';
+import NetInfo from '@react-native-community/netinfo';
 import { mapStyle } from '../assets/mapData';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { TextInput, Searchbar, List } from 'react-native-paper';
@@ -43,7 +44,7 @@ const Home = ({ navigation }) => {
   const [venueError, setVenueError] = useState(false);
   const [incidentError, setIncidentError] = useState(false);
   const [reportMessage, setReportMessage] = useState('');
-  const [reportSuccess, setReportSuccess] = useState(true);
+  const [reportSuccess, setReportSuccess] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchReceived, setSearchReceived] = useState(false);
   const [searchData, setSearchData] = useState([]);
@@ -55,7 +56,6 @@ const Home = ({ navigation }) => {
 
   socket.onmessage = (e) => {
     let data = JSON.parse(e.data);
-    setSnackbarVisible(true);
     if (data.success) {
       setReportSuccess(true);
       setReportMessage('Report Sent! Thank you for making this city safer!');
@@ -63,6 +63,7 @@ const Home = ({ navigation }) => {
       setReportSuccess(false);
       setReportMessage(data.message);
     }
+    setSnackbarVisible(true);
   };
 
   const getCrimes = async () => {
@@ -116,28 +117,34 @@ const Home = ({ navigation }) => {
   };
 
   const getVenuesBySearch = async (name) => {
-    if (name != "") {
-      await getJwt()
-        .then((jwt) =>
-          fetch(`https://safe-sound-208.herokuapp.com/venues/name/${name}`, {
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${jwt}`
-            }
-          })
-            .then((result) => result.json())
-            .then((data) => handleSearch(data))
-            .catch(function (error) {
-              console.log(error);
-            })
-        )
-        .catch(function (error) {
-          console.log(error);
-        });
+    if (!netInfo.isConnected) {
+      setReportMessage("No internet connection!");
+      setReportSuccess(false);
+      setSnackbarVisible(true);
     } else {
-      setSearchReceived(false);
-      setSearchData([]);
+      if (name != "") {
+        await getJwt()
+          .then((jwt) =>
+            fetch(`https://safe-sound-208.herokuapp.com/venues/name/${name}`, {
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwt}`
+              }
+            })
+              .then((result) => result.json())
+              .then((data) => handleSearch(data))
+              .catch(function (error) {
+                console.log(error);
+              })
+          )
+          .catch(function (error) {
+            console.log(error);
+          });
+      } else {
+        setSearchReceived(false);
+        setSearchData([]);
+      }
     }
   }
 
@@ -174,24 +181,30 @@ const Home = ({ navigation }) => {
   }
 
   const sendReport = async () => {
-    let valid = validateReport();
-    if (valid) {
-      await getUser().then((user) => {
-        let data = {
-          report_date: new Date().toISOString().replace('Z', ''),
-          report_details: details,
-          report_user: user['user_id'],
-          report_type: incidentSelected,
-          report_venue: venueSelected
-        }
-        socket.send(JSON.stringify(data));
-      }).catch(function (error) {
-        console.log(error);
-      });
-      setDetails('');
-      setIncidentValue('');
-      setVenueValue('');
-      setShowReport(false);
+    if (!netInfo.isConnected) {
+      setReportMessage("No internet connection!");
+      setReportSuccess(false);
+      setSnackbarVisible(true);
+    } else {
+      let valid = validateReport();
+      if (valid) {
+        await getUser().then((user) => {
+          let data = {
+            report_date: new Date().toISOString().replace('Z', ''),
+            report_details: details,
+            report_user: user['user_id'],
+            report_type: incidentSelected,
+            report_venue: venueSelected
+          }
+          socket.send(JSON.stringify(data));
+        }).catch(function (error) {
+          console.log(error);
+        });
+        setDetails('');
+        setIncidentValue('');
+        setVenueValue('');
+        setShowReport(false);
+      }
     }
   };
 
@@ -212,6 +225,8 @@ const Home = ({ navigation }) => {
     })
   }
 
+
+
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -228,9 +243,20 @@ const Home = ({ navigation }) => {
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
+
     getVenues();
     getCrimes();
+
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      if (state.isConnected) {
+        getVenues();
+        getCrimes();
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
+
 
   return (
     <>
@@ -337,8 +363,8 @@ const Home = ({ navigation }) => {
               <RoundButton
                 icon={'menuIcon'}
                 onPress={() => navigation.openDrawer()}
-                wProportion={0.1}
-                hProportion={0.1}
+                wProportion={0.12}
+                hProportion={0.12}
                 background={true}
               />
             </View>
@@ -351,8 +377,8 @@ const Home = ({ navigation }) => {
               <RoundButton
                 icon={'chartIcon'}
                 onPress={() => navigation.navigate('Stats')}
-                wProportion={0.1}
-                hProportion={0.1}
+                wProportion={0.12}
+                hProportion={0.12}
                 background={true}
               />
             </View>
@@ -364,7 +390,7 @@ const Home = ({ navigation }) => {
               onPress={() => {
                 setShowReport(!showReport);
               }}
-              hProportion={0.1}
+              hProportion={0.12}
               wProportion={0.85}
             />
           </View>
