@@ -48,6 +48,7 @@ const Home = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchReceived, setSearchReceived] = useState(false);
   const [searchData, setSearchData] = useState([]);
+  const [severities, setSeverity] = useState(new Map());
   const [venueToSend, setVenueToSend] = useState([])
 
   const socket = new WebSocket(
@@ -115,6 +116,39 @@ const Home = ({ navigation }) => {
         console.log(error);
       });
   };
+
+  const updateMap = (k, v) => {
+    setSeverity(new Map(severities.set(k, v)));
+  }
+
+  const getSeverities = async () => {
+    await getJwt()
+      .then((jwt) => {
+        fetch('https://safe-sound-208.herokuapp.com/venues/severity', {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwt}`
+          }
+        })
+          .then((result) => result.json())
+          .then((data) => {
+            if (data["success"]) {
+              let map = data["generic"];
+              for (const [key, value] of Object.entries(map)) {
+                let severity = value["average_severity"];
+                updateMap(key, severity);
+              }
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   const getVenuesBySearch = async (name) => {
     if (!netInfo.isConnected) {
@@ -225,8 +259,6 @@ const Home = ({ navigation }) => {
     })
   }
 
-
-
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -244,8 +276,9 @@ const Home = ({ navigation }) => {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
 
-    getVenues();
+    getSeverities();
     getCrimes();
+    getVenues();
 
     const unsubscribe = NetInfo.addEventListener((state) => {
       if (state.isConnected) {
@@ -292,7 +325,6 @@ const Home = ({ navigation }) => {
                 searchData.map((venue) => {
                   return (
                     <List.Item
-
                       key={venue["venue_id"]}
                       description={venue['venue_city']}
                       title={venue['venue_name']}
@@ -346,7 +378,8 @@ const Home = ({ navigation }) => {
                     latitude: venue['venue_lat'],
                     longitude: venue['venue_long']
                   }}
-                  image={require('../assets/images/redMark1.png')}
+                  image={
+                    severities.get(String(venue["venue_id"])) >= 4 ? require("../assets/images/redMark1.png") : (severities.get(String(venue["venue_id"])) < 4 && severities.get(String(venue["venue_id"]))) ? require("../assets/images/orangeMark.png") : require("../assets/images/greenMark.png")}
                   title={venue['venue_name']}
                   tracksViewChanges={false}
                   onCalloutPress={() => openVenue(venue)}
@@ -409,14 +442,13 @@ const Home = ({ navigation }) => {
                   }))}
                   setOpen={setIncidentOpen}
                   setValue={setIncidentValue}
-                  dropDownDirection='BOTTOM'
                   zIndex={1000}
+                  maxHeight={200}
                   style={{
                     borderColor: incidentError
                       ? gc.colors.errorRed
                       : gc.colors.darkGrey,
                     backgroundColor: '#f6f6f6',
-                    height: 0.05 * height,
                     width: 0.65 * width
                   }}
                   containerStyle={{
@@ -428,6 +460,9 @@ const Home = ({ navigation }) => {
               </View>
               <View style={{ padding: 10, zIndex: 10 }}>
                 <DropDownPicker
+                  searchable={true}
+                  maxHeight={200}
+                  searchPlaceholder='Search Venue'
                   placeholder='Venue'
                   open={venueOpen}
                   items={venues.map((venue) => ({
@@ -437,7 +472,6 @@ const Home = ({ navigation }) => {
                   value={venueValue}
                   setOpen={setVenueOpen}
                   setValue={setVenueValue}
-                  dropDownDirection='BOTTOM'
                   zIndex={800}
                   style={{
                     borderColor: venueError
@@ -445,7 +479,6 @@ const Home = ({ navigation }) => {
                       : gc.colors.darkGrey,
                     zIndex: 10,
                     backgroundColor: '#f6f6f6',
-                    height: 0.05 * height,
                     width: 0.65 * width
                   }}
                   containerStyle={{

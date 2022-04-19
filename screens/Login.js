@@ -14,10 +14,7 @@ import gc from '../general/globalColors';
 import OurTextInput from '../components/Other/TextInput';
 import { appIcon } from '../assets/images/images';
 import OurModal from '../components/Other/OurModal';
-import {
-  resetPasswordGraphic,
-  lostConnectionGraphic
-} from '../assets/images/images';
+import { resetPasswordGraphic } from '../assets/images/images';
 import { ActivityIndicator, Snackbar } from 'react-native-paper';
 import { Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
