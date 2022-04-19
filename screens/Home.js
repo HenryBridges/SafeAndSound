@@ -49,7 +49,6 @@ const Home = ({ navigation }) => {
   const [searchReceived, setSearchReceived] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const [severities, setSeverity] = useState(new Map());
-  const [venueToSend, setVenueToSend] = useState([])
 
   const socket = new WebSocket(
     'wss://safe-sound-208.herokuapp.com/reports/add/user'
@@ -238,6 +237,10 @@ const Home = ({ navigation }) => {
         setIncidentValue('');
         setVenueValue('');
         setShowReport(false);
+        setVenueError(false);
+        setIncidentError(false);
+        setSelectedIncident(0);
+        setSelectedVenue(0);
       }
     }
   };
@@ -302,7 +305,10 @@ const Home = ({ navigation }) => {
           }}>
           <Searchbar
             style={{
-              borderRadius: 0,
+              borderBottomEndRadius: 0,
+              borderBottomStartRadius: 0,
+              borderTopEndRadius: 8,
+              borderTopStartRadius: 8,
               zIndex: 11
             }}
             placeholder='Search Venue'

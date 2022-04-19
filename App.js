@@ -14,6 +14,7 @@ const App = () => {
     userToken: null,
   };
 
+  //hekps with the login, logout state across the app as in a global state
   const loginReducer = (prevState, action) => {
     switch (action.type) {
       case 'LOGOUT':
@@ -44,6 +45,7 @@ const App = () => {
   }), []);
 
 
+  //gets jwt token stored in the phone
   const getToken = async () => {
     try {
       const token = await AsyncStorage.getItem('@jwt');

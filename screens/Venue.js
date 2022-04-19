@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     Text,
+    View,
     StyleSheet,
     SafeAreaView,
     Dimensions
@@ -8,7 +9,7 @@ import {
 import gc from '../general/globalColors';
 import RoundButton from '../components/Buttons/roundButtons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ProgressBar } from 'react-native-paper';
+import { ProgressBar, Card, Title, Button } from 'react-native-paper';
 
 const height = Dimensions.get('window').height;
 
@@ -17,11 +18,6 @@ const Venue = ({ route, navigation }) => {
     const [jwtToken, setJwtToken] = useState(route.params.jwtToken)
     const [severity, setSeverity] = useState(0);
     const [color, setColor] = useState(gc.colors.safeGreen)
-
-
-    const createDifferentColours = () => {
-
-    }
 
     const getJwt = async () => {
         try {
@@ -73,17 +69,52 @@ const Venue = ({ route, navigation }) => {
                 backgroundColor: gc.colors.white,
                 flexDirection: 'column'
             }}>
-                <RoundButton
-                    icon={'backArrow'}
-                    onPress={() => navigation.goBack()}
-                    wProportion={0.1}
-                    hProportion={0.1}
-                    background={true}
-                />
-                <Text style={styles.largeTitle}>{venue.venue_name}</Text>
-                <Text style={styles.subTitle}>{venue.venue_city}</Text>
-                <ProgressBar progress={0.5} color={color} />
-                <Text>{severity}</Text>
+                <View>
+                    <RoundButton
+                        icon={'backArrow'}
+                        onPress={() => navigation.goBack()}
+                        wProportion={0.1}
+                        hProportion={0.1}
+                        background={true}
+                    />
+                    <Text style={styles.largeTitle}>{venue.venue_name}</Text>
+                    <Text style={styles.subTitle}>{venue.venue_city}</Text>
+                </View>
+                <View style={{
+                    marginTop: 20,
+                    flex: 1,
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}>
+                    <Card elevation={6} style={{
+                        width: '80%',
+                        borderRadius: 10
+                    }}>
+                        <Card.Content>
+                            <Title>Risk:</Title>
+                            <Text style={{
+                                fontSize: height * 0.022
+                            }}>{severity}/5</Text>
+                            <ProgressBar style={{
+                                height: 0.05 * height
+                            }}
+                                progress={severity / 5}
+                                color={color}
+                            />
+
+                        </Card.Content>
+                    </Card>
+                    <Card elevation={6} style={{
+                        marginTop: 20,
+                        width: '90%',
+                        borderRadius: 10
+                    }}>
+                        <Card.Content>
+                            <Title>Latest Reports:</Title>
+                        </Card.Content>
+                    </Card>
+                </View>
+
             </SafeAreaView>
         </>
     )
@@ -102,9 +133,8 @@ const styles = StyleSheet.create({
         fontSize: 0.034 * height,
         fontWeight: 'bold',
         marginLeft: 4.5,
-        color: gc.colors.periwinkle,
-        left: 16,
-        top: 15
+        color: gc.colors.pink,
+        left: 16
     }
 });
 
