@@ -9,7 +9,8 @@ import {
 import gc from '../general/globalColors';
 import RoundButton from '../components/Buttons/roundButtons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ProgressBar, Card, Title, Button } from 'react-native-paper';
+import { ProgressBar, Card, Title, List } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const height = Dimensions.get('window').height;
 
@@ -18,6 +19,7 @@ const Venue = ({ route, navigation }) => {
     const [jwtToken, setJwtToken] = useState(route.params.jwtToken)
     const [severity, setSeverity] = useState(0);
     const [color, setColor] = useState(gc.colors.safeGreen)
+    const [latestReports, setLatestReports] = useState([]);
 
     const getJwt = async () => {
         try {
@@ -55,11 +57,33 @@ const Venue = ({ route, navigation }) => {
         }
     }
 
+    const findLatestReports = () => {
+        fetch(`https://safe-sound-208.herokuapp.com/reports/venue/${venue.venue_id}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${jwtToken}`
+            }
+        })
+            .then((result) => result.json())
+            .then((data) => handleResponseLatest(data))
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    const handleResponseLatest = (data) => {
+        if (data["success"]) {
+            setLatestReports(data["generic"])
+        }
+    }
+
     useEffect(() => {
         if (jwtToken == '') {
             getJwt();
         }
         getSeverity();
+        findLatestReports();
     }, []);
 
     return (
@@ -96,6 +120,8 @@ const Venue = ({ route, navigation }) => {
                                 fontSize: height * 0.022
                             }}>{severity}/5</Text>
                             <ProgressBar style={{
+                                borderRadius: 8,
+                                marginTop: 5,
                                 height: 0.05 * height
                             }}
                                 progress={severity / 5}
@@ -107,10 +133,26 @@ const Venue = ({ route, navigation }) => {
                     <Card elevation={6} style={{
                         marginTop: 20,
                         width: '90%',
-                        borderRadius: 10
+                        borderRadius: 10,
                     }}>
                         <Card.Content>
                             <Title>Latest Reports:</Title>
+                            <ScrollView style={{
+                                maxHeight: 0.45 * height
+
+                            }}>
+                                {latestReports.length === 0 ? (<Text>No Data to be shown</Text>)
+                                    : latestReports.map((report) => {
+                                        let date = report["report_date"].replace("T", " ")
+                                        return (
+                                            <List.Item
+                                                key={report["report_id"]}
+                                                description={report['report_details']}
+                                                title={report['report_type'] + " - " + date}
+                                            />
+                                        );
+                                    })}
+                            </ScrollView>
                         </Card.Content>
                     </Card>
                 </View>
