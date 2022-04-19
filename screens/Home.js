@@ -14,6 +14,7 @@ import NetInfo from '@react-native-community/netinfo';
 import { mapStyle } from '../assets/mapData';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { TextInput, Searchbar, List } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -413,13 +414,6 @@ const Home = ({ navigation }) => {
                 right: 0
               }}
             >
-              <RoundButton
-                icon={'chartIcon'}
-                onPress={() => navigation.navigate('Stats')}
-                wProportion={0.12}
-                hProportion={0.12}
-                background={true}
-              />
             </View>
           </View>
           <View style={styles.reportBtn}>
@@ -446,6 +440,7 @@ const Home = ({ navigation }) => {
                     label: crime['crime_name'],
                     value: crime['crime_id']
                   }))}
+                  listMode={'SCROLLVIEW'}
                   setOpen={setIncidentOpen}
                   setValue={setIncidentValue}
                   zIndex={1000}

@@ -3,7 +3,6 @@ import 'react-native-gesture-handler';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
-import { backArrow } from '../assets/images/images';
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => (

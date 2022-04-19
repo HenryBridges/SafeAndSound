@@ -5,7 +5,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CustomDrawer from '../components/Other/CustomDrawer';
 import Home from '../screens/Home';
-import Stats from '../screens/Stats';
 import Account from '../screens/Account';
 import gc from '../general/globalColors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -35,18 +34,6 @@ const AppDrawer = () => (
         headerShown: false,
         drawerIcon: ({ color }) => (
           <Ionicons name='home-outline' size={22} color={color} />
-        )
-      }}
-    />
-    <Drawer.Screen
-      name='Stats'
-      component={Stats}
-      options={{
-        headerShown: true,
-        headerTitle: 'Statistics',
-        title: 'Statistics',
-        drawerIcon: ({ color }) => (
-          <Ionicons name='bar-chart-outline' size={22} color={color} />
         )
       }}
     />
