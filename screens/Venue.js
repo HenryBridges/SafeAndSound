@@ -20,6 +20,8 @@ const Venue = ({ route, navigation }) => {
     const [severity, setSeverity] = useState(0);
     const [color, setColor] = useState(gc.colors.safeGreen)
     const [latestReports, setLatestReports] = useState([]);
+    const [hasReports, setHasReports] = useState(false);
+    const [hasSeverity, setHasSeverity] = useState(false);
 
     const getJwt = async () => {
         try {
@@ -47,14 +49,20 @@ const Venue = ({ route, navigation }) => {
     }
 
     const handleResponseSeverity = (data) => {
-        let dangerLevel = data["generic"].average_severity;
-        setSeverity(dangerLevel)
-        if (dangerLevel >= 3 && dangerLevel < 4) {
-            setColor(gc.colors.warningYellow)
+        if (data["success"]) {
+            let dangerLevel = data["generic"].average_severity;
+            setSeverity(dangerLevel)
+            if (dangerLevel >= 3 && dangerLevel < 4) {
+                setColor(gc.colors.warningYellow)
+            }
+            if (dangerLevel >= 4) {
+                setColor(gc.colors.dangerRed)
+            }
+            setHasSeverity(true)
+
         }
-        if (dangerLevel >= 4) {
-            setColor(gc.colors.dangerRed)
-        }
+
+
     }
 
     const findLatestReports = () => {
@@ -74,7 +82,9 @@ const Venue = ({ route, navigation }) => {
 
     const handleResponseLatest = (data) => {
         if (data["success"]) {
-            setLatestReports(data["generic"])
+            setLatestReports(data["generic"]);
+            setHasReports(true);
+
         }
     }
 
@@ -141,7 +151,7 @@ const Venue = ({ route, navigation }) => {
                                 maxHeight: 0.45 * height
 
                             }}>
-                                {latestReports.length === 0 ? (<Text>No Data to be shown</Text>)
+                                {!hasReports ? (<Text>No Data to be shown</Text>)
                                     : latestReports.map((report) => {
                                         let date = report["report_date"].replace("T", " ")
                                         return (

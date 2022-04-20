@@ -294,7 +294,6 @@ const Home = ({ navigation }) => {
     return () => unsubscribe();
   }, []);
 
-
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
