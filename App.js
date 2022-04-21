@@ -1,3 +1,6 @@
+// SAFE AND SOUND PROJECT MOBILE-APP in React Native
+// Team Members: Joao Garrido, Faisal Al Rajhi , Henry Ibeneme, Ryan Choi, Steven Pahyrya, Henry Bridges
+
 import React from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,7 +14,7 @@ import Splash from './screens/Splash';
 const App = () => {
   const initialLoginState = {
     isLoading: true,
-    userToken: null,
+    userToken: null
   };
 
   //hekps with the login, logout state across the app as in a global state
@@ -21,7 +24,7 @@ const App = () => {
         return {
           ...prevState,
           userToken: null,
-          isLoading: false,
+          isLoading: false
         };
       case 'LOGIN':
         return {
@@ -30,20 +33,24 @@ const App = () => {
           isLoading: false
         };
     }
-  }
+  };
 
-  const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
+  const [loginState, dispatch] = React.useReducer(
+    loginReducer,
+    initialLoginState
+  );
 
-
-  const authContext = React.useMemo(() => ({
-    signedIn: (token) => {
-      dispatch({ type: 'LOGIN', token: token });
-    },
-    signOut: () => {
-      dispatch({ type: 'LOGOUT' });
-    },
-  }), []);
-
+  const authContext = React.useMemo(
+    () => ({
+      signedIn: (token) => {
+        dispatch({ type: 'LOGIN', token: token });
+      },
+      signOut: () => {
+        dispatch({ type: 'LOGOUT' });
+      }
+    }),
+    []
+  );
 
   //gets jwt token stored in the phone
   const getToken = async () => {
@@ -53,7 +60,7 @@ const App = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -62,20 +69,16 @@ const App = () => {
   }, []);
 
   if (loginState.isLoading) {
-    return (
-      <Splash />
-    );
+    return <Splash />;
   }
 
   return (
-    <AuthContext.Provider value={authContext} >
+    <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {loginState.userToken !== null ?
-          <DetailStack />
-          : <AuthStack />}
+        {loginState.userToken !== null ? <DetailStack /> : <AuthStack />}
       </NavigationContainer>
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 export default App;
