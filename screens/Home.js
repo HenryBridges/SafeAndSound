@@ -164,21 +164,15 @@ const Home = ({ navigation }) => {
       setSnackbarVisible(true);
     } else {
       if (name != '') {
-        await getJwt()
-          .then((jwt) =>
-            fetch(`https://safe-sound-208.herokuapp.com/venues/name/${name}`, {
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${jwt}`
-              }
-            })
-              .then((result) => result.json())
-              .then((data) => handleSearch(data))
-              .catch(function (error) {
-                console.log(error);
-              })
-          )
+        fetch(`https://safe-sound-208.herokuapp.com/venues/name/${name}`, {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwtToken}`
+          }
+        })
+          .then((result) => result.json())
+          .then((data) => handleSearch(data))
           .catch(function (error) {
             console.log(error);
           });
@@ -410,6 +404,7 @@ const Home = ({ navigation }) => {
                       title={venue['venue_name']}
                       tracksViewChanges={false}
                       onCalloutPress={() => openVenue(venue)}
+                      onPress={() => openVenue(venue)}
                     />
                   );
                 })

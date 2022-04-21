@@ -15,30 +15,31 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Stats = ({ navigation }) => {
+  // Use states for conditional rendering and storing fetched reports.
   const [hasReports, setHasReports] = useState(false);
   const [latestReports, setLatestReports] = useState([]);
 
   // JWT used for authorising API calls.
   const [jwtToken, setJwtToken] = useState('');
 
-  // Fetch JWT token from local storage.
+  // Fetch JWT token from local storage and call the latest reports function to fetch those.
   const getJwt = async () => {
     try {
       let jwt = await AsyncStorage.getItem('@jwt');
       setJwtToken(jwt);
-      return jwt;
+      findLatestReports(jwt);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Fetch the latest reports for that venue.
-  const findLatestReports = () => {
+  // Fetch the latest reports (10 is the limit set in backend).
+  const findLatestReports = (jwt) => {
     fetch(`https://safe-sound-208.herokuapp.com/reports/latest`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${jwtToken}`
+        Authorization: `Bearer ${jwt}`
       }
     })
       .then((result) => result.json())
@@ -50,19 +51,17 @@ const Stats = ({ navigation }) => {
 
   // handle the response from the above fetch for latest reports.
   const handleResponseLatest = (data) => {
-    console.log(data);
     if (data['success']) {
       setLatestReports(data['generic']);
       setHasReports(true);
     }
   };
 
-  // Use effect to call the required functions on initial loadup (mount)
+  // Use effect to call the fetching of jwt token and hence fetching latest reports too.
   useEffect(() => {
     if (jwtToken == '') {
       getJwt();
     }
-    findLatestReports();
   }, []);
 
   return (
@@ -178,7 +177,7 @@ const Stats = ({ navigation }) => {
           style={{
             alignSelf: 'center',
             width: 0.975 * width,
-            height: 0.375 * height
+            height: 0.35 * height
           }}
         >
           <Card
@@ -188,10 +187,10 @@ const Stats = ({ navigation }) => {
             }}
           >
             <Card.Content>
-              <Title>Latest Reports:</Title>
+              <Title>Latest 10 Reports:</Title>
               <ScrollView
                 style={{
-                  maxHeight: 0.35 * height
+                  maxHeight: 0.325 * height
                 }}
               >
                 {!hasReports ? (
