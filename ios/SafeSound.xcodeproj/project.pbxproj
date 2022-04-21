@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SafeSoundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SafeSoundTests.m */; };
-		1134DB20983168B34FB7C555 /* libPods-SafeSound-SafeSoundTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B9928867E35E84CE9D4C809 /* libPods-SafeSound-SafeSoundTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		3E7348D31542524213583B41 /* libPods-SafeSound-SafeSoundTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 495F72EE93549090143CD1BD /* libPods-SafeSound-SafeSoundTests.a */; };
 		53A42672280066C700E8CFB4 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 53A42671280066C700E8CFB4 /* fonts */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		B4FB788109D48E596EFDDF14 /* libPods-SafeSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 330BB83F0B66E7C751171582 /* libPods-SafeSound.a */; };
+		A4B0E4070516CDC84AF3632E /* libPods-SafeSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64ACFEB10F6AB536FEBFB367 /* libPods-SafeSound.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,14 +37,14 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SafeSound/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SafeSound/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SafeSound/main.m; sourceTree = "<group>"; };
-		330BB83F0B66E7C751171582 /* libPods-SafeSound.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SafeSound.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		495F72EE93549090143CD1BD /* libPods-SafeSound-SafeSoundTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SafeSound-SafeSoundTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53A42671280066C700E8CFB4 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		53AE070955A101F6CF66FF37 /* Pods-SafeSound-SafeSoundTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound-SafeSoundTests.debug.xcconfig"; path = "Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests.debug.xcconfig"; sourceTree = "<group>"; };
+		64ACFEB10F6AB536FEBFB367 /* libPods-SafeSound.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SafeSound.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SafeSound/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8A017A60FF8A84DC5B6A4E0E /* Pods-SafeSound-SafeSoundTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound-SafeSoundTests.release.xcconfig"; path = "Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests.release.xcconfig"; sourceTree = "<group>"; };
-		9B9928867E35E84CE9D4C809 /* libPods-SafeSound-SafeSoundTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SafeSound-SafeSoundTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B0CDE814EB5F5331BFA5DFEB /* Pods-SafeSound.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound.debug.xcconfig"; path = "Target Support Files/Pods-SafeSound/Pods-SafeSound.debug.xcconfig"; sourceTree = "<group>"; };
-		D9D3D004E4CBEB708D3B2730 /* Pods-SafeSound-SafeSoundTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound-SafeSoundTests.debug.xcconfig"; path = "Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests.debug.xcconfig"; sourceTree = "<group>"; };
-		DF540537C2952EA27BB52235 /* Pods-SafeSound.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound.release.xcconfig"; path = "Target Support Files/Pods-SafeSound/Pods-SafeSound.release.xcconfig"; sourceTree = "<group>"; };
+		9812502940CFD6E80D946794 /* Pods-SafeSound.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound.debug.xcconfig"; path = "Target Support Files/Pods-SafeSound/Pods-SafeSound.debug.xcconfig"; sourceTree = "<group>"; };
+		C9DAE3410A6DB43D3CBB8AFD /* Pods-SafeSound-SafeSoundTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound-SafeSoundTests.release.xcconfig"; path = "Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests.release.xcconfig"; sourceTree = "<group>"; };
+		E9E67100A393BACBC96277A0 /* Pods-SafeSound.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SafeSound.release.xcconfig"; path = "Target Support Files/Pods-SafeSound/Pods-SafeSound.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1134DB20983168B34FB7C555 /* libPods-SafeSound-SafeSoundTests.a in Frameworks */,
+				3E7348D31542524213583B41 /* libPods-SafeSound-SafeSoundTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4FB788109D48E596EFDDF14 /* libPods-SafeSound.a in Frameworks */,
+				A4B0E4070516CDC84AF3632E /* libPods-SafeSound.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,8 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				330BB83F0B66E7C751171582 /* libPods-SafeSound.a */,
-				9B9928867E35E84CE9D4C809 /* libPods-SafeSound-SafeSoundTests.a */,
+				64ACFEB10F6AB536FEBFB367 /* libPods-SafeSound.a */,
+				495F72EE93549090143CD1BD /* libPods-SafeSound-SafeSoundTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -143,10 +143,10 @@
 		F4E63A561E47615F89159046 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B0CDE814EB5F5331BFA5DFEB /* Pods-SafeSound.debug.xcconfig */,
-				DF540537C2952EA27BB52235 /* Pods-SafeSound.release.xcconfig */,
-				D9D3D004E4CBEB708D3B2730 /* Pods-SafeSound-SafeSoundTests.debug.xcconfig */,
-				8A017A60FF8A84DC5B6A4E0E /* Pods-SafeSound-SafeSoundTests.release.xcconfig */,
+				9812502940CFD6E80D946794 /* Pods-SafeSound.debug.xcconfig */,
+				E9E67100A393BACBC96277A0 /* Pods-SafeSound.release.xcconfig */,
+				53AE070955A101F6CF66FF37 /* Pods-SafeSound-SafeSoundTests.debug.xcconfig */,
+				C9DAE3410A6DB43D3CBB8AFD /* Pods-SafeSound-SafeSoundTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -158,12 +158,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SafeSoundTests" */;
 			buildPhases = (
-				0E645362DF8B6838057F1865 /* [CP] Check Pods Manifest.lock */,
+				3C3D17888966D45ECBCF8837 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				56E4B34EB59D565641B3FA09 /* [CP] Embed Pods Frameworks */,
-				F031B7EA08FC6C07934CA6D0 /* [CP] Copy Pods Resources */,
+				B8CDDE3B799C8BB7E20BE72F /* [CP] Embed Pods Frameworks */,
+				7F4B64EDC9C1FAEA1202848C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -179,14 +179,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SafeSound" */;
 			buildPhases = (
-				4E11CB239A0FBC20EC459115 /* [CP] Check Pods Manifest.lock */,
+				96A5ABB94CC0118DA4D193CE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				02DF33F119DC8B4C68D0CDBC /* [CP] Embed Pods Frameworks */,
-				D3B0A0C2D5964250933BEB36 /* [CP] Copy Pods Resources */,
+				F7B5EBC491B39A0B6B5BCEC8 /* [CP] Embed Pods Frameworks */,
+				17383E97EC11B97C11AC6F26 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -268,24 +268,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		02DF33F119DC8B4C68D0CDBC /* [CP] Embed Pods Frameworks */ = {
+		17383E97EC11B97C11AC6F26 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0E645362DF8B6838057F1865 /* [CP] Check Pods Manifest.lock */ = {
+		3C3D17888966D45ECBCF8837 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -307,7 +307,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4E11CB239A0FBC20EC459115 /* [CP] Check Pods Manifest.lock */ = {
+		7F4B64EDC9C1FAEA1202848C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		96A5ABB94CC0118DA4D193CE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -329,7 +346,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		56E4B34EB59D565641B3FA09 /* [CP] Embed Pods Frameworks */ = {
+		B8CDDE3B799C8BB7E20BE72F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -346,38 +363,21 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D3B0A0C2D5964250933BEB36 /* [CP] Copy Pods Resources */ = {
+		F7B5EBC491B39A0B6B5BCEC8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F031B7EA08FC6C07934CA6D0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SafeSound-SafeSoundTests/Pods-SafeSound-SafeSoundTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SafeSound/Pods-SafeSound-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -432,7 +432,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D9D3D004E4CBEB708D3B2730 /* Pods-SafeSound-SafeSoundTests.debug.xcconfig */;
+			baseConfigurationReference = 53AE070955A101F6CF66FF37 /* Pods-SafeSound-SafeSoundTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -459,7 +459,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8A017A60FF8A84DC5B6A4E0E /* Pods-SafeSound-SafeSoundTests.release.xcconfig */;
+			baseConfigurationReference = C9DAE3410A6DB43D3CBB8AFD /* Pods-SafeSound-SafeSoundTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -483,7 +483,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B0CDE814EB5F5331BFA5DFEB /* Pods-SafeSound.debug.xcconfig */;
+			baseConfigurationReference = 9812502940CFD6E80D946794 /* Pods-SafeSound.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -510,7 +510,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF540537C2952EA27BB52235 /* Pods-SafeSound.release.xcconfig */;
+			baseConfigurationReference = E9E67100A393BACBC96277A0 /* Pods-SafeSound.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

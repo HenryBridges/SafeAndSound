@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity
 } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../components/Buttons/Button';
 import gc from '../general/globalColors';
 import OurTextInput from '../components/Other/TextInput';
@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../components/Other/context';
 import { useContext } from 'react';
 import { useNetInfo } from '@react-native-community/netinfo';
+import Geolocation from 'react-native-geolocation-service';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -74,9 +75,8 @@ const Login = ({ navigation }) => {
       setIsForgotLoading(false);
       setForgotSent(true);
       setForgotResponse(false);
-      setForgotMessage("No internet connection");
+      setForgotMessage('No internet connection');
     }
-
   };
 
   //validates the forgot password
@@ -204,6 +204,29 @@ const Login = ({ navigation }) => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if (Platform.OS == 'ios') {
+      let locAccess = Geolocation.requestAuthorization('always');
+    } else {
+      try {
+        const granted = PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Safe and Sound',
+            message: 'Safe and Sound needs your location for the app to work :)'
+          }
+        );
+        if (granted == PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Permission Granted');
+        } else {
+          console.log('Permission Denied');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, []);
 
   return (
     <>

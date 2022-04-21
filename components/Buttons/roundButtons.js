@@ -20,16 +20,19 @@ const RoundButton = (props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={{
-        backgroundColor: background ? gc.colors.periwinkle : null,
-        width: width * wProportion,
-        height: height * hProportion,
-        borderRadius: 0.5 * height,
-        alignItems: 'center',
-        textAlign: 'center',
-        justifyContent: 'center',
-        margin: margin
-      }}
+      style={[
+        props.style,
+        {
+          backgroundColor: background ? gc.colors.periwinkle : null,
+          width: width * wProportion,
+          height: height * hProportion,
+          borderRadius: 0.5 * height,
+          alignItems: 'center',
+          textAlign: 'center',
+          justifyContent: 'center',
+          margin: margin
+        }
+      ]}
     >
       <View
         style={{
