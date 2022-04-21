@@ -18,6 +18,7 @@ import { Keyboard } from 'react-native';
 import { AuthContext } from '../components/Other/context';
 import { useContext } from 'react';
 
+// Get height and width of window to dynamically style with.
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 

@@ -13,6 +13,8 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const Drawer = createDrawerNavigator();
 
+// This navigation drawer is used for the content of the app -> accesible only once a user has a jwt token.
+
 const AppDrawer = () => (
   <Drawer.Navigator
     drawerContent={(props) => <CustomDrawer {...props} />}

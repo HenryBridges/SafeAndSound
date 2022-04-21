@@ -16,24 +16,18 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { TextInput, Searchbar, List } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 
+// Get height and width of window to dynamically style with.
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const Home = ({ navigation }) => {
+  // Use states for checking internet connection:
   const netInfo = useNetInfo();
-  const [showReport, setShowReport] = useState(false);
-  const initialState = {
-    latitude: 10,
-    longitude: 10,
-    latitudeDelta: 0.002,
-    longitudeDelta: 0.002
-  };
-  const [currentPosition, setCurrentPosition] = useState(initialState);
-  const [currentPositionBool, setCurrentPositionBool] = useState(false);
-  const [jwtToken, setJwtToken] = useState('');
-  const [venues, setVenues] = useState([]);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const onDismissSnackBar = () => setSnackbarVisible(false);
+
+  // Use states for reporting.
+  const [showReport, setShowReport] = useState(false);
   const [incidentOpen, setIncidentOpen] = useState(false);
   const [incidentValue, setIncidentValue] = useState(0);
   const [incidentItems, setIncidentItems] = useState([]);
@@ -46,15 +40,31 @@ const Home = ({ navigation }) => {
   const [incidentError, setIncidentError] = useState(false);
   const [reportMessage, setReportMessage] = useState('');
   const [reportSuccess, setReportSuccess] = useState(false);
+
+  // Use states for the map and user location
+  const initialState = {
+    latitude: 10,
+    longitude: 10,
+    latitudeDelta: 0.002,
+    longitudeDelta: 0.002
+  };
+  const [currentPosition, setCurrentPosition] = useState(initialState);
+  const [currentPositionBool, setCurrentPositionBool] = useState(false);
+
+  // Use states for data and storing data fetched from API used for map and search bar.
+  const [jwtToken, setJwtToken] = useState('');
+  const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchReceived, setSearchReceived] = useState(false);
   const [searchData, setSearchData] = useState([]);
   const [severities, setSeverity] = useState(new Map());
 
+  // Opens access for the socket connecting to web-app.
   const socket = new WebSocket(
     'wss://safe-sound-208.herokuapp.com/reports/add/user'
   );
-
+  
+  // Handle the aftermath of sending a message
   socket.onmessage = (e) => {
     let data = JSON.parse(e.data);
     if (data.success) {
@@ -67,6 +77,7 @@ const Home = ({ navigation }) => {
     setSnackbarVisible(true);
   };
 
+  // Fetches the list of possible crimes for incidents that can be reported.
   const getCrimes = async () => {
     await getJwt()
       .then((jwt) => {
@@ -92,6 +103,7 @@ const Home = ({ navigation }) => {
       });
   };
 
+  // Gets the list of venues from API.
   const getVenues = async () => {
     await getJwt()
       .then((jwt) => {
@@ -117,10 +129,12 @@ const Home = ({ navigation }) => {
       });
   };
 
+  // Update the maps markers with the severity for each venue.
   const updateMap = (k, v) => {
     setSeverity(new Map(severities.set(k, v)));
   }
 
+  // Get the severity for each venue.
   const getSeverities = async () => {
     await getJwt()
       .then((jwt) => {
@@ -150,6 +164,7 @@ const Home = ({ navigation }) => {
       });
   }
 
+  // Allow the ability to search for a venue using the bar.
   const getVenuesBySearch = async (name) => {
     if (!netInfo.isConnected) {
       setReportMessage("No internet connection!");
@@ -182,6 +197,7 @@ const Home = ({ navigation }) => {
     }
   }
 
+  // Handle the response for search bar.
   const handleSearch = (data) => {
     setSearchReceived(true);
     if (data["success"]) {
@@ -191,6 +207,7 @@ const Home = ({ navigation }) => {
     }
   }
 
+  // Fetch the JWT token from storage on device.
   const getJwt = async () => {
     try {
       let jwt = await AsyncStorage.getItem('@jwt');
@@ -201,6 +218,7 @@ const Home = ({ navigation }) => {
     }
   };
 
+  // validation on the report and make sure each field is correct.
   const validateReport = () => {
     let valid = true;
     if (venueSelected === 0) {
@@ -214,6 +232,7 @@ const Home = ({ navigation }) => {
     return valid;
   }
 
+  // Send report along the web-socket to web-app.
   const sendReport = async () => {
     if (!netInfo.isConnected) {
       setReportMessage("No internet connection!");
@@ -246,6 +265,7 @@ const Home = ({ navigation }) => {
     }
   };
 
+  // Load in the user information from local storage.
   const getUser = async () => {
     try {
       let obj = await AsyncStorage.getItem('@user');
@@ -256,6 +276,7 @@ const Home = ({ navigation }) => {
     }
   };
 
+  // Function to navigate to venue details screen with the specific venue.
   const openVenue = (venue) => {
     navigation.navigate("Venue", {
       venue: venue,
@@ -263,6 +284,8 @@ const Home = ({ navigation }) => {
     })
   }
 
+  /* Use effect that runs on initial load up (mount), gets current user location and 
+     also fetches the necessary data by calling the functions defined in the file. */
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {

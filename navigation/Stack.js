@@ -3,6 +3,8 @@ import AppDrawer from "./AppDrawer";
 import 'react-native-gesture-handler';
 import Venue from '../screens/Venue';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Separate venue stack so that it does not appear in the menu of home screen.
 const Stack = createNativeStackNavigator();
 
 const DetailStack = () => (

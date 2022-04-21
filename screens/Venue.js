@@ -15,14 +15,20 @@ import { ScrollView } from 'react-native-gesture-handler';
 const height = Dimensions.get('window').height;
 
 const Venue = ({ route, navigation }) => {
+    // extract the venue from parameter.
     const venue = route.params.venue;
+
+    // JWT used for authorising API calls.
     const [jwtToken, setJwtToken] = useState(route.params.jwtToken)
+
+    // Use states for the screen corresponding to details about the venue.
     const [severity, setSeverity] = useState(0);
     const [color, setColor] = useState(gc.colors.safeGreen)
     const [latestReports, setLatestReports] = useState([]);
     const [hasReports, setHasReports] = useState(false);
     const [hasSeverity, setHasSeverity] = useState(false);
 
+    // Fetch JWT token from local storage.
     const getJwt = async () => {
         try {
             let jwt = await AsyncStorage.getItem('@jwt');
@@ -33,6 +39,7 @@ const Venue = ({ route, navigation }) => {
         }
     };
 
+    // Fetch the severity for the venue passed through to this screen.
     const getSeverity = async () => {
         fetch(`https://safe-sound-208.herokuapp.com/venues/severity/${venue.venue_id}`, {
             headers: {
@@ -48,6 +55,7 @@ const Venue = ({ route, navigation }) => {
             })
     }
 
+    // Handle the response of the above fetch. Setting some useStates
     const handleResponseSeverity = (data) => {
         if (data["success"]) {
             let dangerLevel = data["generic"].average_severity;
@@ -65,6 +73,7 @@ const Venue = ({ route, navigation }) => {
 
     }
 
+    // Fetch the latest reports for that venue.
     const findLatestReports = () => {
         fetch(`https://safe-sound-208.herokuapp.com/reports/venue/${venue.venue_id}`, {
             headers: {
@@ -80,6 +89,7 @@ const Venue = ({ route, navigation }) => {
             })
     }
 
+    // handle the response from the above fetch for latest reports.
     const handleResponseLatest = (data) => {
         if (data["success"]) {
             setLatestReports(data["generic"]);
@@ -88,6 +98,7 @@ const Venue = ({ route, navigation }) => {
         }
     }
 
+    // Use effect to call the required functions on initial loadup (mount)
     useEffect(() => {
         if (jwtToken == '') {
             getJwt();

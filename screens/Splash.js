@@ -3,6 +3,7 @@ import { View, Image, SafeAreaView, StyleSheet } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { appIcon } from '../assets/images/images'
 
+// Splash screen used on app loadup.
 const Splash = () => {
     return (
         <>
