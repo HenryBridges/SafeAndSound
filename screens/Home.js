@@ -298,8 +298,8 @@ const Home = ({ navigation }) => {
         <View
           style={{
             zIndex: 10,
-            padding: 20,
-            marginTop: 10
+            padding: 10,
+            marginTop: 0
           }}
         >
           <Searchbar
