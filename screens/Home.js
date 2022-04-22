@@ -12,19 +12,15 @@ import {
 } from 'react-native';
 import gc from '../general/globalColors';
 import OurModal from '../components/Other/OurModal';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import { useEffect } from 'react';
-import Geolocation, {
-  requestAuthorization
-} from 'react-native-geolocation-service';
+import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, Snackbar } from 'react-native-paper';
 import { useNetInfo } from '@react-native-community/netinfo';
-import NetInfo from '@react-native-community/netinfo';
 import { mapStyle } from '../assets/mapData';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { TextInput, Searchbar, List } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
 
 // Get height and width of window to dynamically style with.
 const width = Dimensions.get('window').width;
@@ -404,8 +400,13 @@ const Home = ({ navigation }) => {
                       title={venue['venue_name']}
                       tracksViewChanges={false}
                       onCalloutPress={() => openVenue(venue)}
-                      onPress={() => openVenue(venue)}
-                    />
+                    >
+                      <Callout onPress={() => openVenue(venue)}>
+                        <View>
+                          <Text>{venue['venue_name']}</Text>
+                        </View>
+                      </Callout>
+                    </Marker>
                   );
                 })
               : null}
